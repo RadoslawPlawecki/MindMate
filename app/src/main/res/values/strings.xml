@@ -10,8 +10,12 @@
     <string name="enter_your_password">Enter your password</string>
     <string name="log_in">Log in</string>
     <string name="don_t_have_an_account_sign_up">Don\'t have an account? Sign up!</string>
-    <string name="forget_password">Forget password?</string>
+    <string name="forget_password">Forgot password?</string>
     <string name="register">Register</string>
     <string name="already_have_an_account_sign_in">Already have an account? Sign in!</string>
     <string name="welcome_onboard">Welcome onboard!</string>
+    <string name="confirm_your_password">Confirm your password</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="enter_your_date_of_birth">Enter your date of birth</string>
+    <string name="registered_successfully">You were registered!</string>
 </resources>

@@ -3,14 +3,19 @@ package com.application.mindmate
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.widget.DatePicker
+import android.widget.EditText
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.compose.material3.DatePickerDialog
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var textView: TextView
+    private lateinit var dateText: TextView
+    private val calendar = Calendar.getInstance()
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
