@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1040713219062",
+    "project_id": "mindmate-7020c",
+    "storage_bucket": "mindmate-7020c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1040713219062:android:92eb751fc3edac5522e5d7",
+        "android_client_info": {
+          "package_name": "com.application.mindmate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC66cmxgJbe6ayvaPA-SmPBR9y75m72S4U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
