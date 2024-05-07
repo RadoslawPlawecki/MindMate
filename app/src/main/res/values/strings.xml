@@ -6,7 +6,7 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="textview">TextView</string>
     <string name="welcome_back">Welcome back!</string>
-    <string name="enter_your_email">Enter your email</string>
+    <string name="enter_your_email">Enter your mail</string>
     <string name="enter_your_password">Enter your password</string>
     <string name="log_in">Log in</string>
     <string name="don_t_have_an_account_sign_up">Don\'t have an account? Sign up!</string>
@@ -18,4 +18,24 @@
     <string name="enter_your_name">Enter your name</string>
     <string name="enter_your_date_of_birth">Enter your date of birth</string>
     <string name="registered_successfully">You were registered!</string>
+    <string name="error_msg_mail">The mail is empty!</string>
+    <string name="error_msg_name">The name is empty!</string>
+    <string name="error_msg_name_has_numbers">The name must not have numbers!</string>
+    <string name="error_msg_password">The password is empty!</string>
+    <string name="error_msg_confirm_password">Confirm your password!</string>
+    <string name="error_msg_not_the_same_password">Passwords are not the same!</string>
+    <string name="error_msg_password_not_strong">The password is too weak! Must have minimum of 8 characters, including an uppercase letter, a lowercase letter, a number and a special character.</string>
+    <string name="login_success">You logged in successfully!</string>
+    <string name="admin_gmail_com">admin@gmail.com</string>
+    <string name="p_assw0rd">P@ssw0rd</string>
+    <string name="you_ve_been_using_mindmate_for_120_days_in_a_row">You\'ve been using MindMate for 120 days in a row!</string>
+    <string name="hello_xyz">Hello XYZ!</string>
+    <string name="daily_checklist">Daily checklist</string>
+    <string name="cognitive_games">Cognitive games</string>
+    <string name="medical_survey">Medical survey</string>
+    <string name="your_pharmacy">Your pharmacy</string>
+    <string name="calendar">Calendar</string>
+    <string name="home">Home</string>
+    <string name="settings">Settings</string>
+    <string name="select_a_game">Select a game!</string>
 </resources>
