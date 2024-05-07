@@ -53,7 +53,7 @@
     <ImageView
         android:id="@+id/white_rect"
         android:layout_width="287dp"
-        android:layout_height="700dp"
+        android:layout_height="900dp"
         android:importantForAccessibility="no"
         android:src="@drawable/white_rectangle"
         app:layout_constraintBottom_toBottomOf="parent"
