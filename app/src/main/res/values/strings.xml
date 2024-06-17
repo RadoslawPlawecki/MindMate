@@ -46,4 +46,6 @@
     <string name="a">A</string>
     <string name="try_again">Try again!</string>
     <string name="correct">Correct!</string>
+    <string name="type_in_your_word">Type in your word</string>
+    <string name="last_try">Last try!</string>
 </resources>

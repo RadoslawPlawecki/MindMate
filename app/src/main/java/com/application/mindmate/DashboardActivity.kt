@@ -84,10 +84,17 @@ class DashboardActivity : AppCompatActivity() {
                     val lastLoginDate = documentSnapshot.getString("lastLoginDate")
                     val streak = documentSnapshot.getLong("streak")?.toInt() ?: 0
                     val currentDate = getCurrentDate()
-                    val updatedStreak = if (lastLoginDate != currentDate) {
-                        streak + 1
-                    } else {
-                        1
+                    val dateDiffInDays = getDateDifference(lastLoginDate.toString(), currentDate)
+                    val updatedStreak = when (dateDiffInDays) {
+                        0.toLong() -> {
+                            streak
+                        }
+                        1.toLong() -> {
+                            streak + 1
+                        }
+                        else -> {
+                            1
+                        }
                     }
                     if (lastLoginDate != currentDate) {
                         userRef.update("lastLoginDate", currentDate, "streak", updatedStreak).await()
@@ -115,5 +122,13 @@ class DashboardActivity : AppCompatActivity() {
     private fun getCurrentDate(): String {
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return sdf.format(Date())
+    }
+
+    private fun getDateDifference(firstDateString: String, secondDateString: String): Long {
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val firstDate = sdf.parse(firstDateString)
+        val secondDate = sdf.parse(secondDateString)
+        val timeDiff = firstDate!!.time - secondDate!!.time
+        return (timeDiff / (1000 * 60 * 60 * 24)) % 365 // calculate difference in days
     }
 }

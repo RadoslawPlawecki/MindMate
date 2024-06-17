@@ -1,6 +1,5 @@
 package com.application.mindmate
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -11,11 +10,11 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
-import com.application.common.GameManager
-import com.application.common.GameState
+import com.application.games.guessWordGame.GuessWordGameManager
+import com.application.games.guessWordGame.GuessWordGameState
 
 class GuessWordActivity : AppCompatActivity() {
-    private val gameManager = GameManager()
+    private val gameManager = GuessWordGameManager()
     private lateinit var openMenu: ImageView
     private lateinit var wordTextView: TextView
     private lateinit var lettersUsedTextView: TextView
@@ -26,7 +25,6 @@ class GuessWordActivity : AppCompatActivity() {
     private lateinit var wordToGuessDescription: TextView
     private lateinit var triesCounterTextView: TextView
     private lateinit var lettersLayout: ConstraintLayout
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guess_word)
@@ -60,21 +58,21 @@ class GuessWordActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateUI(gameState: GameState) {
+    private fun updateUI(gameState: GuessWordGameState) {
         when (gameState) {
-            is GameState.Lost -> showGameLost(gameState.wordToGuess, gameState.descriptionOfWordToGuess)
-            is GameState.Running -> {
+            is GuessWordGameState.Lost -> showGameLost(gameState.wordToGuess, gameState.descriptionOfWordToGuess)
+            is GuessWordGameState.Running -> {
                 wordTextView.text = gameState.underscoreWord
                 lettersUsedTextView.text = "Letters used: \n ${gameState.lettersUsed}"
                 if (gameState.currentTries == 6) {
-                    triesCounterTextView.text = "Last try!"
+                    triesCounterTextView.text = getString(R.string.last_try)
                     triesCounterTextView.setTextColor(Color.parseColor("#C53434"))
                 } else {
                     triesCounterTextView.text = "${gameState.currentTries} | ${gameState.maxTries}"
                     triesCounterTextView.setTextColor(Color.parseColor("#1B1B1B"))
                 }
             }
-            is GameState.Won -> showGameWon(gameState.wordToGuess, gameState.descriptionOfWordToGuess)
+            is GuessWordGameState.Won -> showGameWon(gameState.wordToGuess, gameState.descriptionOfWordToGuess)
         }
     }
 

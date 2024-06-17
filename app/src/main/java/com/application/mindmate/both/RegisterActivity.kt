@@ -9,8 +9,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
-import com.application.common.BaseActivity
-import com.application.common.UserRole
+import com.application.customization.BaseActivity
+import com.application.enums.UserRole
 import com.application.mindmate.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser

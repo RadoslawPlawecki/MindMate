@@ -1,4 +1,4 @@
-package com.application.common
+package com.application.constants
 
 object GameConstantsDescriptions {
     val descriptions = listOf(

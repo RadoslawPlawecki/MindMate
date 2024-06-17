@@ -1,4 +1,4 @@
-package com.application.common
+package com.application.customization
 
 import android.view.Gravity
 import android.widget.TextView
