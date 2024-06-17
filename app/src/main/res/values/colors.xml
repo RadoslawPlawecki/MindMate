@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <color name="colorPrimaryDark">#0A4885</color>
+    <color name="colorPrimary">#1A6BBD</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="editTextColor">#828282</color>
+    <color name="background">#E5E5E5</color>
+    <color name="black">#000000</color>
+    <color name="textViewColor">#1B1B1B</color>
+    <color name="snackBarSuccess">#79AA42</color>
+    <color name="snackBarFailure">#C53434</color>
+    <color name="rectangle">#ECECEC</color>
+    <color name="medicalSurvey">#4682B4</color>
+    <color name="cognitiveGames">#8F9779</color>
+    <color name="yourPharmacy">#C18E92</color>
+    <color name="dailyChecklist">#DAA520</color>
+    <color name="alarm">#CE0303</color>
+    <color name="signOut">#AC0000</color>
 </resources>
