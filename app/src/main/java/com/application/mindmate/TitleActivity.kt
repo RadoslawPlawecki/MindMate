@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.application.mindmate.both.LoginActivity
 
 class TitleActivity : AppCompatActivity() {
     private lateinit var button: Button

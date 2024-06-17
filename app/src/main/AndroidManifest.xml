@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31" >
         <activity
-            android:name=".BaseActivity"
+            android:name="com.application.common.BaseActivity"
             android:exported="false" >
             <meta-data
                 android:name="android.app.lib_name"
@@ -28,10 +28,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegisterActivity"
+            android:name=".both.RegisterActivity"
             android:exported="true" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".both.LoginActivity"
             android:exported="true" />
         <activity
             android:name=".DashboardActivity"
@@ -41,6 +41,10 @@
             android:exported="true" />
         <activity
             android:name=".CognitiveGamesActivity"
+            android:exported="true" />
+        <activity android:name=".GuessWordActivity"
+            android:exported="true" />
+        <activity android:name=".CraftRhymeActivity"
             android:exported="true" />
 
     </application>

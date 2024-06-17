@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context=".GuessWordActivity">
+
+    <ImageView
+        android:id="@+id/blue_rect"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/blue_rectangle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/image_bars"
+        android:layout_width="31dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="14dp"
+        app:layout_constraintBottom_toTopOf="@+id/blue_rect"
+        app:layout_constraintEnd_toStartOf="@+id/mind_mate"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/bars_solid" />
+
+    <TextView
+        android:id="@+id/mind_mate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/jaldi_bold"
+        android:gravity="center"
+        android:text="@string/mindmate"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toBottomOf="@+id/blue_rect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/blue_rect" />
+
+    <ImageView
+        android:id="@+id/alarm"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="8dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/alarm"
+        app:layout_constraintBottom_toBottomOf="@+id/blue_rect"
+        app:layout_constraintEnd_toEndOf="@+id/blue_rect"
+        app:layout_constraintHorizontal_bias="0.957"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.166" />
+
+    <TextView
+        android:id="@+id/title_guess_word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/jaldi_bold"
+        android:text="@string/guess_a_word"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/blue_rect"
+        app:layout_constraintVertical_bias="0.023" />
+
+    <TextView
+        android:id="@+id/guessed_correctly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/jaldi_bold"
+        android:text="@string/correct"
+        android:textColor="@color/snackBarSuccess"
+        android:textSize="48sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/blue_rect"
+        app:layout_constraintVertical_bias="0.09" />
+
+    <TextView
+        android:id="@+id/guessed_incorrectly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/jaldi_bold"
+        android:text="@string/try_again"
+        android:textColor="@color/snackBarFailure"
+        android:textSize="48sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/blue_rect"
+        app:layout_constraintVertical_bias="0.09" />
+
+    <TextView
+        android:id="@+id/counter_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="76dp"
+        android:text="1 | 10"
+        android:textColor="@color/textViewColor"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toTopOf="@+id/letters_used"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/blue_rect"
+        app:layout_constraintVertical_bias="0.092" />
+
+    <TextView
+        android:id="@+id/unknown_word"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="432dp"
+        android:fontFamily="@font/jaldi_bold"
+        android:gravity="center"
+        android:letterSpacing="0.3"
+        android:text="DE__GN"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimary"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_guess_word"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/letters_used"
+        android:layout_width="350dp"
+        android:layout_height="110dp"
+        android:fontFamily="@font/jaldi_regular"
+        android:gravity="center"
+        android:lineSpacingMultiplier="0.8"
+        android:text="Used letters: \n A, B, C, D"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/unknown_word"
+        app:layout_constraintVertical_bias="0.09" />
+
+    <Button
+        android:id="@+id/start_new_game_button"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="@string/start_new_game"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/letters_used"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/word_to_guess_description"
+        android:layout_width="280dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="3dp"
+        android:gravity="center"
+        android:lineSpacingMultiplier="0.9"
+        android:text="asdsaasdasdsadasdasd"
+        android:textColor="@color/textViewColor"
+        android:textSize="26sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/letters_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/start_new_game_button" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/letters_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/start_new_game_button">
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/flow"
+            android:layout_width="match_parent"
+            android:layout_height="195dp"
+            android:padding="10dp"
+            app:constraint_referenced_ids="a, b, c, d, e, f, g,h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z"
+            app:flow_wrapMode="aligned"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/a"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="@string/a"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/b"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="B"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/c"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="C"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/d"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="D"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/e"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="E"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/f"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="F"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/g"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="G"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/h"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="H"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/i"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="I"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/j"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="J"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/k"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="K"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/l"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="L"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/m"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="M"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/n"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="N"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/o"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="O"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/p"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="P"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/q"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="Q"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/r"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="R"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/s"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="S"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/t"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="T"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/u"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="U"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/v"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="V"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/w"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="W"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/x"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="X"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/y"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="Y"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/z"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/jaldi_bold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="Z"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

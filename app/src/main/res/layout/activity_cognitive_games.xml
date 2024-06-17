@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -28,7 +28,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="14dp"
         app:layout_constraintBottom_toTopOf="@+id/blue_rect"
-        app:layout_constraintEnd_toStartOf="@+id/textView3"
+        app:layout_constraintEnd_toStartOf="@+id/mind_mate"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -36,7 +36,7 @@
         app:srcCompat="@drawable/bars_solid" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/mind_mate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/jaldi_bold"
@@ -76,6 +76,99 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/blue_rect"
         app:layout_constraintVertical_bias="0.023" />
+
+    <TextView
+        android:id="@+id/craft_rhyme_text"
+        android:layout_width="294dp"
+        android:layout_height="51dp"
+        android:autofillHints=""
+        android:background="@drawable/rounded_corner"
+        android:ems="10"
+        android:fontFamily="@font/jaldi_bold"
+        android:gravity="center"
+        android:text="@string/craft_a_rhyme"
+        android:textAlignment="center"
+        android:textColor="@color/textViewColor"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.238" />
+
+    <ImageView
+        android:id="@+id/go_to_craft_rhyme"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/craft_rhyme_text"
+        app:layout_constraintEnd_toEndOf="@+id/craft_rhyme_text"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="@+id/craft_rhyme_text"
+        app:layout_constraintTop_toTopOf="@+id/craft_rhyme_text"
+        app:layout_constraintVertical_bias="0.523"
+        app:srcCompat="@drawable/arrow_right_solid" />
+
+    <TextView
+        android:id="@+id/craft_rhyme_description"
+        android:layout_width="307dp"
+        android:layout_height="145dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="Dive into a world of creative fun as you connect words through charming rhymes. Whether you're a seasoned wordsmith or just looking for a quick dose of linguistic joy, this single-player game offers a delightful challenge. "
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/guess_word_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/craft_rhyme_text"
+        app:layout_constraintVertical_bias="0.285" />
+
+    <TextView
+        android:id="@+id/guess_word_text"
+        android:layout_width="294dp"
+        android:layout_height="51dp"
+        android:autofillHints=""
+        android:background="@drawable/rounded_corner"
+        android:ems="10"
+        android:fontFamily="@font/jaldi_bold"
+        android:gravity="center"
+        android:text="@string/guess_a_word"
+        android:textAlignment="center"
+        android:textColor="@color/textViewColor"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.613" />
+
+    <ImageView
+        android:id="@+id/go_to_guess_word"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:onClick="toggleDescription"
+        app:layout_constraintBottom_toBottomOf="@+id/guess_word_text"
+        app:layout_constraintEnd_toEndOf="@+id/guess_word_text"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="@+id/guess_word_text"
+        app:layout_constraintTop_toTopOf="@+id/guess_word_text"
+        app:layout_constraintVertical_bias="0.523"
+        app:srcCompat="@drawable/arrow_right_solid" />
+
+    <TextView
+        android:id="@+id/guess_word_description"
+        android:layout_width="307dp"
+        android:layout_height="190dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/with_each_guess_feel_the_adrenaline_rush_as_you_inch_closer_to_uncovering_the_mystery_word_from_common_phrases_to_obscure_terms_every_round_promises_a_new_and_exhilarating_challenge_test_your_deductive_skills_expand_your_vocabulary_and_revel_in_the_thrill_of_triumph_with_every_correct_guess"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guess_word_text"
+        app:layout_constraintVertical_bias="0.062" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

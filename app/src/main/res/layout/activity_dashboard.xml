@@ -50,11 +50,11 @@
 
     <TextView
         android:id="@+id/days_of_use"
-        android:layout_width="273dp"
-        android:layout_height="65dp"
+        android:layout_width="226dp"
+        android:layout_height="62dp"
         android:layout_marginBottom="8dp"
         android:lineSpacingMultiplier="0.8"
-        android:text="@string/you_ve_been_using_mindmate_for_120_days_in_a_row"
+        android:text="@string/you_ve_been_using_mindmate_for_x_days_in_a_row"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/white_rect"
         app:layout_constraintEnd_toEndOf="@+id/white_rect"

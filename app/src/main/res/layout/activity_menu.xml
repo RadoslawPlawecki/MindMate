@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical"
-    tools:context=".MenuHomeActivity">
+    tools:context=".MenuActivity">
 
 
     <ImageView
@@ -38,7 +38,7 @@
         app:layout_constraintTop_toTopOf="@+id/blue_rect" />
 
     <ImageView
-        android:id="@+id/image_arrow_left"
+        android:id="@+id/image_return"
         android:layout_width="31dp"
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
