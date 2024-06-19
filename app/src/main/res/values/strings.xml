@@ -48,4 +48,7 @@
     <string name="correct">Correct!</string>
     <string name="type_in_your_word">Type in your word</string>
     <string name="last_try">Last try!</string>
+    <string name="what_activity_would_you_like_to_add">What activity would you like to add?</string>
+    <string name="your_activity">Your activity</string>
+    <string name="add_an_activity">Add an activity</string>
 </resources>
