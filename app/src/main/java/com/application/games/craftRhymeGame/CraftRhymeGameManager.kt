@@ -31,7 +31,7 @@ class CraftRhymeGameManager {
     }
 
     private fun getGameState(userWord: String): CraftRhymeGameState {
-        if (CheckIfRhymes(givenWord, userWord).doWordsRhyme()) {
+        if (CheckIfRhymes(givenWord, userWord).doWordsRhyme() && givenWord.lowercase() != userWord.lowercase()) {
             return CraftRhymeGameState.Won(givenWord, rhymingWords)
         }
         if (currentTries == maxTries) {

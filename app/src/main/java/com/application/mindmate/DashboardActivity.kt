@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.lang.Math.abs
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -23,6 +24,9 @@ import java.util.Locale
 class DashboardActivity : AppCompatActivity() {
     private lateinit var openMenu: ImageView
     private lateinit var cognitiveGamesButton: Button
+    private lateinit var medicalTestButton: Button
+    private lateinit var yourPharmacyButton: Button
+    private lateinit var dailyChecklistButton: Button
     private lateinit var helloTextView: TextView
     private lateinit var daysOfUseTextView: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +42,22 @@ class DashboardActivity : AppCompatActivity() {
         cognitiveGamesButton = findViewById(R.id.button_cognitive_games)
         cognitiveGamesButton.setOnClickListener {
             val intent = Intent(this@DashboardActivity, CognitiveGamesActivity::class.java)
+            startActivity(intent)
+        }
+
+        medicalTestButton = findViewById(R.id.button_medical_survey)  // find the medical test button
+        medicalTestButton.setOnClickListener {
+            val intent = Intent(this@DashboardActivity, MedicalTestActivity::class.java)
+            startActivity(intent)
+        }
+        yourPharmacyButton = findViewById(R.id.button_your_pharmacy)
+        yourPharmacyButton.setOnClickListener {
+            val intent = Intent(this@DashboardActivity, YourPharmacyActivity::class.java)
+            startActivity(intent)
+        }
+        dailyChecklistButton = findViewById(R.id.button_daily_checklist)
+        dailyChecklistButton.setOnClickListener {
+            val intent = Intent(this@DashboardActivity, DailyChecklistActivity::class.java)
             startActivity(intent)
         }
         CoroutineScope(Dispatchers.Main).launch {
@@ -129,6 +149,6 @@ class DashboardActivity : AppCompatActivity() {
         val firstDate = sdf.parse(firstDateString)
         val secondDate = sdf.parse(secondDateString)
         val timeDiff = firstDate!!.time - secondDate!!.time
-        return (timeDiff / (1000 * 60 * 60 * 24)) % 365 // calculate difference in days
+        return kotlin.math.abs(timeDiff / (1000 * 60 * 60 * 24)) % 365 // calculate difference in days
     }
 }

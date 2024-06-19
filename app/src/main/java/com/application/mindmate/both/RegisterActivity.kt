@@ -11,12 +11,16 @@ import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import com.application.customization.BaseActivity
 import com.application.enums.UserRole
+import com.application.mindmate.DashboardActivity
 import com.application.mindmate.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class RegisterActivity : BaseActivity() {
     private var email: EditText? = null
@@ -112,7 +116,9 @@ class RegisterActivity : BaseActivity() {
                     "uid" to firebaseUser.uid,
                     "email" to login,
                     "name" to name,
-                    "role" to role
+                    "role" to role,
+                    "lastLoginDate" to getCurrentDate(),
+                    "streak" to 1
                 )
                 db.collection("users").document(firebaseUser.uid).set(userData).await()
                 Log.d("RegisterActivity", "Document added: ${firebaseUser.uid}")
@@ -129,5 +135,10 @@ class RegisterActivity : BaseActivity() {
                 showErrorSnackBar("Error adding document: ${e.message}", true)
             }
         }
+    }
+
+    private fun getCurrentDate(): String {
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return sdf.format(Date())
     }
 }
