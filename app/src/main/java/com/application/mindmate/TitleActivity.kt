@@ -13,7 +13,7 @@ class TitleActivity : AppCompatActivity() {
         setContentView(R.layout.activity_title)
         button = findViewById(R.id.getting_started)
         button.setOnClickListener {
-            val intent = Intent(this@TitleActivity, CognitiveGamesActivity::class.java)
+            val intent = Intent(this@TitleActivity, LoginActivity::class.java)
             startActivity(intent)
         }
     }

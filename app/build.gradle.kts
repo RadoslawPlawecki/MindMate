@@ -39,6 +39,8 @@ android {
 dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
     implementation("com.google.firebase:firebase-analytics")
+    implementation ("com.google.firebase:firebase-database:20.0.3")
+    implementation ("com.google.firebase:firebase-auth:21.0.3")
     implementation ("com.google.code.gson:gson:2.8.5")
     implementation ("com.google.firebase:firebase-firestore-ktx:24.0.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")

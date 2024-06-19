@@ -23,6 +23,7 @@ import java.util.Locale
 class DashboardActivity : AppCompatActivity() {
     private lateinit var openMenu: ImageView
     private lateinit var cognitiveGamesButton: Button
+    private lateinit var medicalTestButton: Button
     private lateinit var helloTextView: TextView
     private lateinit var daysOfUseTextView: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +41,13 @@ class DashboardActivity : AppCompatActivity() {
             val intent = Intent(this@DashboardActivity, CognitiveGamesActivity::class.java)
             startActivity(intent)
         }
+
+        medicalTestButton = findViewById(R.id.button_medical_survey)  // Find the medical test button
+        medicalTestButton.setOnClickListener {
+            val intent = Intent(this@DashboardActivity, MedicalTestActivity::class.java)
+            startActivity(intent)
+        }
+
         CoroutineScope(Dispatchers.Main).launch {
             helloUser()
             displayUserStreak()
