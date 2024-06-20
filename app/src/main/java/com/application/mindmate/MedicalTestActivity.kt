@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.application.common.ActivityUtils
 import com.application.entries.MedicalTestEntry
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -17,11 +19,10 @@ import java.util.*
 class MedicalTestActivity : AppCompatActivity() {
     private val firestore by lazy { FirebaseFirestore.getInstance() }
     private val auth by lazy { FirebaseAuth.getInstance() } // Get FirebaseAuth instance
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_medical_test)
-
+        ActivityUtils.actionBarSetup(this)
         val nameEditText = findViewById<EditText>(R.id.name)
         val dateOfBirthEditText = findViewById<EditText>(R.id.dateOfBirth)
         val schoolEditText = findViewById<EditText>(R.id.school)

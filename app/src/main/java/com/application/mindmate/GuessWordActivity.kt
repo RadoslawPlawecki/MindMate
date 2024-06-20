@@ -10,13 +10,12 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
+import com.application.common.ActivityUtils
 import com.application.games.guessWordGame.GuessWordGameManager
 import com.application.games.guessWordGame.GuessWordGameState
 
 class GuessWordActivity : AppCompatActivity() {
     private val gameManager = GuessWordGameManager()
-    private lateinit var openMenu: ImageView
-    private lateinit var alarmImageView: ImageView
     private lateinit var wordTextView: TextView
     private lateinit var lettersUsedTextView: TextView
     private lateinit var newGameButton: Button
@@ -29,15 +28,7 @@ class GuessWordActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guess_word)
-        openMenu = findViewById(R.id.image_bars)
-        openMenu.setOnClickListener {
-            val intent = Intent(this@GuessWordActivity, MenuActivity::class.java)
-            startActivity(intent)
-        }
-        alarmImageView = findViewById(R.id.alarm)
-        alarmImageView.setOnClickListener {
-            AlarmActivity(this).useAlarm()
-        }
+        ActivityUtils.actionBarSetup(this)
         wordTextView = findViewById(R.id.unknown_word)
         lettersUsedTextView = findViewById(R.id.letters_used)
         neutralTextView = findViewById(R.id.title_guess_word)

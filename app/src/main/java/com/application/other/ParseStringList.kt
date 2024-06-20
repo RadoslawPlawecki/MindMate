@@ -1,4 +1,4 @@
-package com.application.common
+package com.application.other
 
 class ParseStringList {
     fun main(title: String, listOfStrings: List<String>): String {

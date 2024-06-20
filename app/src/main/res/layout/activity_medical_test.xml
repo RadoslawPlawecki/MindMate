@@ -1,224 +1,324 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/main"
+    android:background="@color/background"
+    tools:context=".MedicalTestActivity">
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/blue_rect"
         android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/blue_rectangle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/image_bars"
+        android:layout_width="31dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="14dp"
+        app:layout_constraintBottom_toTopOf="@+id/blue_rect"
+        app:layout_constraintEnd_toStartOf="@+id/mind_mate"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/bars_solid" />
+
+    <TextView
+        android:id="@+id/mind_mate"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:background="@android:color/white">
+        android:fontFamily="@font/jaldi_bold"
+        android:gravity="center"
+        android:text="@string/mindmate"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toBottomOf="@+id/blue_rect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/blue_rect" />
 
-        <!-- Name Field -->
+    <ImageView
+        android:id="@+id/alarm"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="8dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/alarm"
+        app:layout_constraintBottom_toBottomOf="@+id/blue_rect"
+        app:layout_constraintEnd_toEndOf="@+id/blue_rect"
+        app:layout_constraintHorizontal_bias="0.957"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.166" />
+
+    <TextView
+        android:id="@+id/title_craft_rhyme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/jaldi_bold"
+        android:text="@string/medical_survey"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/blue_rect"
+        app:layout_constraintVertical_bias="0.044" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="40dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_craft_rhyme">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
+            android:layout_marginTop="16dp"
+            android:background="@color/background"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/user_question"
-            android:layout_marginEnd="8dp"/>
-
-            <EditText
-                android:id="@+id/name"
-                android:layout_width="0dp"
+            <!-- Name Field -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Name"
-                android:padding="12dp"
-                android:minHeight="48dp"
-                android:background="@android:drawable/editbox_background"/>
-        </LinearLayout>
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
 
-        <!-- Date of Birth Field -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/user_question" />
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/calendar_survey"
-            android:layout_marginEnd="8dp"/>
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:drawable/editbox_background"
+                    android:hint="Name"
+                    android:lineSpacingMultiplier="0.9"
+                    android:fontFamily="@font/jaldi_regular"
+                    android:minHeight="48dp"
+                    android:padding="12dp" />
+            </LinearLayout>
 
-            <EditText
-                android:id="@+id/dateOfBirth"
-                android:layout_width="0dp"
+            <!-- Date of Birth Field -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Date of Birth"
-                android:padding="12dp"
-                android:minHeight="48dp"
-                android:background="@android:drawable/editbox_background"/>
-        </LinearLayout>
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
 
-        <!-- Repeat similar LinearLayout structures for remaining fields -->
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/calendar_survey" />
 
-        <!-- School Field -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
+                <EditText
+                    android:id="@+id/dateOfBirth"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:lineSpacingMultiplier="0.9"
+                    android:fontFamily="@font/jaldi_regular"
+                    android:background="@android:drawable/editbox_background"
+                    android:hint="Date of birth"
+                    android:minHeight="48dp"
+                    android:padding="12dp" />
+            </LinearLayout>
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/school"
-            android:layout_marginEnd="8dp"/>
+            <!-- Repeat similar LinearLayout structures for remaining fields -->
 
-            <EditText
-                android:id="@+id/school"
-                android:layout_width="0dp"
+            <!-- School Field -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="How far did you get in school?"
-                android:padding="12dp"
-                android:minHeight="48dp"
-                android:background="@android:drawable/editbox_background"/>
-        </LinearLayout>
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
 
-        <!-- Today's Date Field -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/school" />
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/calendar_days_solid"
-            android:layout_marginEnd="8dp"/>
+                <EditText
+                    android:id="@+id/school"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:lineSpacingMultiplier="0.9"
+                    android:fontFamily="@font/jaldi_regular"
+                    android:background="@android:drawable/editbox_background"
+                    android:hint="How far did you get in school?"
+                    android:minHeight="48dp"
+                    android:padding="12dp" />
+            </LinearLayout>
 
-            <EditText
-                android:id="@+id/date"
-                android:layout_width="0dp"
+            <!-- Today's Date Field -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="What is today’s date?"
-                android:padding="12dp"
-                android:minHeight="48dp"
-                android:background="@android:drawable/editbox_background"/>
-        </LinearLayout>
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
 
-        <!-- Similarity Question Field -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/calendar_days_solid" />
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/watch"
-            android:layout_marginEnd="8dp"/>
+                <EditText
+                    android:id="@+id/date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:lineSpacingMultiplier="0.9"
+                    android:fontFamily="@font/jaldi_regular"
+                    android:background="@android:drawable/editbox_background"
+                    android:hint="What is today’s date?"
+                    android:minHeight="48dp"
+                    android:padding="12dp" />
+            </LinearLayout>
 
-            <EditText
-                android:id="@+id/similarity"
-                android:layout_width="0dp"
+            <!-- Similarity Question Field -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="How are a watch and a ruler similar?"
-                android:padding="12dp"
-                android:minHeight="48dp"
-                android:background="@android:drawable/editbox_background"/>
-        </LinearLayout>
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
 
-        <!-- Coins Question Field -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/watch" />
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/coin"
-            android:layout_marginEnd="8dp"/>
+                <EditText
+                    android:id="@+id/similarity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:lineSpacingMultiplier="0.9"
+                    android:fontFamily="@font/jaldi_regular"
+                    android:background="@android:drawable/editbox_background"
+                    android:hint="How are a watch and a ruler similar?"
+                    android:minHeight="48dp"
+                    android:padding="12dp" />
+            </LinearLayout>
 
-            <EditText
-                android:id="@+id/coins"
-                android:layout_width="0dp"
+            <!-- Coins Question Field -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="How many 20 pence pieces are in £2.40?"
-                android:padding="12dp"
-                android:minHeight="48dp"
-                android:background="@android:drawable/editbox_background"/>
-        </LinearLayout>
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
 
-        <!-- Change Question Field -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/coin" />
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/money"
-            android:layout_marginEnd="8dp"/>
+                <EditText
+                    android:id="@+id/coins"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:lineSpacingMultiplier="0.9"
+                    android:fontFamily="@font/jaldi_regular"
+                    android:background="@android:drawable/editbox_background"
+                    android:hint="How many 20 pence pieces are in £2.40?"
+                    android:minHeight="48dp"
+                    android:padding="12dp" />
+            </LinearLayout>
 
-            <EditText
-                android:id="@+id/change"
-                android:layout_width="0dp"
+            <!-- Change Question Field -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="If you paid £4.30 how much change would you receive back from a £20 note?"
-                android:padding="12dp"
-                android:minHeight="48dp"
-                android:background="@android:drawable/editbox_background"/>
-        </LinearLayout>
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
 
-        <!-- Animal Names Field -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/money" />
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/animal"
-            android:layout_marginEnd="8dp"/>
+                <EditText
+                    android:id="@+id/change"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:lineSpacingMultiplier="0.9"
+                    android:fontFamily="@font/jaldi_regular"
+                    android:background="@android:drawable/editbox_background"
+                    android:hint="If you paid £4.30 how much change would you receive back from a £20 note?"
+                    android:minHeight="48dp"
+                    android:padding="12dp" />
+            </LinearLayout>
 
-            <EditText
-                android:id="@+id/animalNames"
-                android:layout_width="0dp"
+            <!-- Animal Names Field -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Write down the names of 12 different animals"
-                android:padding="12dp"
-                android:minHeight="48dp"
-                android:background="@android:drawable/editbox_background"/>
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/animal" />
+
+                <EditText
+                    android:id="@+id/animalNames"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:lineSpacingMultiplier="0.9"
+                    android:fontFamily="@font/jaldi_regular"
+                    android:background="@android:drawable/editbox_background"
+                    android:hint="Write down the names of 12 different animals"
+                    android:minHeight="48dp"
+                    android:padding="12dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <Button
+                    android:id="@+id/submit_button"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:padding="0dp"
+                    android:text="@string/submit"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal">
-
-            <Button
-                android:id="@+id/submit_button"
-                android:layout_width="110dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/holo_blue_dark"
-                android:padding="0dp"
-                android:text="Submit"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-</ScrollView>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

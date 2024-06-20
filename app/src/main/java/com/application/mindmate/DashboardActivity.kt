@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.application.common.ActivityUtils
 import com.application.customization.BaseActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -23,8 +24,6 @@ import java.util.Locale
 
 
 class DashboardActivity : AppCompatActivity() {
-    private lateinit var openMenu: ImageView
-    private lateinit var alarmImageView: ImageView
     private lateinit var cognitiveGamesButton: Button
     private lateinit var medicalTestButton: Button
     private lateinit var yourPharmacyButton: Button
@@ -36,15 +35,7 @@ class DashboardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_dashboard)
         helloTextView = findViewById(R.id.hello)
         daysOfUseTextView = findViewById(R.id.days_of_use)
-        openMenu = findViewById(R.id.image_bars)
-        openMenu.setOnClickListener {
-            val intent = Intent(this@DashboardActivity, MenuActivity::class.java)
-            startActivity(intent)
-        }
-        alarmImageView = findViewById(R.id.alarm)
-        alarmImageView.setOnClickListener {
-            AlarmActivity(this).useAlarm()
-        }
+        ActivityUtils.actionBarSetup(this)
         cognitiveGamesButton = findViewById(R.id.button_cognitive_games)
         cognitiveGamesButton.setOnClickListener {
             val intent = Intent(this@DashboardActivity, CognitiveGamesActivity::class.java)

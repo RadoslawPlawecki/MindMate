@@ -9,14 +9,13 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.application.common.ParseStringList
+import com.application.common.ActivityUtils
+import com.application.other.ParseStringList
 import com.application.games.craftRhymeGame.CraftRhymeGameManager
 import com.application.games.craftRhymeGame.CraftRhymeGameState
 
 class CraftRhymeActivity : AppCompatActivity() {
     private val gameManager = CraftRhymeGameManager()
-    private lateinit var openMenu: ImageView
-    private lateinit var alarmImageView: ImageView
     private lateinit var titleTextView: TextView
     private lateinit var triesCounterTextView: TextView
     private lateinit var givenWordTextView: TextView
@@ -30,15 +29,7 @@ class CraftRhymeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_craft_rhyme)
-        openMenu = findViewById(R.id.image_bars)
-        openMenu.setOnClickListener {
-            val intent = Intent(this@CraftRhymeActivity, MenuActivity::class.java)
-            startActivity(intent)
-        }
-        alarmImageView = findViewById(R.id.alarm)
-        alarmImageView.setOnClickListener {
-            AlarmActivity(this).useAlarm()
-        }
+        ActivityUtils.actionBarSetup(this)
         titleTextView = findViewById(R.id.title_craft_rhyme)
         triesCounterTextView = findViewById(R.id.number_of_tries)
         givenWordTextView = findViewById(R.id.given_word)

@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.adapters.ActivitiesRecyclerViewAdapter
+import com.application.common.ActivityUtils
 import com.application.customization.DialogActivity
 import com.application.service.ActivitiesService
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -22,8 +23,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class DailyChecklistActivity : AppCompatActivity() {
-    private lateinit var openMenu: ImageView
-    private lateinit var alarmImageView: ImageView
     private lateinit var titleTextView: TextView
     private lateinit var activitiesService: ActivitiesService
     private lateinit var addActivityFloatingActionButton: FloatingActionButton
@@ -34,15 +33,7 @@ class DailyChecklistActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_daily_checklist)
-        openMenu = findViewById(R.id.image_bars)
-        openMenu.setOnClickListener {
-            val intent = Intent(this@DailyChecklistActivity, MenuActivity::class.java)
-            startActivity(intent)
-        }
-        alarmImageView = findViewById(R.id.alarm)
-        alarmImageView.setOnClickListener {
-            AlarmActivity(this).useAlarm()
-        }
+        ActivityUtils.actionBarSetup(this)
         activitiesService = ActivitiesService()  // initialize activitiesService
         titleTextView = findViewById(R.id.daily_checklist_text_view)
         addActivityFloatingActionButton = findViewById(R.id.add_activity_floating)
