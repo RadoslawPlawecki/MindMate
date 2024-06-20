@@ -16,6 +16,7 @@ import com.application.games.craftRhymeGame.CraftRhymeGameState
 class CraftRhymeActivity : AppCompatActivity() {
     private val gameManager = CraftRhymeGameManager()
     private lateinit var openMenu: ImageView
+    private lateinit var alarmImageView: ImageView
     private lateinit var titleTextView: TextView
     private lateinit var triesCounterTextView: TextView
     private lateinit var givenWordTextView: TextView
@@ -33,6 +34,10 @@ class CraftRhymeActivity : AppCompatActivity() {
         openMenu.setOnClickListener {
             val intent = Intent(this@CraftRhymeActivity, MenuActivity::class.java)
             startActivity(intent)
+        }
+        alarmImageView = findViewById(R.id.alarm)
+        alarmImageView.setOnClickListener {
+            AlarmActivity(this).useAlarm()
         }
         titleTextView = findViewById(R.id.title_craft_rhyme)
         triesCounterTextView = findViewById(R.id.number_of_tries)

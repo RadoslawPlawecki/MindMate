@@ -51,4 +51,6 @@
     <string name="what_activity_would_you_like_to_add">What activity would you like to add?</string>
     <string name="your_activity">Your activity</string>
     <string name="add_an_activity">Add an activity</string>
+    <string name="phone_number">Phone number</string>
+    <string name="alert_your_caregiver">Alert your caregiver!</string>
 </resources>

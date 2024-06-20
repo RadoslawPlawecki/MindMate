@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.application.mindmate.both.LoginActivity
 
 class MenuActivity : AppCompatActivity() {
+    private lateinit var alarmImageView: ImageView
     private lateinit var goToHomeImage: ImageView
     private lateinit var goToHomeText: TextView
     private lateinit var signOutImage: ImageView
@@ -29,6 +30,10 @@ class MenuActivity : AppCompatActivity() {
         signOutImage.setOnClickListener(signOut())
         signOutText.setOnClickListener(signOut())
         returnBack = findViewById(R.id.image_return)
+        alarmImageView = findViewById(R.id.alarm)
+        alarmImageView.setOnClickListener {
+            AlarmActivity(this).useAlarm()
+        }
         returnBack.setOnClickListener {
             finish()
         }

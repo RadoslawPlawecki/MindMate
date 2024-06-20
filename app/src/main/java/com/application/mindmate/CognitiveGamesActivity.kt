@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class CognitiveGamesActivity : AppCompatActivity() {
     private lateinit var openMenu: ImageView
+    private lateinit var alarmImageView: ImageView
     private lateinit var goToCraftRhymeActivity: ImageView
     private lateinit var goToGuessWordActivity: ImageView
     @SuppressLint("MissingInflatedId")
@@ -19,6 +20,10 @@ class CognitiveGamesActivity : AppCompatActivity() {
         openMenu.setOnClickListener {
             val intent = Intent(this@CognitiveGamesActivity, MenuActivity::class.java)
             startActivity(intent)
+        }
+        alarmImageView = findViewById(R.id.alarm)
+        alarmImageView.setOnClickListener {
+            AlarmActivity(this).useAlarm()
         }
         goToCraftRhymeActivity = findViewById(R.id.go_to_craft_rhyme)
         goToCraftRhymeActivity.setOnClickListener {

@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.application.mindmate.R
 
-class ActivitiesRecyclerViewAdapter(private val context: Context, private val activitiesModels: ArrayList<String>) : RecyclerView.Adapter<ActivitiesRecyclerViewAdapter.MyViewHolder>() {
+class ActivitiesRecyclerViewAdapter(private val context: Context, private val activitiesModels: ArrayList<String>, private val onDeleteClick: (String) -> Unit) : RecyclerView.Adapter<ActivitiesRecyclerViewAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -30,11 +30,47 @@ class ActivitiesRecyclerViewAdapter(private val context: Context, private val ac
         return activitiesModels.size
     }
 
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val activityNameTextView: TextView = itemView.findViewById(R.id.example_activity_text_view)
-        private val checkImageView: ImageView = itemView.findViewById(R.id.check_image)
+    inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private var activityNameTextView: TextView =
+            itemView.findViewById(R.id.example_activity_text_view)
+        private var checkImageView: ImageView = itemView.findViewById(R.id.check_image)
+        private var checkBackgroundImageView: ImageView =
+            itemView.findViewById(R.id.check_background_image)
+        private var deleteImageView: ImageView = itemView.findViewById(R.id.trash_image)
+
+        init {
+            checkBackgroundImageView.setOnClickListener {
+                toggleCheckVisibility()
+            }
+        }
+
+        private fun toggleCheckVisibility() {
+            if (checkImageView.visibility == View.GONE) {
+                checkImageView.visibility = View.VISIBLE
+            } else {
+                checkImageView.visibility = View.GONE
+            }
+        }
+
         fun bind(activityName: String) {
             activityNameTextView.text = activityName
+            checkImageView.visibility = View.GONE
+            deleteImageView.setOnClickListener {
+                onDeleteClick(activityName)
+            }
+        }
+    }
+
+    fun addItem(activityName: String) {
+        activitiesModels.add(activityName)
+        notifyItemInserted(activitiesModels.size - 1)
+    }
+
+    fun removeItem(activityName: String) {
+        val position = activitiesModels.indexOf(activityName)
+        if (position != -1) {
+            activitiesModels.removeAt(position)
+            notifyItemRemoved(position)
         }
     }
 }

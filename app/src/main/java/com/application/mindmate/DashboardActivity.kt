@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.application.customization.BaseActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
@@ -23,6 +24,7 @@ import java.util.Locale
 
 class DashboardActivity : AppCompatActivity() {
     private lateinit var openMenu: ImageView
+    private lateinit var alarmImageView: ImageView
     private lateinit var cognitiveGamesButton: Button
     private lateinit var medicalTestButton: Button
     private lateinit var yourPharmacyButton: Button
@@ -38,6 +40,10 @@ class DashboardActivity : AppCompatActivity() {
         openMenu.setOnClickListener {
             val intent = Intent(this@DashboardActivity, MenuActivity::class.java)
             startActivity(intent)
+        }
+        alarmImageView = findViewById(R.id.alarm)
+        alarmImageView.setOnClickListener {
+            AlarmActivity(this).useAlarm()
         }
         cognitiveGamesButton = findViewById(R.id.button_cognitive_games)
         cognitiveGamesButton.setOnClickListener {
