@@ -53,6 +53,10 @@
             android:exported="true" />
         <activity android:name=".YourPharmacyActivity"
             android:exported="true" />
+        <activity android:name=".AddMedicineActivity"
+            android:exported="true" />
+        <activity android:name=".ViewMedicinesActivity"
+            android:exported="true" />
 
     </application>
 

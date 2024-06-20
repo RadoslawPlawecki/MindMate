@@ -11,19 +11,9 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <Button
-            android:id="@+id/btn_add_medicine"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_medicines"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add Medicine"
-            android:textColor="#607D8B" />
-
-        <Button
-            android:id="@+id/btn_view_medicines"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="View Medicines"
-            android:textColor="#607D8B" />
+            android:layout_height="match_parent" />
     </LinearLayout>
 </LinearLayout>

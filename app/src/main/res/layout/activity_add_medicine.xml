@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
+    <EditText
+        android:id="@+id/et_medicine_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Medicine Name" />
+
+    <EditText
+        android:id="@+id/et_dose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Dose (e.g., 1 pill)"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/et_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Time (e.g., Morning)"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/btn_save_medicine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save Medicine"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>

@@ -7,80 +7,218 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@android:color/white">
 
-        <EditText
-            android:id="@+id/name"
+        <!-- Name Field -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Name"
-            android:padding="12dp"
-            android:minHeight="48dp"/>
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
 
-        <EditText
-            android:id="@+id/dateOfBirth"
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/user_question"
+            android:layout_marginEnd="8dp"/>
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Name"
+                android:padding="12dp"
+                android:minHeight="48dp"
+                android:background="@android:drawable/editbox_background"/>
+        </LinearLayout>
+
+        <!-- Date of Birth Field -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Date of Birth"
-            android:padding="12dp"
-            android:minHeight="48dp"/>
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
 
-        <EditText
-            android:id="@+id/school"
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/calendar_survey"
+            android:layout_marginEnd="8dp"/>
+
+            <EditText
+                android:id="@+id/dateOfBirth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Date of Birth"
+                android:padding="12dp"
+                android:minHeight="48dp"
+                android:background="@android:drawable/editbox_background"/>
+        </LinearLayout>
+
+        <!-- Repeat similar LinearLayout structures for remaining fields -->
+
+        <!-- School Field -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="How far did you get in school?"
-            android:padding="12dp"
-            android:minHeight="48dp"/>
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
 
-        <EditText
-            android:id="@+id/date"
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/school"
+            android:layout_marginEnd="8dp"/>
+
+            <EditText
+                android:id="@+id/school"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="How far did you get in school?"
+                android:padding="12dp"
+                android:minHeight="48dp"
+                android:background="@android:drawable/editbox_background"/>
+        </LinearLayout>
+
+        <!-- Today's Date Field -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="What is today’s date?"
-            android:padding="12dp"
-            android:minHeight="48dp"/>
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
 
-        <EditText
-            android:id="@+id/similarity"
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/calendar_days_solid"
+            android:layout_marginEnd="8dp"/>
+
+            <EditText
+                android:id="@+id/date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="What is today’s date?"
+                android:padding="12dp"
+                android:minHeight="48dp"
+                android:background="@android:drawable/editbox_background"/>
+        </LinearLayout>
+
+        <!-- Similarity Question Field -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="How are a watch and a ruler similar?"
-            android:padding="12dp"
-            android:minHeight="48dp"/>
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
 
-        <EditText
-            android:id="@+id/coins"
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/watch"
+            android:layout_marginEnd="8dp"/>
+
+            <EditText
+                android:id="@+id/similarity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="How are a watch and a ruler similar?"
+                android:padding="12dp"
+                android:minHeight="48dp"
+                android:background="@android:drawable/editbox_background"/>
+        </LinearLayout>
+
+        <!-- Coins Question Field -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="How many 20 pence pieces are in £2.40?"
-            android:padding="12dp"
-            android:minHeight="48dp"/>
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
 
-        <EditText
-            android:id="@+id/change"
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/coin"
+            android:layout_marginEnd="8dp"/>
+
+            <EditText
+                android:id="@+id/coins"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="How many 20 pence pieces are in £2.40?"
+                android:padding="12dp"
+                android:minHeight="48dp"
+                android:background="@android:drawable/editbox_background"/>
+        </LinearLayout>
+
+        <!-- Change Question Field -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="If you paid £4.30 how much change would you receive back from a £20 note?"
-            android:padding="12dp"
-            android:minHeight="48dp"/>
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
 
-        <EditText
-            android:id="@+id/animalNames"
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/money"
+            android:layout_marginEnd="8dp"/>
+
+            <EditText
+                android:id="@+id/change"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="If you paid £4.30 how much change would you receive back from a £20 note?"
+                android:padding="12dp"
+                android:minHeight="48dp"
+                android:background="@android:drawable/editbox_background"/>
+        </LinearLayout>
+
+        <!-- Animal Names Field -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Write down the names of 12 different animals"
-            android:padding="12dp"
-            android:minHeight="48dp"/>
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
 
-        <Button
-            android:id="@+id/submit_button"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/animal"
+            android:layout_marginEnd="8dp"/>
+
+            <EditText
+                android:id="@+id/animalNames"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Write down the names of 12 different animals"
+                android:padding="12dp"
+                android:minHeight="48dp"
+                android:background="@android:drawable/editbox_background"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minWidth="48dp"
-            android:minHeight="48dp"
-            android:padding="12dp"
-            android:text="Submit" />
+            android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/submit_button"
+                android:layout_width="110dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/holo_blue_dark"
+                android:padding="0dp"
+                android:text="Submit"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
 
     </LinearLayout>
+
 </ScrollView>
