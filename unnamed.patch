@@ -1,0 +1,1221 @@
+Index: app/build.gradle.kts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/build.gradle.kts b/app/build.gradle.kts
+--- a/app/build.gradle.kts	(revision d1d5baf0b2bb9fec22117285121c9e27f466680d)
++++ b/app/build.gradle.kts	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -31,6 +31,11 @@
+         sourceCompatibility = JavaVersion.VERSION_1_8
+         targetCompatibility = JavaVersion.VERSION_1_8
+     }
++
++    buildFeatures {
++        viewBinding = true
++    }
++
+     kotlinOptions {
+         jvmTarget = "1.8"
+     }
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+--- a/app/src/main/AndroidManifest.xml	(revision d1d5baf0b2bb9fec22117285121c9e27f466680d)
++++ b/app/src/main/AndroidManifest.xml	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -53,6 +53,10 @@
+             android:exported="true" />
+         <activity android:name=".YourPharmacyActivity"
+             android:exported="true" />
++        <activity android:name=".AddMedicineActivity"
++            android:exported="true" />
++        <activity android:name=".ViewMedicinesActivity"
++            android:exported="true" />
+ 
+     </application>
+ 
+Index: app/src/main/java/com/application/adapters/MedicinesAdapter.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/application/adapters/MedicinesAdapter.kt b/app/src/main/java/com/application/adapters/MedicinesAdapter.kt
+new file mode 100644
+--- /dev/null	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
++++ b/app/src/main/java/com/application/adapters/MedicinesAdapter.kt	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -0,0 +1,65 @@
++package com.application.adapters
++
++import android.view.LayoutInflater
++import android.view.View
++import android.view.ViewGroup
++import android.widget.Button
++import android.widget.TextView
++import android.widget.Toast
++import androidx.recyclerview.widget.RecyclerView
++import com.application.mindmate.Medicine
++import com.application.mindmate.R
++import com.google.firebase.firestore.FirebaseFirestore
++import kotlinx.coroutines.CoroutineScope
++import kotlinx.coroutines.Dispatchers
++import kotlinx.coroutines.launch
++import kotlinx.coroutines.tasks.await
++import kotlinx.coroutines.withContext
++
++class MedicinesAdapter(private val medicines: MutableList<Medicine>) :
++    RecyclerView.Adapter<MedicinesAdapter.MedicineViewHolder>() {
++
++    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MedicineViewHolder {
++        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_medicine, parent, false)
++        return MedicineViewHolder(itemView)
++    }
++
++    override fun onBindViewHolder(holder: MedicineViewHolder, position: Int) {
++        val medicine = medicines[position]
++        holder.tvName.text = medicine.name
++        holder.tvDose.text = medicine.dose
++        holder.tvTime.text = medicine.time
++
++        holder.btnRemove.setOnClickListener {
++            CoroutineScope(Dispatchers.IO).launch {
++                try {
++                    // Assuming you have the document ID stored in the Medicine object.
++                    val db = FirebaseFirestore.getInstance()
++                    val documentId = medicine.documentId
++                    db.collection("medicines").document(documentId).delete().await()
++
++                    withContext(Dispatchers.Main) {
++                        medicines.removeAt(position)
++                        notifyItemRemoved(position)
++                        Toast.makeText(holder.itemView.context, "Medicine removed", Toast.LENGTH_SHORT).show()
++                    }
++                } catch (e: Exception) {
++                    withContext(Dispatchers.Main) {
++                        Toast.makeText(holder.itemView.context, "Error removing medicine: ${e.message}", Toast.LENGTH_SHORT).show()
++                    }
++                }
++            }
++        }
++    }
++
++    override fun getItemCount(): Int {
++        return medicines.size
++    }
++
++    class MedicineViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
++        val tvName: TextView = itemView.findViewById(R.id.tv_name)
++        val tvDose: TextView = itemView.findViewById(R.id.tv_dose)
++        val tvTime: TextView = itemView.findViewById(R.id.tv_time)
++        val btnRemove: Button = itemView.findViewById(R.id.btn_remove)
++    }
++}
+\ No newline at end of file
+Index: app/src/main/java/com/application/entries/Medicine.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/application/entries/Medicine.kt b/app/src/main/java/com/application/entries/Medicine.kt
+new file mode 100644
+--- /dev/null	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
++++ b/app/src/main/java/com/application/entries/Medicine.kt	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -0,0 +1,8 @@
++package com.application.mindmate
++
++data class Medicine(
++    val name: String = "",
++    val dose: String = "",
++    val time: String = "",
++    val documentId: String = ""
++)
+\ No newline at end of file
+Index: app/src/main/java/com/application/mindmate/AddMedicineActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/application/mindmate/AddMedicineActivity.kt b/app/src/main/java/com/application/mindmate/AddMedicineActivity.kt
+new file mode 100644
+--- /dev/null	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
++++ b/app/src/main/java/com/application/mindmate/AddMedicineActivity.kt	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -0,0 +1,56 @@
++package com.application.mindmate
++
++import android.os.Bundle
++import android.widget.Toast
++import androidx.appcompat.app.AppCompatActivity
++import com.application.mindmate.databinding.ActivityAddMedicineBinding
++import com.google.firebase.auth.FirebaseAuth
++import com.google.firebase.firestore.FirebaseFirestore
++import kotlinx.coroutines.CoroutineScope
++import kotlinx.coroutines.Dispatchers
++import kotlinx.coroutines.launch
++import kotlinx.coroutines.tasks.await
++import kotlinx.coroutines.withContext
++
++class AddMedicineActivity : AppCompatActivity() {
++
++    private lateinit var binding: ActivityAddMedicineBinding
++    private val db = FirebaseFirestore.getInstance()
++    private val userId = FirebaseAuth.getInstance().currentUser?.uid ?: "default_user_id"
++
++    override fun onCreate(savedInstanceState: Bundle?) {
++        super.onCreate(savedInstanceState)
++        binding = ActivityAddMedicineBinding.inflate(layoutInflater)
++        setContentView(binding.root)
++
++        binding.btnSaveMedicine.setOnClickListener {
++            val name = binding.etMedicineName.text.toString().trim()
++            val dose = binding.etDose.text.toString().trim()
++            val time = binding.etTime.text.toString().trim()
++
++            if (name.isNotEmpty() && dose.isNotEmpty() && time.isNotEmpty()) {
++                CoroutineScope(Dispatchers.IO).launch {
++                    try {
++                        val medicine = hashMapOf(
++                            "name" to name,
++                            "dose" to dose,
++                            "time" to time,
++                            "userId" to userId
++                        )
++                        db.collection("medicines").add(medicine).await()
++                        withContext(Dispatchers.Main) {
++                            Toast.makeText(this@AddMedicineActivity, "Medicine added", Toast.LENGTH_SHORT).show()
++                            finish()
++                        }
++                    } catch (e: Exception) {
++                        withContext(Dispatchers.Main) {
++                            Toast.makeText(this@AddMedicineActivity, "Error adding medicine: ${e.message}", Toast.LENGTH_SHORT).show()
++                        }
++                    }
++                }
++            } else {
++                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
++            }
++        }
++    }
++}
+\ No newline at end of file
+Index: app/src/main/java/com/application/mindmate/ViewMedicinesActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/application/mindmate/ViewMedicinesActivity.kt b/app/src/main/java/com/application/mindmate/ViewMedicinesActivity.kt
+new file mode 100644
+--- /dev/null	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
++++ b/app/src/main/java/com/application/mindmate/ViewMedicinesActivity.kt	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -0,0 +1,59 @@
++package com.application.mindmate
++
++import android.os.Bundle
++import android.widget.Toast
++import androidx.appcompat.app.AppCompatActivity
++import androidx.appcompat.widget.Toolbar
++import androidx.recyclerview.widget.LinearLayoutManager
++import androidx.recyclerview.widget.RecyclerView
++import com.application.adapters.MedicinesAdapter
++import com.google.firebase.auth.FirebaseAuth
++import com.google.firebase.firestore.FirebaseFirestore
++import kotlinx.coroutines.CoroutineScope
++import kotlinx.coroutines.Dispatchers
++import kotlinx.coroutines.launch
++import kotlinx.coroutines.tasks.await
++import kotlinx.coroutines.withContext
++
++class ViewMedicinesActivity : AppCompatActivity() {
++
++    private val db = FirebaseFirestore.getInstance()
++    private val userId = FirebaseAuth.getInstance().currentUser?.uid ?: "default_user_id"
++    private lateinit var adapter: MedicinesAdapter
++    private val medicinesList = mutableListOf<Medicine>()
++
++    override fun onCreate(savedInstanceState: Bundle?) {
++        super.onCreate(savedInstanceState)
++        setContentView(R.layout.activity_view_medicines)
++
++        adapter = MedicinesAdapter(medicinesList)
++        val recyclerView: RecyclerView = findViewById(R.id.recycler_view_medicines)
++        recyclerView.layoutManager = LinearLayoutManager(this)
++        recyclerView.adapter = adapter
++
++        CoroutineScope(Dispatchers.IO).launch {
++            try {
++                val querySnapshot = db.collection("medicines")
++                    .whereEqualTo("userId", userId)
++                    .get()
++                    .await()
++
++                medicinesList.clear()
++                for (document in querySnapshot.documents) {
++                    val medicine = document.toObject(Medicine::class.java)?.copy(documentId = document.id)
++                    if (medicine != null) {
++                        medicinesList.add(medicine)
++                    }
++                }
++
++                withContext(Dispatchers.Main) {
++                    adapter.notifyDataSetChanged()
++                }
++            } catch (e: Exception) {
++                withContext(Dispatchers.Main) {
++                    Toast.makeText(this@ViewMedicinesActivity, "Error fetching medicines: ${e.message}", Toast.LENGTH_SHORT).show()
++                }
++            }
++        }
++    }
++}
+\ No newline at end of file
+Index: app/src/main/java/com/application/mindmate/YourPharmacyActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/application/mindmate/YourPharmacyActivity.kt b/app/src/main/java/com/application/mindmate/YourPharmacyActivity.kt
+--- a/app/src/main/java/com/application/mindmate/YourPharmacyActivity.kt	(revision d1d5baf0b2bb9fec22117285121c9e27f466680d)
++++ b/app/src/main/java/com/application/mindmate/YourPharmacyActivity.kt	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -1,20 +1,31 @@
+ package com.application.mindmate
+ 
+-import android.annotation.SuppressLint
+ import android.content.Intent
+ import android.os.Bundle
+-import android.widget.ImageView
++import android.widget.Button
+ import androidx.appcompat.app.AppCompatActivity
+ 
+ class YourPharmacyActivity : AppCompatActivity() {
+-    private lateinit var openMenu: ImageView
+-    @SuppressLint("MissingInflatedId")
++
++    private lateinit var btnAddMedicine: Button
++    private lateinit var btnViewMedicines: Button
++
+     override fun onCreate(savedInstanceState: Bundle?) {
+         super.onCreate(savedInstanceState)
+-        setContentView(R.layout.activity_daily_checklist)
+-        openMenu = findViewById(R.id.image_bars)
+-        openMenu.setOnClickListener {
+-            val intent = Intent(this@YourPharmacyActivity, MenuActivity::class.java)
++        setContentView(R.layout.activity_your_pharmacy)
++
++        // Initialize buttons
++        btnAddMedicine = findViewById(R.id.btn_add_medicine)
++        btnViewMedicines = findViewById(R.id.btn_view_medicines)
++
++        // Set up onClickListeners
++        btnAddMedicine.setOnClickListener {
++            val intent = Intent(this@YourPharmacyActivity, AddMedicineActivity::class.java)
++            startActivity(intent)
++        }
++
++        btnViewMedicines.setOnClickListener {
++            val intent = Intent(this@YourPharmacyActivity, ViewMedicinesActivity::class.java)
+             startActivity(intent)
+         }
+     }
+Index: app/src/main/res/drawable/animal.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/animal.xml b/app/src/main/res/drawable/animal.xml
+new file mode 100644
+--- /dev/null	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
++++ b/app/src/main/res/drawable/animal.xml	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -0,0 +1,24 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="800dp"
++    android:height="800dp"
++    android:viewportWidth="512"
++    android:viewportHeight="512">
++  <path
++      android:pathData="M256,-0.5C114.33,-0.5 -0.5,114.33 -0.5,256S114.33,512.5 256,512.5S512.5,397.67 512.5,256S397.67,-0.5 256,-0.5zM256,472.42C136.47,472.42 39.58,375.53 39.58,256C39.58,136.47 136.47,39.58 256,39.58c119.53,0 216.42,96.89 216.42,216.42C472.42,375.53 375.53,472.42 256,472.42z"
++      android:fillColor="#000000"/>
++  <path
++      android:pathData="M133.48,236.62c-9.39,8.67 -6.98,27.4 5.39,41.86c12.37,14.45 30,19.13 39.37,10.43c9.38,-8.64 6.97,-27.4 -5.4,-41.83C160.47,232.64 142.84,227.95 133.48,236.62z"
++      android:fillColor="#000000"/>
++  <path
++      android:pathData="M338.83,243.76c-11.01,15.63 -11.69,34.52 -1.55,42.22c10.13,7.67 27.26,1.31 38.25,-14.32c10.99,-15.59 11.68,-34.47 1.55,-42.19C366.95,221.78 349.81,228.18 338.83,243.76z"
++      android:fillColor="#000000"/>
++  <path
++      android:pathData="M226.13,240.13c16.52,-3.98 25.11,-28.65 19.18,-55.11c-5.89,-26.46 -24.08,-44.68 -40.6,-40.71c-16.5,4.01 -25.08,28.68 -19.19,55.14C191.45,225.88 209.63,244.1 226.13,240.13z"
++      android:fillColor="#000000"/>
++  <path
++      android:pathData="M309.06,144.31c-16.5,-3.98 -34.68,14.25 -40.6,40.71c-5.92,26.46 2.66,51.13 19.19,55.11c16.49,3.98 34.68,-14.25 40.6,-40.67C334.18,172.99 325.56,148.32 309.06,144.31z"
++      android:fillColor="#000000"/>
++  <path
++      android:pathData="M256,262.51c-39.37,0 -68.93,62.7 -68.93,83.44c0,51.01 29.56,-1.61 68.93,-1.61c39.39,0 68.93,52.62 68.93,1.61C324.93,325.21 295.39,262.51 256,262.51z"
++      android:fillColor="#000000"/>
++</vector>
+Index: app/src/main/res/drawable/calendar_survey.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/calendar_survey.xml b/app/src/main/res/drawable/calendar_survey.xml
+new file mode 100644
+--- /dev/null	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
++++ b/app/src/main/res/drawable/calendar_survey.xml	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -0,0 +1,12 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="800dp"
++    android:height="800dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24">
++  <path
++      android:pathData="M3,9H21M7,3V5M17,3V5M6,12H8M11,12H13M16,12H18M6,15H8M11,15H13M16,15H18M6,18H8M11,18H13M16,18H18M6.2,21H17.8C18.92,21 19.48,21 19.908,20.782C20.284,20.59 20.59,20.284 20.782,19.908C21,19.48 21,18.92 21,17.8V8.2C21,7.08 21,6.52 20.782,6.092C20.59,5.716 20.284,5.41 19.908,5.218C19.48,5 18.92,5 17.8,5H6.2C5.08,5 4.52,5 4.092,5.218C3.716,5.41 3.41,5.716 3.218,6.092C3,6.52 3,7.08 3,8.2V17.8C3,18.92 3,19.48 3.218,19.908C3.41,20.284 3.716,20.59 4.092,20.782C4.52,21 5.08,21 6.2,21Z"
++      android:strokeWidth="2"
++      android:fillColor="#00000000"
++      android:strokeColor="#000000"
++      android:strokeLineCap="round"/>
++</vector>
+Index: app/src/main/res/drawable/coin.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/coin.xml b/app/src/main/res/drawable/coin.xml
+new file mode 100644
+--- /dev/null	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
++++ b/app/src/main/res/drawable/coin.xml	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -0,0 +1,13 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="800dp"
++    android:height="800dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24">
++  <path
++      android:pathData="M21,9.5C21,11.985 16.971,14 12,14M21,9.5C21,7.015 16.971,5 12,5C7.029,5 3,7.015 3,9.5M21,9.5V15C21,17.209 16.971,19 12,19M12,14C7.029,14 3,11.985 3,9.5M12,14V19M3,9.5V15C3,17.209 7.029,19 12,19M7,18.326V13.242M17,18.326V13.242"
++      android:strokeLineJoin="round"
++      android:strokeWidth="2"
++      android:fillColor="#00000000"
++      android:strokeColor="#000000"
++      android:strokeLineCap="round"/>
++</vector>
+Index: app/src/main/res/drawable/money.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/money.xml b/app/src/main/res/drawable/money.xml
+new file mode 100644
+--- /dev/null	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
++++ b/app/src/main/res/drawable/money.xml	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -0,0 +1,57 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="800dp"
++    android:height="800dp"
++    android:viewportWidth="1416"
++    android:viewportHeight="1416">
++  <path
++      android:pathData="M324.4,218.1L1361.6,218.1c18.8,0 33.2,14.4 33.2,33.2v645.4c0,18.8 -14.4,33.2 -33.2,33.2L324.4,930c-18.8,0 -33.2,-14.4 -33.2,-33.2L291.1,251.4c0,-18.8 14.4,-33.2 33.2,-33.2z"
++      android:fillColor="#9DBE87"/>
++  <path
++      android:pathData="M1361.6,952.1L324.4,952.1c-31,0 -55.4,-24.4 -55.4,-55.4L269,251.4c0,-31 24.4,-55.4 55.4,-55.4L1361.6,196c31,0 55.4,24.4 55.4,55.4v645.4c0,29.9 -24.4,55.4 -55.4,55.4zM324.4,240.3c-6.6,0 -11.1,4.4 -11.1,11.1v645.4c0,6.6 4.4,11.1 11.1,11.1L1361.6,907.8c6.6,0 11.1,-4.4 11.1,-11.1L1372.7,251.4c0,-6.6 -4.4,-11.1 -11.1,-11.1L324.4,240.3z"
++      android:fillColor="#131313"/>
++  <path
++      android:pathData="M230.3,312.2h1038.4c18.8,0 33.2,14.4 33.2,33.2v645.4c0,18.8 -14.4,33.2 -33.2,33.2L230.3,1024.1c-18.8,0 -33.2,-14.4 -33.2,-33.2L197.1,345.4c0,-18.8 14.4,-33.2 33.2,-33.2z"
++      android:fillColor="#9DBE87"/>
++  <path
++      android:pathData="M1267.5,1046.2L230.3,1046.2c-31,0 -55.4,-24.4 -55.4,-55.4L174.9,345.4c0,-31 24.4,-55.4 55.4,-55.4h1038.4c31,0 55.4,24.4 55.4,55.4v645.4c-1.1,29.9 -25.5,55.4 -56.5,55.4zM230.3,334.4c-6.6,0 -11.1,4.4 -11.1,11.1v645.4c0,6.6 4.4,11.1 11.1,11.1h1038.4c6.6,0 11.1,-4.4 11.1,-11.1L1279.7,345.4c0,-6.6 -4.4,-11.1 -11.1,-11.1L230.3,334.4z"
++      android:fillColor="#131313"/>
++  <path
++      android:pathData="M143.9,404.1h1038.4c18.8,0 33.2,14.4 33.2,33.2v645.4c0,18.8 -14.4,33.2 -33.2,33.2L143.9,1115.9c-18.8,0 -33.2,-14.4 -33.2,-33.2L110.7,437.3c0,-17.7 14.4,-33.2 33.2,-33.2z"
++      android:fillColor="#9DBE87"/>
++  <path
++      android:pathData="M1182.3,1138.1L143.9,1138.1c-31,0 -55.4,-24.4 -55.4,-55.4L88.6,437.3c0,-31 24.4,-55.4 55.4,-55.4h1038.4c31,0 55.4,24.4 55.4,55.4v645.4c0,29.9 -25.5,55.4 -55.4,55.4zM143.9,426.3c-6.6,0 -11.1,4.4 -11.1,11.1v645.4c0,6.6 4.4,11.1 11.1,11.1h1038.4c6.6,0 11.1,-4.4 11.1,-11.1L1193.4,437.3c0,-6.6 -4.4,-11.1 -11.1,-11.1L143.9,426.3z"
++      android:fillColor="#131313"/>
++  <path
++      android:pathData="M55.4,486h1038.4c18.8,0 33.2,14.4 33.2,33.2v645.4c0,18.8 -14.4,33.2 -33.2,33.2L55.4,1197.9c-18.8,0 -33.2,-14.4 -33.2,-33.2L22.1,519.3c0,-17.7 14.4,-33.2 33.2,-33.2z"
++      android:fillColor="#9DBE87"/>
++  <path
++      android:pathData="M1093.7,1220L55.4,1220c-31,0 -55.4,-24.4 -55.4,-55.4L0,519.3c0,-31 24.4,-55.4 55.4,-55.4h1038.4c31,0 55.4,24.4 55.4,55.4v645.4c0,31 -25.5,55.4 -55.4,55.4zM55.4,508.2c-6.6,0 -11.1,4.4 -11.1,11.1v645.4c0,6.6 4.4,11.1 11.1,11.1h1038.4c6.6,0 11.1,-4.4 11.1,-11.1L1104.8,519.3c0,-6.6 -4.4,-11.1 -11.1,-11.1L55.4,508.2z"
++      android:fillColor="#131313"/>
++  <path
++      android:pathData="M954.3,1098.2L194.8,1098.2c0,-52 -43.2,-95.2 -95.2,-95.2L99.6,668.7c52,0 95.2,-43.2 95.2,-95.2h759.4c0,52 43.2,95.2 95.2,95.2v334.3c-53.1,0 -95.2,43.2 -95.2,95.2z"
++      android:fillColor="#D6F0C5"/>
++  <path
++      android:pathData="M954.3,1120.4L194.8,1120.4c-12.2,0 -22.1,-10 -22.1,-22.1 0,-39.9 -33.2,-73.1 -73.1,-73.1 -12.2,0 -22.1,-10 -22.1,-22.1L77.5,668.7c0,-12.2 10,-22.1 22.1,-22.1 39.9,0 73.1,-33.2 73.1,-73.1 0,-12.2 10,-22.1 22.1,-22.1h759.4c12.2,0 22.1,10 22.1,22.1 0,39.9 33.2,73.1 73.1,73.1 12.2,0 22.1,10 22.1,22.1v334.3c0,12.2 -10,22.1 -22.1,22.1 -39.9,0 -73.1,33.2 -73.1,73.1 0,12.2 -10,22.1 -22.1,22.1zM214.8,1076.1h718.5c8.9,-46.5 46.5,-84.1 93,-93L1026.2,688.6c-46.5,-8.9 -84.1,-46.5 -93,-93L214.8,595.6c-8.9,46.5 -46.5,84.1 -93,93L121.8,982c46.5,10 84.1,47.6 93,94.1z"
++      android:fillColor="#131313"/>
++  <path
++      android:pathData="M576.8,986.4c-35.4,0 -73.1,-13.3 -99.6,-47.6 -7.7,-10 -5.5,-23.2 3.3,-31 10,-7.7 23.2,-5.5 31,3.3 26.6,34.3 67.5,35.4 94.1,26.6 22.1,-7.7 35.4,-22.1 35.4,-37.6 0,-14.4 -34.3,-24.4 -64.2,-33.2 -46.5,-14.4 -105.2,-31 -105.2,-86.3 0,-26.6 16.6,-50.9 45.4,-65.3 35.4,-17.7 95.2,-24.4 151.7,16.6 10,7.7 12.2,21 4.4,31 -7.7,10 -21,12.2 -31,4.4 -37.6,-27.7 -79.7,-26.6 -105.2,-13.3 -13.3,6.6 -22.1,16.6 -22.1,26.6 0,21 31,31 73.1,44.3 45.4,13.3 95.2,28.8 95.2,75.3 0,34.3 -25.5,65.3 -65.3,79.7 -11.1,3.3 -26.6,6.6 -41,6.6z"
++      android:fillColor="#131313"/>
++  <path
++      android:pathData="M574.5,745.1c-12.2,0 -22.1,-10 -22.1,-22.1v-48.7c0,-12.2 10,-22.1 22.1,-22.1s22.1,10 22.1,22.1v48.7c0,13.3 -10,22.1 -22.1,22.1z"
++      android:fillColor="#131313"/>
++  <path
++      android:pathData="M574.5,1028.5c-12.2,0 -22.1,-10 -22.1,-22.1v-36.5c0,-12.2 10,-22.1 22.1,-22.1s22.1,10 22.1,22.1v36.5c0,12.2 -10,22.1 -22.1,22.1z"
++      android:fillColor="#131313"/>
++  <path
++      android:pathData="M285.6,849.1m-41,0a41,41 0,1 0,81.9 0,41 41,0 1,0 -81.9,0Z"
++      android:fillColor="#AECD99"/>
++  <path
++      android:pathData="M285.6,911.1c-34.3,0 -63.1,-27.7 -63.1,-63.1s27.7,-63.1 63.1,-63.1c34.3,0 63.1,27.7 63.1,63.1s-28.8,63.1 -63.1,63.1zM285.6,830.3c-10,0 -18.8,7.7 -18.8,18.8s7.7,18.8 18.8,18.8c10,0 18.8,-7.7 18.8,-18.8s-8.9,-18.8 -18.8,-18.8z"
++      android:fillColor="#131313"/>
++  <path
++      android:pathData="M865.7,849.1m-41,0a41,41 0,1 0,81.9 0,41 41,0 1,0 -81.9,0Z"
++      android:fillColor="#AECD99"/>
++  <path
++      android:pathData="M865.7,911.1c-34.3,0 -63.1,-27.7 -63.1,-63.1s27.7,-63.1 63.1,-63.1c34.3,0 63.1,27.7 63.1,63.1s-28.8,63.1 -63.1,63.1zM865.7,830.3c-10,0 -18.8,7.7 -18.8,18.8s7.7,18.8 18.8,18.8 18.8,-7.7 18.8,-18.8 -8.9,-18.8 -18.8,-18.8z"
++      android:fillColor="#131313"/>
++</vector>
+Index: app/src/main/res/drawable/school.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/school.xml b/app/src/main/res/drawable/school.xml
+new file mode 100644
+--- /dev/null	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
++++ b/app/src/main/res/drawable/school.xml	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -0,0 +1,13 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="800dp"
++    android:height="800dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24">
++  <path
++      android:pathData="M6,15.5H7M6,18.5H7M17,18.5H18M17,15.5H18M10,22V18C10,16.896 10.895,16 12,16C13.105,16 14,16.896 14,18V22M12,5H16.84C16.896,5 16.924,5 16.945,4.989C16.964,4.98 16.979,4.964 16.989,4.945C17,4.924 17,4.896 17,4.84V2.16C17,2.104 17,2.076 16.989,2.055C16.979,2.036 16.964,2.02 16.945,2.011C16.924,2 16.896,2 16.84,2H12.16C12.104,2 12.076,2 12.055,2.011C12.036,2.02 12.021,2.036 12.011,2.055C12,2.076 12,2.104 12,2.16V5ZM12,5V7.691M12.03,12.25H12.038M12,7.691C12.195,7.691 12.389,7.719 12.578,7.776C13.006,7.905 13.384,8.246 14.141,8.927L17,11.5L18.576,11.894C19.443,12.111 19.876,12.219 20.199,12.461C20.483,12.674 20.706,12.959 20.844,13.287C21,13.659 21,14.105 21,14.999V18.8C21,19.92 21,20.48 20.782,20.908C20.59,21.285 20.284,21.59 19.908,21.782C19.48,22 18.92,22 17.8,22H6.2C5.08,22 4.52,22 4.092,21.782C3.716,21.59 3.41,21.285 3.218,20.908C3,20.48 3,19.92 3,18.8V14.999C3,14.105 3,13.659 3.156,13.287C3.294,12.959 3.517,12.674 3.801,12.461C4.124,12.219 4.557,12.111 5.424,11.894L7,11.5L9.859,8.927C10.616,8.246 10.994,7.905 11.422,7.776C11.611,7.719 11.805,7.691 12,7.691ZM12.03,13C11.616,13 11.28,12.664 11.28,12.25C11.28,11.836 11.616,11.5 12.03,11.5C12.444,11.5 12.78,11.836 12.78,12.25C12.78,12.664 12.444,13 12.03,13Z"
++      android:strokeLineJoin="round"
++      android:strokeWidth="2"
++      android:fillColor="#00000000"
++      android:strokeColor="#000000"
++      android:strokeLineCap="round"/>
++</vector>
+Index: app/src/main/res/drawable/user_question.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/user_question.xml b/app/src/main/res/drawable/user_question.xml
+new file mode 100644
+--- /dev/null	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
++++ b/app/src/main/res/drawable/user_question.xml	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -0,0 +1,9 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="800dp"
++    android:height="800dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24">
++  <path
++      android:pathData="M3,21C3,21.552 3.448,22 4,22C4.552,22 5,21.552 5,21H3ZM11.858,15.061C12.405,15.139 12.912,14.759 12.99,14.212C13.068,13.666 12.688,13.159 12.142,13.081L11.858,15.061ZM17.29,17.293C16.899,17.683 16.899,18.317 17.29,18.707C17.681,19.098 18.314,19.098 18.704,18.707L17.29,17.293ZM15.092,14.751C14.954,15.286 15.276,15.831 15.811,15.968C16.346,16.106 16.891,15.784 17.028,15.249L15.092,14.751ZM17.997,20C17.445,20 16.997,20.448 16.997,21C16.997,21.552 17.445,22 17.997,22V20ZM18.007,22C18.559,22 19.007,21.552 19.007,21C19.007,20.448 18.559,20 18.007,20V22ZM14,7C14,8.657 12.657,10 11,10V12C13.761,12 16,9.761 16,7H14ZM11,10C9.343,10 8,8.657 8,7H6C6,9.761 8.239,12 11,12V10ZM8,7C8,5.343 9.343,4 11,4V2C8.239,2 6,4.239 6,7H8ZM11,4C12.657,4 14,5.343 14,7H16C16,4.239 13.761,2 11,2V4ZM5,21C5,17.686 7.686,15 11,15V13C6.582,13 3,16.582 3,21H5ZM11,15C11.292,15 11.579,15.021 11.858,15.061L12.142,13.081C11.768,13.028 11.387,13 11,13V15ZM18.997,15.5C18.997,15.673 18.952,15.805 18.678,16.07C18.524,16.218 18.343,16.365 18.092,16.574C17.854,16.772 17.574,17.009 17.29,17.293L18.704,18.707C18.92,18.491 19.14,18.303 19.371,18.112C19.589,17.931 19.845,17.722 20.066,17.509C20.543,17.049 20.997,16.431 20.997,15.5H18.997ZM17.997,14.5C18.549,14.5 18.997,14.948 18.997,15.5H20.997C20.997,13.843 19.654,12.5 17.997,12.5V14.5ZM17.028,15.249C17.14,14.818 17.532,14.5 17.997,14.5V12.5C16.598,12.5 15.425,13.457 15.092,14.751L17.028,15.249ZM17.997,22H18.007V20H17.997V22Z"
++      android:fillColor="#000000"/>
++</vector>
+Index: app/src/main/res/drawable/watch.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/watch.xml b/app/src/main/res/drawable/watch.xml
+new file mode 100644
+--- /dev/null	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
++++ b/app/src/main/res/drawable/watch.xml	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -0,0 +1,13 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="800dp"
++    android:height="800dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24">
++  <path
++      android:pathData="M6,8C6,7 6,3 9,3H15C12,3 12,7 12,8M15,3.003C15,3.003 20,2.554 20,12C20,21.446 15,20.997 15,20.997M9,10V12L10.5,13.5M6,16C6,17 6,21 9,21H15C12,21 12,17 12,16M9,17C6.239,17 4,14.761 4,12C4,9.239 6.239,7 9,7C11.761,7 14,9.239 14,12C14,14.761 11.761,17 9,17Z"
++      android:strokeLineJoin="round"
++      android:strokeWidth="2"
++      android:fillColor="#00000000"
++      android:strokeColor="#000000"
++      android:strokeLineCap="round"/>
++</vector>
+Index: app/src/main/res/layout/activity_add_medicine.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_add_medicine.xml b/app/src/main/res/layout/activity_add_medicine.xml
+new file mode 100644
+--- /dev/null	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
++++ b/app/src/main/res/layout/activity_add_medicine.xml	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -0,0 +1,35 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:orientation="vertical"
++    android:padding="16dp">
++
++
++    <EditText
++        android:id="@+id/et_medicine_name"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:hint="Medicine Name" />
++
++    <EditText
++        android:id="@+id/et_dose"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:hint="Dose (e.g., 1 pill)"
++        android:layout_marginTop="16dp"/>
++
++    <EditText
++        android:id="@+id/et_time"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:hint="Time (e.g., Morning)"
++        android:layout_marginTop="16dp"/>
++
++    <Button
++        android:id="@+id/btn_save_medicine"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:text="Save Medicine"
++        android:layout_marginTop="16dp"/>
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_medical_test.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_medical_test.xml b/app/src/main/res/layout/activity_medical_test.xml
+--- a/app/src/main/res/layout/activity_medical_test.xml	(revision d1d5baf0b2bb9fec22117285121c9e27f466680d)
++++ b/app/src/main/res/layout/activity_medical_test.xml	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -7,80 +7,218 @@
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="vertical"
+-        android:padding="16dp">
++        android:padding="16dp"
++        android:background="@android:color/white">
++
++        <!-- Name Field -->
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:orientation="horizontal"
++            android:layout_marginBottom="16dp">
++
++            <ImageView
++                android:layout_width="24dp"
++                android:layout_height="24dp"
++                android:src="@drawable/user_question"
++            android:layout_marginEnd="8dp"/>
+ 
+-        <EditText
+-            android:id="@+id/name"
+-            android:layout_width="match_parent"
+-            android:layout_height="wrap_content"
+-            android:hint="Name"
+-            android:padding="12dp"
+-            android:minHeight="48dp"/>
++            <EditText
++                android:id="@+id/name"
++                android:layout_width="0dp"
++                android:layout_height="wrap_content"
++                android:layout_weight="1"
++                android:hint="Name"
++                android:padding="12dp"
++                android:minHeight="48dp"
++                android:background="@android:drawable/editbox_background"/>
++        </LinearLayout>
++
++        <!-- Date of Birth Field -->
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:orientation="horizontal"
++            android:layout_marginBottom="16dp">
++
++            <ImageView
++                android:layout_width="24dp"
++                android:layout_height="24dp"
++                android:src="@drawable/calendar_survey"
++            android:layout_marginEnd="8dp"/>
+ 
+-        <EditText
+-            android:id="@+id/dateOfBirth"
+-            android:layout_width="match_parent"
+-            android:layout_height="wrap_content"
+-            android:hint="Date of Birth"
+-            android:padding="12dp"
+-            android:minHeight="48dp"/>
++            <EditText
++                android:id="@+id/dateOfBirth"
++                android:layout_width="0dp"
++                android:layout_height="wrap_content"
++                android:layout_weight="1"
++                android:hint="Date of Birth"
++                android:padding="12dp"
++                android:minHeight="48dp"
++                android:background="@android:drawable/editbox_background"/>
++        </LinearLayout>
++
++        <!-- Repeat similar LinearLayout structures for remaining fields -->
++
++        <!-- School Field -->
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:orientation="horizontal"
++            android:layout_marginBottom="16dp">
++
++            <ImageView
++                android:layout_width="24dp"
++                android:layout_height="24dp"
++                android:src="@drawable/school"
++            android:layout_marginEnd="8dp"/>
+ 
+-        <EditText
+-            android:id="@+id/school"
+-            android:layout_width="match_parent"
+-            android:layout_height="wrap_content"
+-            android:hint="How far did you get in school?"
+-            android:padding="12dp"
+-            android:minHeight="48dp"/>
++            <EditText
++                android:id="@+id/school"
++                android:layout_width="0dp"
++                android:layout_height="wrap_content"
++                android:layout_weight="1"
++                android:hint="How far did you get in school?"
++                android:padding="12dp"
++                android:minHeight="48dp"
++                android:background="@android:drawable/editbox_background"/>
++        </LinearLayout>
++
++        <!-- Today's Date Field -->
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:orientation="horizontal"
++            android:layout_marginBottom="16dp">
++
++            <ImageView
++                android:layout_width="24dp"
++                android:layout_height="24dp"
++                android:src="@drawable/calendar_days_solid"
++            android:layout_marginEnd="8dp"/>
+ 
+-        <EditText
+-            android:id="@+id/date"
+-            android:layout_width="match_parent"
+-            android:layout_height="wrap_content"
+-            android:hint="What is today’s date?"
+-            android:padding="12dp"
+-            android:minHeight="48dp"/>
++            <EditText
++                android:id="@+id/date"
++                android:layout_width="0dp"
++                android:layout_height="wrap_content"
++                android:layout_weight="1"
++                android:hint="What is today’s date?"
++                android:padding="12dp"
++                android:minHeight="48dp"
++                android:background="@android:drawable/editbox_background"/>
++        </LinearLayout>
++
++        <!-- Similarity Question Field -->
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:orientation="horizontal"
++            android:layout_marginBottom="16dp">
++
++            <ImageView
++                android:layout_width="24dp"
++                android:layout_height="24dp"
++                android:src="@drawable/watch"
++            android:layout_marginEnd="8dp"/>
+ 
+-        <EditText
+-            android:id="@+id/similarity"
+-            android:layout_width="match_parent"
+-            android:layout_height="wrap_content"
+-            android:hint="How are a watch and a ruler similar?"
+-            android:padding="12dp"
+-            android:minHeight="48dp"/>
++            <EditText
++                android:id="@+id/similarity"
++                android:layout_width="0dp"
++                android:layout_height="wrap_content"
++                android:layout_weight="1"
++                android:hint="How are a watch and a ruler similar?"
++                android:padding="12dp"
++                android:minHeight="48dp"
++                android:background="@android:drawable/editbox_background"/>
++        </LinearLayout>
++
++        <!-- Coins Question Field -->
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:orientation="horizontal"
++            android:layout_marginBottom="16dp">
++
++            <ImageView
++                android:layout_width="24dp"
++                android:layout_height="24dp"
++                android:src="@drawable/coin"
++            android:layout_marginEnd="8dp"/>
+ 
+-        <EditText
+-            android:id="@+id/coins"
+-            android:layout_width="match_parent"
+-            android:layout_height="wrap_content"
+-            android:hint="How many 20 pence pieces are in £2.40?"
+-            android:padding="12dp"
+-            android:minHeight="48dp"/>
++            <EditText
++                android:id="@+id/coins"
++                android:layout_width="0dp"
++                android:layout_height="wrap_content"
++                android:layout_weight="1"
++                android:hint="How many 20 pence pieces are in £2.40?"
++                android:padding="12dp"
++                android:minHeight="48dp"
++                android:background="@android:drawable/editbox_background"/>
++        </LinearLayout>
++
++        <!-- Change Question Field -->
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:orientation="horizontal"
++            android:layout_marginBottom="16dp">
++
++            <ImageView
++                android:layout_width="24dp"
++                android:layout_height="24dp"
++                android:src="@drawable/money"
++            android:layout_marginEnd="8dp"/>
+ 
+-        <EditText
+-            android:id="@+id/change"
+-            android:layout_width="match_parent"
+-            android:layout_height="wrap_content"
+-            android:hint="If you paid £4.30 how much change would you receive back from a £20 note?"
+-            android:padding="12dp"
+-            android:minHeight="48dp"/>
++            <EditText
++                android:id="@+id/change"
++                android:layout_width="0dp"
++                android:layout_height="wrap_content"
++                android:layout_weight="1"
++                android:hint="If you paid £4.30 how much change would you receive back from a £20 note?"
++                android:padding="12dp"
++                android:minHeight="48dp"
++                android:background="@android:drawable/editbox_background"/>
++        </LinearLayout>
++
++        <!-- Animal Names Field -->
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:orientation="horizontal"
++            android:layout_marginBottom="16dp">
++
++            <ImageView
++                android:layout_width="24dp"
++                android:layout_height="24dp"
++                android:src="@drawable/animal"
++            android:layout_marginEnd="8dp"/>
+ 
+-        <EditText
+-            android:id="@+id/animalNames"
+-            android:layout_width="match_parent"
+-            android:layout_height="wrap_content"
+-            android:hint="Write down the names of 12 different animals"
+-            android:padding="12dp"
+-            android:minHeight="48dp"/>
++            <EditText
++                android:id="@+id/animalNames"
++                android:layout_width="0dp"
++                android:layout_height="wrap_content"
++                android:layout_weight="1"
++                android:hint="Write down the names of 12 different animals"
++                android:padding="12dp"
++                android:minHeight="48dp"
++                android:background="@android:drawable/editbox_background"/>
++        </LinearLayout>
++
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:gravity="center_horizontal">
+ 
+-        <Button
+-            android:id="@+id/submit_button"
+-            android:layout_width="wrap_content"
+-            android:layout_height="wrap_content"
+-            android:minWidth="48dp"
+-            android:minHeight="48dp"
+-            android:padding="12dp"
+-            android:text="Submit" />
++            <Button
++                android:id="@+id/submit_button"
++                android:layout_width="110dp"
++                android:layout_height="match_parent"
++                android:background="@android:color/holo_blue_dark"
++                android:padding="0dp"
++                android:text="Submit"
++                android:textColor="@android:color/white" />
++        </LinearLayout>
+ 
+     </LinearLayout>
+-</ScrollView>
++
++</ScrollView>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_title.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_title.xml b/app/src/main/res/layout/activity_title.xml
+--- a/app/src/main/res/layout/activity_title.xml	(revision d1d5baf0b2bb9fec22117285121c9e27f466680d)
++++ b/app/src/main/res/layout/activity_title.xml	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -11,16 +11,15 @@
+ 
+     <ImageView
+         android:id="@+id/imageView3"
+-        android:layout_width="206.45dp"
+-        android:layout_height="180.19dp"
++        android:layout_width="299dp"
++        android:layout_height="336dp"
+         android:layout_marginTop="168dp"
+         android:importantForAccessibility="no"
+         app:layout_constraintBottom_toTopOf="@+id/getting_started"
+         app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintHorizontal_bias="0.497"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintVertical_bias="0.095"
++        app:layout_constraintVertical_bias="0.234"
+         app:srcCompat="@drawable/positive_attitude" />
+ 
+     <TextView
+@@ -52,19 +51,6 @@
+         app:layout_constraintVertical_bias="0.132"
+         app:srcCompat="@drawable/brain_solid" />
+ 
+-    <TextView
+-        android:id="@+id/textView2"
+-        android:layout_width="279dp"
+-        android:layout_height="130dp"
+-        android:fontFamily="@font/jaldi_regular"
+-        android:text="@string/lorem_ipsum_dolor_sit_amet_consectetur_adipiscing_elit_sed_do_eiusmod_tempor_incididunt_ut_labore_et_dolore_magna_aliqua_ut_enim_ad_minim_veniam_quis_nostrud_exercitation_ullamco_laboris_nisi_ut_aliquip_ex_ea_commodo_consequat"
+-        android:textAlignment="center"
+-        android:textColor="@color/textViewColor"
+-        android:textSize="14sp"
+-        app:layout_constraintBottom_toTopOf="@+id/getting_started"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+ 
+     <Button
+         android:id="@+id/getting_started"
+Index: app/src/main/res/layout/activity_view_medicines.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_view_medicines.xml b/app/src/main/res/layout/activity_view_medicines.xml
+new file mode 100644
+--- /dev/null	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
++++ b/app/src/main/res/layout/activity_view_medicines.xml	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:orientation="vertical">
++
++    <!-- The rest of the layout -->
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:orientation="vertical"
++        android:padding="16dp">
++
++        <androidx.recyclerview.widget.RecyclerView
++            android:id="@+id/recycler_view_medicines"
++            android:layout_width="match_parent"
++            android:layout_height="match_parent" />
++    </LinearLayout>
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_your_pharmacy.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_your_pharmacy.xml b/app/src/main/res/layout/activity_your_pharmacy.xml
+--- a/app/src/main/res/layout/activity_your_pharmacy.xml	(revision d1d5baf0b2bb9fec22117285121c9e27f466680d)
++++ b/app/src/main/res/layout/activity_your_pharmacy.xml	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -1,68 +1,29 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:app="http://schemas.android.com/apk/res-auto"
+-    xmlns:tools="http://schemas.android.com/tools"
+-    android:id="@+id/main"
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    android:background="@color/background"
+-    android:orientation="vertical"
+-    tools:context=".YourPharmacyActivity">
++    android:orientation="vertical">
++
++    <!-- The rest of the layout -->
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:orientation="vertical"
++        android:padding="16dp">
+ 
+-    <ImageView
+-        android:id="@+id/blue_rect"
+-        android:layout_width="match_parent"
+-        android:layout_height="60dp"
+-        android:importantForAccessibility="no"
+-        android:src="@drawable/blue_rectangle"
+-        app:layout_constraintBottom_toBottomOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintVertical_bias="0.0" />
+-
+-    <ImageView
+-        android:id="@+id/image_bars"
+-        android:layout_width="31dp"
+-        android:layout_height="30dp"
+-        android:layout_marginStart="16dp"
+-        android:layout_marginTop="14dp"
+-        app:layout_constraintBottom_toTopOf="@+id/blue_rect"
+-        app:layout_constraintEnd_toStartOf="@+id/mind_mate"
+-        app:layout_constraintHorizontal_bias="0.0"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintVertical_bias="0.0"
+-        app:srcCompat="@drawable/bars_solid" />
+-
+-    <TextView
+-        android:id="@+id/mind_mate"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:fontFamily="@font/jaldi_bold"
+-        android:gravity="center"
+-        android:text="@string/mindmate"
+-        android:textColor="@color/white"
+-        android:textSize="32sp"
+-        app:layout_constraintBottom_toBottomOf="@+id/blue_rect"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintHorizontal_bias="0.25"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="@+id/blue_rect" />
+-
+-    <ImageView
+-        android:id="@+id/alarm"
+-        android:layout_width="34dp"
+-        android:layout_height="34dp"
+-        android:layout_marginTop="8dp"
+-        android:importantForAccessibility="no"
+-        android:src="@drawable/alarm"
+-        app:layout_constraintBottom_toBottomOf="@+id/blue_rect"
+-        app:layout_constraintEnd_toEndOf="@+id/blue_rect"
+-        app:layout_constraintHorizontal_bias="0.957"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintVertical_bias="0.166" />
+-
+-
+-</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
++        <Button
++            android:id="@+id/btn_add_medicine"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:text="Add Medicine"
++            android:textColor="#607D8B" />
++
++        <Button
++            android:id="@+id/btn_view_medicines"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_marginTop="16dp"
++            android:text="View Medicines"
++            android:textColor="#607D8B" />
++    </LinearLayout>
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/item_medicine.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/item_medicine.xml b/app/src/main/res/layout/item_medicine.xml
+new file mode 100644
+--- /dev/null	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
++++ b/app/src/main/res/layout/item_medicine.xml	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -0,0 +1,36 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    android:orientation="vertical"
++    android:padding="8dp">
++
++    <TextView
++        android:id="@+id/tv_name"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:text="Medicine Name"
++        android:textStyle="bold"
++        android:textSize="18sp"/>
++
++    <TextView
++        android:id="@+id/tv_dose"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:text="Dose"
++        android:layout_marginTop="4dp"/>
++
++    <TextView
++        android:id="@+id/tv_time"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:text="Time"
++        android:layout_marginTop="4dp"/>
++
++    <Button
++        android:id="@+id/btn_remove"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="Remove"
++        android:layout_marginTop="8dp"/>
++</LinearLayout>
+\ No newline at end of file
+Index: icons/animal-footprint-svgrepo-com.svg
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/icons/animal-footprint-svgrepo-com.svg b/icons/animal-footprint-svgrepo-com.svg
+new file mode 100644
+--- /dev/null	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
++++ b/icons/animal-footprint-svgrepo-com.svg	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -0,0 +1,22 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
++<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
++<svg fill="#000000" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
++	 width="800px" height="800px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
++<g>
++	<path d="M256-0.5C114.333-0.5-0.5,114.333-0.5,256S114.333,512.5,256,512.5S512.5,397.667,512.5,256S397.667-0.5,256-0.5z
++		 M256,472.422C136.47,472.422,39.578,375.53,39.578,256C39.578,136.47,136.47,39.578,256,39.578
++		c119.53,0,216.422,96.892,216.422,216.422C472.422,375.53,375.53,472.422,256,472.422z"/>
++	<path d="M133.48,236.619c-9.394,8.673-6.982,27.397,5.385,41.863c12.368,14.45,29.996,19.131,39.374,10.427
++		c9.378-8.643,6.967-27.397-5.401-41.832C160.47,232.642,142.842,227.945,133.48,236.619z"/>
++	<path d="M338.833,243.757c-11.006,15.625-11.694,34.52-1.55,42.223c10.129,7.671,27.257,1.314,38.247-14.325
++		c10.99-15.593,11.679-34.473,1.55-42.191C366.95,221.777,349.808,228.18,338.833,243.757z"/>
++	<path d="M226.129,240.125c16.517-3.977,25.111-28.65,19.179-55.107c-5.887-26.458-24.078-44.681-40.595-40.705
++		c-16.501,4.008-25.08,28.681-19.194,55.139C191.452,225.879,209.628,244.102,226.129,240.125z"/>
++	<path d="M309.057,144.313c-16.501-3.977-34.677,14.247-40.595,40.705c-5.918,26.458,2.661,51.131,19.193,55.107
++		c16.485,3.976,34.677-14.247,40.595-40.673C334.184,172.995,325.558,148.321,309.057,144.313z"/>
++	<path d="M256,262.513c-39.374,0-68.932,62.7-68.932,83.444c0,51.005,29.558-1.613,68.932-1.613c39.39,0,68.932,52.618,68.932,1.613
++		C324.932,325.213,295.39,262.513,256,262.513z"/>
++</g>
++</svg>
+\ No newline at end of file
+Index: icons/calendar-days-svgrepo-com.svg
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/icons/calendar-days-svgrepo-com.svg b/icons/calendar-days-svgrepo-com.svg
+new file mode 100644
+--- /dev/null	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
++++ b/icons/calendar-days-svgrepo-com.svg	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -0,0 +1,4 @@
++<?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
++<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
++<path d="M3 9H21M7 3V5M17 3V5M6 12H8M11 12H13M16 12H18M6 15H8M11 15H13M16 15H18M6 18H8M11 18H13M16 18H18M6.2 21H17.8C18.9201 21 19.4802 21 19.908 20.782C20.2843 20.5903 20.5903 20.2843 20.782 19.908C21 19.4802 21 18.9201 21 17.8V8.2C21 7.07989 21 6.51984 20.782 6.09202C20.5903 5.71569 20.2843 5.40973 19.908 5.21799C19.4802 5 18.9201 5 17.8 5H6.2C5.0799 5 4.51984 5 4.09202 5.21799C3.71569 5.40973 3.40973 5.71569 3.21799 6.09202C3 6.51984 3 7.07989 3 8.2V17.8C3 18.9201 3 19.4802 3.21799 19.908C3.40973 20.2843 3.71569 20.5903 4.09202 20.782C4.51984 21 5.07989 21 6.2 21Z" stroke="#000000" stroke-width="2" stroke-linecap="round"/>
++</svg>
+\ No newline at end of file
+Index: icons/coin-alt-svgrepo-com.svg
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/icons/coin-alt-svgrepo-com.svg b/icons/coin-alt-svgrepo-com.svg
+new file mode 100644
+--- /dev/null	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
++++ b/icons/coin-alt-svgrepo-com.svg	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -0,0 +1,4 @@
++<?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
++<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
++<path d="M21 9.5C21 11.9853 16.9706 14 12 14M21 9.5C21 7.01472 16.9706 5 12 5C7.02944 5 3 7.01472 3 9.5M21 9.5V15C21 17.2091 16.9706 19 12 19M12 14C7.02944 14 3 11.9853 3 9.5M12 14V19M3 9.5V15C3 17.2091 7.02944 19 12 19M7 18.3264V13.2422M17 18.3264V13.2422" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
++</svg>
+\ No newline at end of file
+Index: icons/money-svgrepo-com.svg
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/icons/money-svgrepo-com.svg b/icons/money-svgrepo-com.svg
+new file mode 100644
+--- /dev/null	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
++++ b/icons/money-svgrepo-com.svg	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -0,0 +1,3 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
++<svg width="800px" height="800px" viewBox="0 -196 1416 1416" class="icon"  version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M324.358919 22.140541H1361.643243c18.819459 0 33.210811 14.391351 33.210811 33.21081v645.396757c0 18.819459-14.391351 33.210811-33.210811 33.210811H324.358919c-18.819459 0-33.210811-14.391351-33.210811-33.210811V55.351351c0-18.819459 14.391351-33.210811 33.210811-33.21081z" fill="#9DBE87" /><path d="M1361.643243 756.099459H324.358919c-30.996757 0-55.351351-24.354595-55.351351-55.351351V55.351351c0-30.996757 24.354595-55.351351 55.351351-55.351351H1361.643243c30.996757 0 55.351351 24.354595 55.351352 55.351351v645.396757c0 29.88973-24.354595 55.351351-55.351352 55.351351zM324.358919 44.281081c-6.642162 0-11.07027 4.428108-11.07027 11.07027v645.396757c0 6.642162 4.428108 11.07027 11.07027 11.07027H1361.643243c6.642162 0 11.07027-4.428108 11.070271-11.07027V55.351351c0-6.642162-4.428108-11.07027-11.070271-11.07027H324.358919z" fill="#131313" /><path d="M230.261622 116.237838h1038.391351c18.819459 0 33.210811 14.391351 33.210811 33.210811v645.396756c0 18.819459-14.391351 33.210811-33.210811 33.210811H230.261622c-18.819459 0-33.210811-14.391351-33.210811-33.210811V149.448649c0-18.819459 14.391351-33.210811 33.210811-33.210811z" fill="#9DBE87" /><path d="M1267.545946 850.196757H230.261622c-30.996757 0-55.351351-24.354595-55.351352-55.351352V149.448649c0-30.996757 24.354595-55.351351 55.351352-55.351352h1038.391351c30.996757 0 55.351351 24.354595 55.351351 55.351352v645.396756c-1.107027 29.88973-25.461622 55.351351-56.458378 55.351352zM230.261622 138.378378c-6.642162 0-11.07027 4.428108-11.070271 11.070271v645.396756c0 6.642162 4.428108 11.07027 11.070271 11.070271h1038.391351c6.642162 0 11.07027-4.428108 11.07027-11.070271V149.448649c0-6.642162-4.428108-11.07027-11.07027-11.070271H230.261622z" fill="#131313" /><path d="M143.913514 208.121081h1038.391351c18.819459 0 33.210811 14.391351 33.210811 33.210811v645.396757c0 18.819459-14.391351 33.210811-33.210811 33.21081H143.913514c-18.819459 0-33.210811-14.391351-33.210811-33.21081V241.331892c0-17.712432 14.391351-33.210811 33.210811-33.210811z" fill="#9DBE87" /><path d="M1182.304865 942.08H143.913514c-30.996757 0-55.351351-24.354595-55.351352-55.351351V241.331892c0-30.996757 24.354595-55.351351 55.351352-55.351351h1038.391351c30.996757 0 55.351351 24.354595 55.351351 55.351351v645.396757c0 29.88973-25.461622 55.351351-55.351351 55.351351zM143.913514 230.261622c-6.642162 0-11.07027 4.428108-11.070271 11.07027v645.396757c0 6.642162 4.428108 11.07027 11.070271 11.07027h1038.391351c6.642162 0 11.07027-4.428108 11.07027-11.07027V241.331892c0-6.642162-4.428108-11.07027-11.07027-11.07027H143.913514z" fill="#131313" /><path d="M55.351351 290.041081h1038.391352c18.819459 0 33.210811 14.391351 33.210811 33.210811v645.396757c0 18.819459-14.391351 33.210811-33.210811 33.21081H55.351351c-18.819459 0-33.210811-14.391351-33.21081-33.21081V323.251892c0-17.712432 14.391351-33.210811 33.21081-33.210811z" fill="#9DBE87" /><path d="M1093.742703 1024H55.351351c-30.996757 0-55.351351-24.354595-55.351351-55.351351V323.251892c0-30.996757 24.354595-55.351351 55.351351-55.351351h1038.391352c30.996757 0 55.351351 24.354595 55.351351 55.351351v645.396757c0 30.996757-25.461622 55.351351-55.351351 55.351351zM55.351351 312.181622c-6.642162 0-11.07027 4.428108-11.07027 11.07027v645.396757c0 6.642162 4.428108 11.07027 11.07027 11.07027h1038.391352c6.642162 0 11.07027-4.428108 11.07027-11.07027V323.251892c0-6.642162-4.428108-11.07027-11.07027-11.07027H55.351351z" fill="#131313" /><path d="M954.257297 902.227027H194.836757c0-52.03027-43.174054-95.204324-95.204325-95.204324V472.700541c52.03027 0 95.204324-43.174054 95.204325-95.204325h759.42054c0 52.03027 43.174054 95.204324 95.204325 95.204325v334.322162c-53.137297 0-95.204324 43.174054-95.204325 95.204324z" fill="#D6F0C5" /><path d="M954.257297 924.367568H194.836757c-12.177297 0-22.140541-9.963243-22.140541-22.140541 0-39.852973-33.210811-73.063784-73.063784-73.063784-12.177297 0-22.140541-9.963243-22.14054-22.14054V472.700541c0-12.177297 9.963243-22.140541 22.14054-22.140541 39.852973 0 73.063784-33.210811 73.063784-73.063784 0-12.177297 9.963243-22.140541 22.140541-22.14054h759.42054c12.177297 0 22.140541 9.963243 22.140541 22.14054 0 39.852973 33.210811 73.063784 73.063784 73.063784 12.177297 0 22.140541 9.963243 22.14054 22.140541v334.322162c0 12.177297-9.963243 22.140541-22.14054 22.14054-39.852973 0-73.063784 33.210811-73.063784 73.063784 0 12.177297-9.963243 22.140541-22.140541 22.140541z m-739.494054-44.281082h718.460541c8.856216-46.495135 46.495135-84.134054 92.99027-92.99027V492.627027c-46.495135-8.856216-84.134054-46.495135-92.99027-92.99027H214.763243c-8.856216 46.495135-46.495135 84.134054-92.99027 92.99027V785.989189c46.495135 9.963243 84.134054 47.602162 92.99027 94.097297z" fill="#131313" /><path d="M576.761081 790.417297c-35.424865 0-73.063784-13.284324-99.632432-47.602162-7.749189-9.963243-5.535135-23.247568 3.321081-30.996757 9.963243-7.749189 23.247568-5.535135 30.996756 3.321081 26.568649 34.317838 67.528649 35.424865 94.097298 26.568649 22.140541-7.749189 35.424865-22.140541 35.424865-37.638919 0-14.391351-34.317838-24.354595-64.207568-33.210811-46.495135-14.391351-105.167568-30.996757-105.167567-86.348108 0-26.568649 16.605405-50.923243 45.388108-65.314594 35.424865-17.712432 95.204324-24.354595 151.662702 16.605405 9.963243 7.749189 12.177297 21.033514 4.428108 30.996757-7.749189 9.963243-21.033514 12.177297-30.996756 4.428108-37.638919-27.675676-79.705946-26.568649-105.167568-13.284324-13.284324 6.642162-22.140541 16.605405-22.14054 26.568648 0 21.033514 30.996757 30.996757 73.063783 44.281081 45.388108 13.284324 95.204324 28.782703 95.204325 75.277838 0 34.317838-25.461622 65.314595-65.314595 79.705946-11.07027 3.321081-26.568649 6.642162-40.96 6.642162z" fill="#131313" /><path d="M574.547027 549.085405c-12.177297 0-22.140541-9.963243-22.140541-22.14054v-48.709189c0-12.177297 9.963243-22.140541 22.140541-22.140541s22.140541 9.963243 22.140541 22.140541v48.709189c0 13.284324-9.963243 22.140541-22.140541 22.14054z" fill="#131313" /><path d="M574.547027 832.484324c-12.177297 0-22.140541-9.963243-22.140541-22.14054v-36.531892c0-12.177297 9.963243-22.140541 22.140541-22.140541s22.140541 9.963243 22.140541 22.140541v36.531892c0 12.177297-9.963243 22.140541-22.140541 22.14054z" fill="#131313" /><path d="M285.612973 653.145946m-40.96 0a40.96 40.96 0 1 0 81.92 0 40.96 40.96 0 1 0-81.92 0Z" fill="#AECD99" /><path d="M285.612973 715.139459c-34.317838 0-63.100541-27.675676-63.100541-63.10054s27.675676-63.100541 63.100541-63.100541c34.317838 0 63.100541 27.675676 63.100541 63.100541s-28.782703 63.100541-63.100541 63.10054z m0-80.812973c-9.963243 0-18.819459 7.749189-18.819459 18.81946s7.749189 18.819459 18.819459 18.819459c9.963243 0 18.819459-7.749189 18.819459-18.819459s-8.856216-18.819459-18.819459-18.81946z" fill="#131313" /><path d="M865.695135 653.145946m-40.96 0a40.96 40.96 0 1 0 81.92 0 40.96 40.96 0 1 0-81.92 0Z" fill="#AECD99" /><path d="M865.695135 715.139459c-34.317838 0-63.100541-27.675676-63.10054-63.10054s27.675676-63.100541 63.10054-63.100541c34.317838 0 63.100541 27.675676 63.100541 63.100541s-28.782703 63.100541-63.100541 63.10054z m0-80.812973c-9.963243 0-18.819459 7.749189-18.819459 18.81946s7.749189 18.819459 18.819459 18.819459 18.819459-7.749189 18.81946-18.819459-8.856216-18.819459-18.81946-18.81946z" fill="#131313" /></svg>
+\ No newline at end of file
+Index: icons/school-flag-svgrepo-com.svg
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/icons/school-flag-svgrepo-com.svg b/icons/school-flag-svgrepo-com.svg
+new file mode 100644
+--- /dev/null	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
++++ b/icons/school-flag-svgrepo-com.svg	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -0,0 +1,4 @@
++<?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
++<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
++<path d="M6 15.5002H7M6 18.5002H7M17 18.5002H18M17 15.5002H18M10 22.0002V18.0002C10 16.8956 10.8954 16.0002 12 16.0002C13.1046 16.0002 14 16.8956 14 18.0002V22.0002M12 5H16.84C16.896 5 16.924 5 16.9454 4.9891C16.9642 4.97951 16.9795 4.96422 16.9891 4.9454C17 4.92401 17 4.89601 17 4.84V2.16C17 2.10399 17 2.07599 16.9891 2.0546C16.9795 2.03578 16.9642 2.02049 16.9454 2.0109C16.924 2 16.896 2 16.84 2H12.16C12.104 2 12.076 2 12.0546 2.0109C12.0358 2.02049 12.0205 2.03578 12.0109 2.0546C12 2.07599 12 2.10399 12 2.16V5ZM12 5V7.69092M12.03 12.25H12.0375M12 7.69092C12.1947 7.69092 12.3895 7.71935 12.5779 7.77623C13.0057 7.90536 13.3841 8.24585 14.1407 8.92681L17 11.5002L18.5761 11.8942C19.4428 12.1109 19.8761 12.2192 20.1988 12.4608C20.4834 12.674 20.7061 12.9592 20.8439 13.2871C21 13.6587 21 14.1053 21 14.9987V18.8002C21 19.9203 21 20.4804 20.782 20.9082C20.5903 21.2845 20.2843 21.5905 19.908 21.7822C19.4802 22.0002 18.9201 22.0002 17.8 22.0002H6.2C5.0799 22.0002 4.51984 22.0002 4.09202 21.7822C3.71569 21.5905 3.40973 21.2845 3.21799 20.9082C3 20.4804 3 19.9203 3 18.8002V14.9987C3 14.1053 3 13.6587 3.15613 13.2871C3.29388 12.9592 3.51657 12.674 3.80124 12.4608C4.12389 12.2192 4.55722 12.1109 5.42388 11.8942L7 11.5002L9.85931 8.92681C10.6159 8.24584 10.9943 7.90536 11.4221 7.77623C11.6105 7.71935 11.8053 7.69092 12 7.69092ZM12.03 13C11.6158 13 11.28 12.6642 11.28 12.25C11.28 11.8358 11.6158 11.5 12.03 11.5C12.4442 11.5 12.78 11.8358 12.78 12.25C12.78 12.6642 12.4442 13 12.03 13Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
++</svg>
+\ No newline at end of file
+Index: icons/user-question-alt-1-svgrepo-com.svg
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/icons/user-question-alt-1-svgrepo-com.svg b/icons/user-question-alt-1-svgrepo-com.svg
+new file mode 100644
+--- /dev/null	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
++++ b/icons/user-question-alt-1-svgrepo-com.svg	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -0,0 +1,4 @@
++<?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
++<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
++<path d="M3 21C3 21.5523 3.44772 22 4 22C4.55228 22 5 21.5523 5 21H3ZM11.8584 15.0608C12.4051 15.139 12.9117 14.7592 12.9899 14.2125C13.0681 13.6658 12.6883 13.1592 12.1416 13.081L11.8584 15.0608ZM17.29 17.2929C16.8994 17.6834 16.8994 18.3166 17.29 18.7071C17.6805 19.0976 18.3137 19.0976 18.7042 18.7071L17.29 17.2929ZM15.0916 14.7507C14.954 15.2856 15.2759 15.8308 15.8108 15.9684C16.3457 16.1061 16.8908 15.7841 17.0285 15.2493L15.0916 14.7507ZM17.9971 20C17.4448 20 16.9971 20.4477 16.9971 21C16.9971 21.5523 17.4448 22 17.9971 22V20ZM18.0071 22C18.5594 22 19.0071 21.5523 19.0071 21C19.0071 20.4477 18.5594 20 18.0071 20V22ZM14 7C14 8.65685 12.6569 10 11 10V12C13.7614 12 16 9.76142 16 7H14ZM11 10C9.34315 10 8 8.65685 8 7H6C6 9.76142 8.23858 12 11 12V10ZM8 7C8 5.34315 9.34315 4 11 4V2C8.23858 2 6 4.23858 6 7H8ZM11 4C12.6569 4 14 5.34315 14 7H16C16 4.23858 13.7614 2 11 2V4ZM5 21C5 17.6863 7.68629 15 11 15V13C6.58172 13 3 16.5817 3 21H5ZM11 15C11.292 15 11.5786 15.0208 11.8584 15.0608L12.1416 13.081C11.7682 13.0276 11.387 13 11 13V15ZM18.997 15.5C18.997 15.6732 18.9516 15.8053 18.6776 16.0697C18.5239 16.218 18.3429 16.3653 18.0919 16.574C17.8536 16.7723 17.5741 17.0087 17.29 17.2929L18.7042 18.7071C18.92 18.4913 19.1405 18.3033 19.3709 18.1116C19.5887 17.9305 19.8452 17.7223 20.0665 17.5087C20.5426 17.0493 20.997 16.4314 20.997 15.5H18.997ZM17.997 14.5C18.5493 14.5 18.997 14.9477 18.997 15.5H20.997C20.997 13.8431 19.6539 12.5 17.997 12.5V14.5ZM17.0285 15.2493C17.1396 14.8177 17.5325 14.5 17.997 14.5V12.5C16.5978 12.5 15.4246 13.457 15.0916 14.7507L17.0285 15.2493ZM17.9971 22H18.0071V20H17.9971V22Z" fill="#000000"/>
++</svg>
+\ No newline at end of file
+Index: icons/watch-alt-1-svgrepo-com.svg
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/icons/watch-alt-1-svgrepo-com.svg b/icons/watch-alt-1-svgrepo-com.svg
+new file mode 100644
+--- /dev/null	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
++++ b/icons/watch-alt-1-svgrepo-com.svg	(revision a7dfeea5f0351a0b35be2f48e93df33d5895b317)
+@@ -0,0 +1,4 @@
++<?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
++<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
++<path d="M6 8C6 7 6 3 9 3H15C12 3 12 7 12 8M15 3.0034C15 3.0034 20 2.55357 20 12C20 21.4464 15 20.9966 15 20.9966M9 10V12L10.5 13.5M6 16C6.00002 17.0002 6.0001 21 9 21H15C12.0001 21 12 17.0002 12 16M9 17C6.23858 17 4 14.7614 4 12C4 9.23858 6.23858 7 9 7C11.7614 7 14 9.23858 14 12C14 14.7614 11.7614 17 9 17Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
++</svg>
+\ No newline at end of file

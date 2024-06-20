@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import com.application.mindmate.R
 
 open class BaseActivity : AppCompatActivity() {
+
     fun showErrorSnackBar(message: String, errorMessage: Boolean) {
         val snackBar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
         val snackBarView = snackBar.view

@@ -5,26 +5,30 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-
     <EditText
         android:id="@+id/et_medicine_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Medicine Name" />
+        android:hint="Medicine Name"
+        android:minHeight="48dp" />
 
     <EditText
         android:id="@+id/et_dose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:hint="Dose (e.g., 1 pill)"
-        android:layout_marginTop="16dp"/>
+        android:minHeight="48dp" />
 
     <EditText
         android:id="@+id/et_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Time (e.g., Morning)"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:focusable="false"
+        android:hint="Time (e.g., 10:00)"
+        android:minHeight="48dp" />
 
     <Button
         android:id="@+id/btn_save_medicine"
