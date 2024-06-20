@@ -16,6 +16,7 @@ import com.application.games.guessWordGame.GuessWordGameState
 class GuessWordActivity : AppCompatActivity() {
     private val gameManager = GuessWordGameManager()
     private lateinit var openMenu: ImageView
+    private lateinit var alarmImageView: ImageView
     private lateinit var wordTextView: TextView
     private lateinit var lettersUsedTextView: TextView
     private lateinit var newGameButton: Button
@@ -32,6 +33,10 @@ class GuessWordActivity : AppCompatActivity() {
         openMenu.setOnClickListener {
             val intent = Intent(this@GuessWordActivity, MenuActivity::class.java)
             startActivity(intent)
+        }
+        alarmImageView = findViewById(R.id.alarm)
+        alarmImageView.setOnClickListener {
+            AlarmActivity(this).useAlarm()
         }
         wordTextView = findViewById(R.id.unknown_word)
         lettersUsedTextView = findViewById(R.id.letters_used)
