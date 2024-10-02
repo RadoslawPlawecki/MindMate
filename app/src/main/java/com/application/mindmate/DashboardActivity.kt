@@ -41,7 +41,6 @@ class DashboardActivity : AppCompatActivity() {
             val intent = Intent(this@DashboardActivity, CognitiveGamesActivity::class.java)
             startActivity(intent)
         }
-
         medicalTestButton = findViewById(R.id.button_medical_survey)  // find the medical test button
         medicalTestButton.setOnClickListener {
             val intent = Intent(this@DashboardActivity, MedicalTestActivity::class.java)
