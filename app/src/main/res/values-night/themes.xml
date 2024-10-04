@@ -17,7 +17,7 @@
     </style>
 
     <style name="defaultEditText" parent="Widget.AppCompat.EditText">
-        <item name="background">@drawable/rounded_corner</item>
+        <item name="background">@drawable/bg_rounded_corner</item>
         <item name="fontFamily">@font/jaldi_bold</item>
         <item name="android:textColorHint">@color/editTextColor</item>
         <item name="android:textColor">@color/black</item>

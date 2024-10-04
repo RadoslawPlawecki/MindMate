@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:importantForAccessibility="no"
-        android:src="@drawable/blue_rectangle"
+        android:src="@drawable/bg_blue_rectangle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +32,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/bars_solid" />
+        app:srcCompat="@drawable/ic_bars_solid" />
 
     <TextView
         android:id="@+id/mind_mate"
@@ -55,7 +55,7 @@
         android:layout_height="34dp"
         android:layout_marginTop="8dp"
         android:importantForAccessibility="no"
-        android:src="@drawable/alarm"
+        android:src="@drawable/bg_red_dot"
         app:layout_constraintBottom_toBottomOf="@+id/blue_rect"
         app:layout_constraintEnd_toEndOf="@+id/blue_rect"
         app:layout_constraintHorizontal_bias="0.957"
@@ -106,7 +106,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/user_question" />
+                    android:src="@drawable/ic_user_question" />
 
                 <EditText
                     android:id="@+id/name"
@@ -132,7 +132,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/calendar_survey" />
+                    android:src="@drawable/ic_calendar_survey" />
 
                 <EditText
                     android:id="@+id/dateOfBirth"
@@ -160,7 +160,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/school" />
+                    android:src="@drawable/ic_school" />
 
                 <EditText
                     android:id="@+id/school"
@@ -186,7 +186,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/calendar_days_solid" />
+                    android:src="@drawable/ic_calendar_solid" />
 
                 <EditText
                     android:id="@+id/date"
@@ -212,7 +212,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/watch" />
+                    android:src="@drawable/ic_watch" />
 
                 <EditText
                     android:id="@+id/similarity"
@@ -238,7 +238,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/coin" />
+                    android:src="@drawable/ic_coin" />
 
                 <EditText
                     android:id="@+id/coins"
@@ -264,7 +264,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/money" />
+                    android:src="@drawable/ic_money" />
 
                 <EditText
                     android:id="@+id/change"
@@ -290,7 +290,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/animal" />
+                    android:src="@drawable/ic_animal_paw" />
 
                 <EditText
                     android:id="@+id/animalNames"

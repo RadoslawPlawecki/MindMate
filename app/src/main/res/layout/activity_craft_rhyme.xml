@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:importantForAccessibility="no"
-        android:src="@drawable/blue_rectangle"
+        android:src="@drawable/bg_blue_rectangle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/bars_solid" />
+        app:srcCompat="@drawable/ic_bars_solid" />
 
     <TextView
         android:id="@+id/mind_mate"
@@ -56,7 +56,7 @@
         android:layout_height="34dp"
         android:layout_marginTop="8dp"
         android:importantForAccessibility="no"
-        android:src="@drawable/alarm"
+        android:src="@drawable/bg_red_dot"
         app:layout_constraintBottom_toBottomOf="@+id/blue_rect"
         app:layout_constraintEnd_toEndOf="@+id/blue_rect"
         app:layout_constraintHorizontal_bias="0.957"
@@ -145,7 +145,7 @@
         android:layout_width="294dp"
         android:layout_height="60dp"
         android:autofillHints=""
-        android:background="@drawable/rounded_corner"
+        android:background="@drawable/bg_rounded_corner"
         android:ems="10"
         android:fontFamily="@font/jaldi_bold"
         android:hint="@string/type_in_your_word"
@@ -172,7 +172,7 @@
         app:layout_constraintStart_toStartOf="@+id/user_word"
         app:layout_constraintTop_toTopOf="@+id/user_word"
         app:layout_constraintVertical_bias="0.523"
-        app:srcCompat="@drawable/arrow_right_solid" />
+        app:srcCompat="@drawable/ic_arrow_right_solid" />
 
     <ImageView
         android:id="@+id/restart_game"
@@ -184,7 +184,7 @@
         app:layout_constraintStart_toStartOf="@+id/user_word"
         app:layout_constraintTop_toTopOf="@+id/user_word"
         app:layout_constraintVertical_bias="0.533"
-        app:srcCompat="@drawable/arrows_rotate_solid" />
+        app:srcCompat="@drawable/ic_arrows_rotate_solid" />
 
     <TextView
         android:id="@+id/bottom_text_view"

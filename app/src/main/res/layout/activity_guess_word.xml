@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:importantForAccessibility="no"
-        android:src="@drawable/blue_rectangle"
+        android:src="@drawable/bg_blue_rectangle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +32,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/bars_solid" />
+        app:srcCompat="@drawable/ic_bars_solid" />
 
     <TextView
         android:id="@+id/mind_mate"
@@ -55,7 +55,7 @@
         android:layout_height="34dp"
         android:layout_marginTop="8dp"
         android:importantForAccessibility="no"
-        android:src="@drawable/alarm"
+        android:src="@drawable/bg_red_dot"
         app:layout_constraintBottom_toBottomOf="@+id/blue_rect"
         app:layout_constraintEnd_toEndOf="@+id/blue_rect"
         app:layout_constraintHorizontal_bias="0.957"

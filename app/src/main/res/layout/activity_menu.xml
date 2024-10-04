@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:importantForAccessibility="no"
-        android:src="@drawable/blue_rectangle"
+        android:src="@drawable/bg_blue_rectangle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,14 +48,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.516"
-        app:srcCompat="@drawable/arrow_left_solid" />
+        app:srcCompat="@drawable/ic_arrow_left_solid" />
 
     <ImageView
         android:id="@+id/white_rect"
         android:layout_width="287dp"
         android:layout_height="900dp"
         android:importantForAccessibility="no"
-        android:src="@drawable/white_rectangle"
+        android:src="@drawable/bg_white_rectangle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -69,7 +69,7 @@
         android:layout_height="34dp"
         android:layout_marginTop="8dp"
         android:importantForAccessibility="no"
-        android:src="@drawable/alarm"
+        android:src="@drawable/bg_red_dot"
         app:layout_constraintBottom_toBottomOf="@+id/blue_rect"
         app:layout_constraintEnd_toEndOf="@+id/blue_rect"
         app:layout_constraintHorizontal_bias="0.957"
@@ -89,7 +89,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/blue_rect"
         app:layout_constraintVertical_bias="0.003"
-        app:srcCompat="@drawable/house_solid" />
+        app:srcCompat="@drawable/ic_house_solid" />
 
     <ImageView
         android:id="@+id/image_calendar"
@@ -103,7 +103,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_home"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/calendar_days_solid" />
+        app:srcCompat="@drawable/ic_calendar_solid" />
 
     <ImageView
         android:id="@+id/image_settings"
@@ -117,7 +117,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_calendar"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/wrench_solid" />
+        app:srcCompat="@drawable/ic_wrench_solid" />
 
     <ImageView
         android:id="@+id/image_sign_out"
@@ -131,7 +131,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_settings"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/right_from_bracket_solid" />
+        app:srcCompat="@drawable/ic_right_from_bracket_solid" />
 
     <TextView
         android:id="@+id/text_home"

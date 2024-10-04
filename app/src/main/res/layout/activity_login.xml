@@ -27,7 +27,7 @@
         android:layout_width="294dp"
         android:layout_height="51dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/rounded_corner"
+        android:background="@drawable/bg_rounded_corner"
         android:ems="10"
         android:fontFamily="@font/jaldi_bold"
         android:hint="@string/enter_your_password"
@@ -47,7 +47,7 @@
         android:layout_width="294dp"
         android:layout_height="51dp"
         android:autofillHints=""
-        android:background="@drawable/rounded_corner"
+        android:background="@drawable/bg_rounded_corner"
         android:ems="10"
         android:fontFamily="@font/jaldi_bold"
         android:hint="@string/enter_your_email"
@@ -74,7 +74,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.174"
-        app:srcCompat="@drawable/undraw_love_it_xkc2" />
+        app:srcCompat="@drawable/img_love_it" />
 
     <Button
         android:id="@+id/login_button"

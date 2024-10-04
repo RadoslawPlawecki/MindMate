@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:importantForAccessibility="no"
-        android:src="@drawable/blue_rectangle"
+        android:src="@drawable/bg_blue_rectangle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="125dp"
         android:importantForAccessibility="no"
-        android:src="@drawable/grey_rectangle"
+        android:src="@drawable/bg_grey_rectangle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -70,7 +70,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="26dp"
         android:layout_marginBottom="36dp"
-        android:background="@drawable/dashboard_button"
+        android:background="@drawable/bg_dashboard_button"
         android:backgroundTint="@color/cognitiveGames"
         app:layout_constraintBottom_toTopOf="@+id/button_daily_checklist"
         app:layout_constraintEnd_toEndOf="parent"
@@ -90,7 +90,7 @@
         app:layout_constraintStart_toStartOf="@+id/button_daily_checklist"
         app:layout_constraintTop_toBottomOf="@+id/text_daily_checklist"
         app:layout_constraintVertical_bias="0.421"
-        app:srcCompat="@drawable/clipboard_list_solid" />
+        app:srcCompat="@drawable/ic_clipboard_list_solid" />
 
     <TextView
         android:id="@+id/text_cognitive_games"
@@ -121,7 +121,7 @@
         app:layout_constraintStart_toStartOf="@+id/button_your_pharmacy"
         app:layout_constraintTop_toBottomOf="@+id/text_your_pharmacy"
         app:layout_constraintVertical_bias="0.421"
-        app:srcCompat="@drawable/tablets_solid" />
+        app:srcCompat="@drawable/ic_tablets_solid" />
 
     <ImageView
         android:id="@+id/image_your_activity"
@@ -134,7 +134,7 @@
         app:layout_constraintStart_toStartOf="@+id/button_cognitive_games"
         app:layout_constraintTop_toBottomOf="@+id/text_cognitive_games"
         app:layout_constraintVertical_bias="0.421"
-        app:srcCompat="@drawable/gamepad_solid" />
+        app:srcCompat="@drawable/ic_gamepad_solid" />
 
     <TextView
         android:id="@+id/text_medical_survey"
@@ -183,7 +183,7 @@
         app:layout_constraintStart_toStartOf="@+id/button_medical_survey"
         app:layout_constraintTop_toBottomOf="@+id/text_medical_survey"
         app:layout_constraintVertical_bias="0.347"
-        app:srcCompat="@drawable/notes_medical_solid" />
+        app:srcCompat="@drawable/ic_notes_medical_solid" />
 
     <TextView
         android:id="@+id/text_your_pharmacy"
@@ -209,7 +209,7 @@
         android:layout_height="160dp"
         android:layout_marginStart="26dp"
         android:layout_marginBottom="36dp"
-        android:background="@drawable/dashboard_button"
+        android:background="@drawable/bg_dashboard_button"
         android:backgroundTint="@color/medicalSurvey"
         app:layout_constraintBottom_toTopOf="@+id/button_your_pharmacy"
         app:layout_constraintEnd_toStartOf="@+id/button_cognitive_games"
@@ -224,7 +224,7 @@
         android:layout_height="160dp"
         android:layout_marginEnd="26dp"
         android:layout_marginBottom="92dp"
-        android:background="@drawable/dashboard_button"
+        android:background="@drawable/bg_dashboard_button"
         android:backgroundTint="@color/dailyChecklist"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -239,7 +239,7 @@
         android:layout_height="160dp"
         android:layout_marginStart="26dp"
         android:layout_marginBottom="92dp"
-        android:background="@drawable/dashboard_button"
+        android:background="@drawable/bg_dashboard_button"
         android:backgroundTint="@color/yourPharmacy"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_daily_checklist"
@@ -275,7 +275,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/bars_solid" />
+        app:srcCompat="@drawable/ic_bars_solid" />
 
     <ImageView
         android:id="@+id/alarm"
@@ -283,7 +283,7 @@
         android:layout_height="34dp"
         android:layout_marginTop="8dp"
         android:importantForAccessibility="no"
-        android:src="@drawable/alarm"
+        android:src="@drawable/bg_red_dot"
         app:layout_constraintBottom_toBottomOf="@+id/blue_rect"
         app:layout_constraintEnd_toEndOf="@+id/blue_rect"
         app:layout_constraintHorizontal_bias="0.957"
