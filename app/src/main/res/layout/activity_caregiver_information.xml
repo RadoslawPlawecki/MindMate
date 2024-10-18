@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".registration.CaregiverInformationActivity">
+
+    <ProgressBar
+        android:id="@+id/pb_registration"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="297dp"
+        android:layout_height="10dp"
+        android:progressTint="@color/colorPrimary"
+        android:progressBackgroundTint="#8E8E8E"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/text_proceed"
+        android:layout_width="294dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Proceed to the next step!"
+        android:textColor="@color/background"
+        android:fontFamily="@font/jaldi_bold"
+        android:textSize="20sp"
+        android:layout_marginBottom="60dp"/>
+
+    <TextView
+        android:id="@+id/text_caregiver_information"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Caregiver information"
+        android:fontFamily="@font/jaldi_bold"
+        android:textSize="32sp" />
+
+    <TextView
+        android:id="@+id/text_caregiver_info_descr"
+        android:layout_width="294dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam elementum velit augue, vitae malesuada velit facilisis ac."
+        android:fontFamily="@font/jaldi_regular"
+        android:textSize="14sp"
+        android:textAlignment="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp" />
+
+    <EditText
+        android:id="@+id/edit_text_caregiver_email"
+        android:layout_width="294dp"
+        android:layout_height="65dp"
+        android:background="@drawable/bg_rounded_corner_10"
+        android:elevation="10dp"
+        android:ems="10"
+        android:fontFamily="@font/jaldi_bold"
+        android:text="caregiver@gmail.com"
+        android:hint="Email address"
+        android:inputType="textEmailAddress"
+        android:textAlignment="center"
+        android:textColor="@color/textViewColor"
+        android:textColorHint="@color/editTextColor"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:paddingBottom="8dp"
+        android:layout_marginTop="65dp"/>
+
+    <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+    <com.hbb20.CountryCodePicker
+        android:id="@+id/ccp_country_code"
+        android:layout_height="65dp"
+        android:layout_width="130dp"
+        android:background="@drawable/bg_rounded_corner_10"
+        android:elevation="10dp"
+        android:gravity="center"
+        app:ccp_textSize="16sp"
+        app:ccp_autoDetectCountry="true"
+        app:ccp_showNameCode="true"
+        android:layout_marginEnd="20dp"
+        android:paddingBottom="8dp" />
+
+    <EditText
+        android:id="@+id/edit_text_caregiver_phone"
+        android:layout_width="140dp"
+        android:layout_height="65dp"
+        android:background="@drawable/bg_rounded_corner_10"
+        android:elevation="10dp"
+        android:ems="10"
+        android:fontFamily="@font/jaldi_bold"
+        android:text="453270115"
+        android:hint="Phone number"
+        android:inputType="phone"
+        android:textAlignment="center"
+        android:textColor="@color/textViewColor"
+        android:textColorHint="@color/editTextColor"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:paddingBottom="8dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btn_proceed"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:gravity="center"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_blue_dot">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_right_solid_white" />
+    </LinearLayout>
+</LinearLayout>

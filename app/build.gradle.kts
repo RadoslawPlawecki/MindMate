@@ -52,6 +52,8 @@ dependencies {
     implementation ("com.google.firebase:firebase-firestore-ktx:24.0.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+    implementation("com.hbb20:ccp:2.4.7")
+    implementation("io.michaelrocks:libphonenumber-android:8.12.23")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

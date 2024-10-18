@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".both.ChooseRoleActivity">
+
+    <LinearLayout
+        android:id="@+id/btn_im_patient"
+        android:layout_width="300dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="15dp"
+        android:elevation="10dp"
+        android:background="@drawable/bg_rounded_corner_10"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/img_patient"
+            android:layout_width="150dp"
+            android:layout_height="125dp"
+            android:layout_gravity="center"
+            android:src="@drawable/img_patient"
+            android:layout_marginTop="15dp" />
+
+        <TextView
+            android:id="@+id/text_patient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I'm a patient"
+            android:fontFamily="@font/jaldi_bold"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="28sp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="15dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btn_im_caregiver"
+        android:layout_width="300dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="15dp"
+        android:elevation="10dp"
+        android:background="@drawable/bg_rounded_corner_10"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:clickable="true"
+        android:focusable="true" >
+
+        <ImageView
+            android:id="@+id/img_caregiver"
+            android:layout_width="150dp"
+            android:layout_height="125dp"
+            android:layout_gravity="center"
+            android:src="@drawable/img_caregiver"
+            android:layout_marginTop="15dp" />
+
+        <TextView
+            android:id="@+id/text_caregiver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I'm a caregiver"
+            android:fontFamily="@font/jaldi_bold"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="28sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="15dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btn_im_already_signed"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="40dp"
+        android:elevation="10dp"
+        android:background="@drawable/bg_blue_rounded_corner_10"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:clickable="true"
+        android:focusable="true" >
+
+        <TextView
+            android:id="@+id/text_im_already_signed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I'm already signed!"
+            android:fontFamily="@font/jaldi_bold"
+            android:textColor="@color/white"
+            android:textSize="32sp"
+            android:paddingBottom="8dp"/>
+    </LinearLayout>
+</LinearLayout>

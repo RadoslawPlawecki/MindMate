@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".registration.SignUpInformationActivity" >
+
+
+    <ProgressBar
+        android:id="@+id/pb_registration"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="297dp"
+        android:layout_height="10dp"
+        android:layout_gravity="center_horizontal"
+        android:progressTint="@color/colorPrimary"
+        android:progressBackgroundTint="#8E8E8E"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:id="@+id/text_proceed"
+        android:layout_width="294dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="You are ready to sign up!"
+        android:textColor="@color/background"
+        android:fontFamily="@font/jaldi_bold"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/text_sign_up_information"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Sign-up information"
+        android:fontFamily="@font/jaldi_bold"
+        android:textSize="32sp"
+        android:layout_marginTop="45dp" />
+
+    <EditText
+        android:id="@+id/edit_text_email"
+        android:layout_width="294dp"
+        android:layout_height="65dp"
+        android:background="@drawable/bg_rounded_corner_10"
+        android:elevation="10dp"
+        android:ems="10"
+        android:fontFamily="@font/jaldi_bold"
+        android:hint="Your email"
+        android:inputType="textEmailAddress"
+        android:textAlignment="center"
+        android:textColor="@color/textViewColor"
+        android:textColorHint="@color/editTextColor"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:paddingBottom="8dp"
+        android:layout_marginTop="35dp"/>
+
+    <EditText
+        android:id="@+id/edit_text_password"
+        android:layout_width="294dp"
+        android:layout_height="65dp"
+        android:autofillHints=""
+        android:background="@drawable/bg_rounded_corner_10"
+        android:elevation="10dp"
+        android:ems="10"
+        android:fontFamily="@font/jaldi_bold"
+        android:hint="Your password"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:textColor="@color/textViewColor"
+        android:textColorHint="@color/editTextColor"
+        android:textSize="20sp"
+        android:paddingBottom="8dp"
+        android:layout_marginTop="30dp"/>
+
+    <EditText
+        android:id="@+id/edit_text_repeat_password"
+        android:layout_width="294dp"
+        android:layout_height="65dp"
+        android:autofillHints=""
+        android:background="@drawable/bg_rounded_corner_10"
+        android:elevation="10dp"
+        android:ems="10"
+        android:fontFamily="@font/jaldi_bold"
+        android:hint="Repeat your password"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:textColor="@color/textViewColor"
+        android:textColorHint="@color/editTextColor"
+        android:textSize="20sp"
+        android:paddingBottom="8dp"
+        android:layout_marginTop="30dp"/>
+
+    <LinearLayout
+        android:layout_width="294dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="15dp"
+        android:gravity="left"
+        android:orientation="horizontal">
+    
+        <CheckBox
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:buttonTint="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/text_terms_conditions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/agree_with_terms_amp_conditions"
+            android:fontFamily="@font/jaldi_regular"
+            android:textSize="18sp"
+            android:clickable="true"
+            android:textColorLink="@color/colorPrimary"
+            android:layout_marginStart="20dp"
+            android:focusable="true" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_sign_up"
+        android:layout_width="260dp"
+        android:layout_height="71dp"
+        android:text="Sign up!"
+        android:backgroundTint="@color/colorPrimary"
+        android:gravity="center"
+        android:textSize="32sp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="30dp" />
+</LinearLayout>

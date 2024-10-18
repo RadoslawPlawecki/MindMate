@@ -33,7 +33,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:background="@drawable/bg_rounded_corner"
+            android:background="@drawable/bg_rounded_corner_100"
             android:ems="10"
             android:fontFamily="@font/jaldi_bold"
             android:hint="@string/phone_number"

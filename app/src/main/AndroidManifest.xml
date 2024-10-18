@@ -26,7 +26,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".TitleActivity"
+            android:name=".both.TitleActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,10 +34,21 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".both.ChooseRoleActivity"
+            android:exported="true" />
+        <activity
             android:name=".both.RegisterActivity"
             android:exported="true" />
         <activity
             android:name=".both.LoginActivity"
+            android:exported="true" />
+        <activity
+            android:name=".registration.PersonalInformationActivity"
+            android:exported="true" />
+        <activity android:name=".registration.SignUpInformationActivity"
+            android:exported="true" />
+        <activity
+            android:name=".registration.CaregiverInformationActivity"
             android:exported="true" />
         <activity
             android:name=".DashboardActivity"

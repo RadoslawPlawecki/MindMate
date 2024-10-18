@@ -11,10 +11,10 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import androidx.core.content.ContextCompat
 import android.Manifest
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat.checkSelfPermission
+import com.application.mindmate.both.TitleActivity
 
 class NotificationWorker(private val context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
 

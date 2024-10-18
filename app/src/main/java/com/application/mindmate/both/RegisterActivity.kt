@@ -30,7 +30,6 @@ class RegisterActivity : BaseActivity() {
     private lateinit var registerButton: Button
     private lateinit var signIn: TextView
     private lateinit var db: FirebaseFirestore
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)

@@ -54,4 +54,5 @@
     <string name="phone_number">Phone number</string>
     <string name="alert_your_caregiver">Alert your caregiver!</string>
     <string name="submit">Submit</string>
+    <string name="agree_with_terms_amp_conditions"><![CDATA[Agree with <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Terms and Conditions</a>.]]></string>
 </resources>
