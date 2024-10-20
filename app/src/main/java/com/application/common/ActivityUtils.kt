@@ -5,7 +5,7 @@ import android.content.Intent
 import android.view.View
 import android.widget.ImageView
 import com.application.mindmate.AlarmActivity
-import com.application.mindmate.MenuActivity
+import com.application.mindmate.both.MenuActivity
 import com.application.mindmate.R
 
 /**

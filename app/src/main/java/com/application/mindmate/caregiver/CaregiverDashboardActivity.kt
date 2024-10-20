@@ -1,15 +1,18 @@
-package com.application.mindmate
+package com.application.mindmate.caregiver
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.application.common.ActivityUtils
-import com.application.customization.BaseActivity
+import com.application.common.CommonUsage
+import com.application.mindmate.CognitiveGamesActivity
+import com.application.mindmate.DailyChecklistActivity
+import com.application.mindmate.MedicalTestActivity
+import com.application.mindmate.R
+import com.application.mindmate.YourPharmacyActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
@@ -17,13 +20,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import java.lang.Math.abs
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
-
-class DashboardActivity : AppCompatActivity() {
+class CaregiverDashboardActivity : AppCompatActivity() {
     private lateinit var cognitiveGamesButton: Button
     private lateinit var medicalTestButton: Button
     private lateinit var yourPharmacyButton: Button
@@ -38,22 +36,22 @@ class DashboardActivity : AppCompatActivity() {
         ActivityUtils.actionBarSetup(this)
         cognitiveGamesButton = findViewById(R.id.button_cognitive_games)
         cognitiveGamesButton.setOnClickListener {
-            val intent = Intent(this@DashboardActivity, CognitiveGamesActivity::class.java)
+            val intent = Intent(this@CaregiverDashboardActivity, CognitiveGamesActivity::class.java)
             startActivity(intent)
         }
         medicalTestButton = findViewById(R.id.button_medical_survey)
         medicalTestButton.setOnClickListener {
-            val intent = Intent(this@DashboardActivity, MedicalTestActivity::class.java)
+            val intent = Intent(this@CaregiverDashboardActivity, MedicalTestActivity::class.java)
             startActivity(intent)
         }
         yourPharmacyButton = findViewById(R.id.button_your_pharmacy)
         yourPharmacyButton.setOnClickListener {
-            val intent = Intent(this@DashboardActivity, YourPharmacyActivity::class.java)
+            val intent = Intent(this@CaregiverDashboardActivity, YourPharmacyActivity::class.java)
             startActivity(intent)
         }
         dailyChecklistButton = findViewById(R.id.button_daily_checklist)
         dailyChecklistButton.setOnClickListener {
-            val intent = Intent(this@DashboardActivity, DailyChecklistActivity::class.java)
+            val intent = Intent(this@CaregiverDashboardActivity, DailyChecklistActivity::class.java)
             startActivity(intent)
         }
         CoroutineScope(Dispatchers.Main).launch {
@@ -68,7 +66,7 @@ class DashboardActivity : AppCompatActivity() {
         if (user != null) {
             val uid = user.uid
             val db = FirebaseFirestore.getInstance()
-            val userRef = db.collection("users").document(uid)
+            val userRef = db.collection("caregivers").document(uid)
             try {
                 val documentSnapshot = withContext(Dispatchers.IO) {
                     userRef.get().await()
@@ -91,7 +89,7 @@ class DashboardActivity : AppCompatActivity() {
         if (user != null) {
             val uid = user.uid
             val db = FirebaseFirestore.getInstance()
-            val userRef = db.collection("users").document(uid)
+            val userRef = db.collection("caregivers").document(uid)
             try {
                 val documentSnapshot = withContext(Dispatchers.IO) {
                     userRef.get().await()
@@ -99,8 +97,8 @@ class DashboardActivity : AppCompatActivity() {
                 if (documentSnapshot.exists()) {
                     val lastLoginDate = documentSnapshot.getString("lastLoginDate")
                     val streak = documentSnapshot.getLong("streak")?.toInt() ?: 0
-                    val currentDate = getCurrentDate()
-                    val dateDiffInDays = getDateDifference(lastLoginDate.toString(), currentDate)
+                    val currentDate = CommonUsage.getCurrentDate()
+                    val dateDiffInDays = CommonUsage.getDateDifference(lastLoginDate.toString(), currentDate)
                     val updatedStreak = when (dateDiffInDays) {
                         0.toLong() -> {
                             streak
@@ -123,7 +121,7 @@ class DashboardActivity : AppCompatActivity() {
                     daysOfUseTextView.text = streakText
                 } else {
                     val initialStreak = 1
-                    val currentDate = getCurrentDate()
+                    val currentDate = CommonUsage.getCurrentDate()
                     userRef.set(mapOf("lastLoginDate" to currentDate, "streak" to initialStreak)).await()
                     val streakText = getString(R.string.you_ve_been_using_mindmate_for_1_day, initialStreak)
                     daysOfUseTextView.text = streakText
@@ -133,18 +131,5 @@ class DashboardActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
-    }
-
-    private fun getCurrentDate(): String {
-        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        return sdf.format(Date())
-    }
-
-    private fun getDateDifference(firstDateString: String, secondDateString: String): Long {
-        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val firstDate = sdf.parse(firstDateString)
-        val secondDate = sdf.parse(secondDateString)
-        val timeDiff = firstDate!!.time - secondDate!!.time
-        return kotlin.math.abs(timeDiff / (1000 * 60 * 60 * 24)) % 365 // calculate difference in days
     }
 }

@@ -7,7 +7,8 @@
         android:required="false" />
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -37,9 +38,6 @@
             android:name=".both.ChooseRoleActivity"
             android:exported="true" />
         <activity
-            android:name=".both.RegisterActivity"
-            android:exported="true" />
-        <activity
             android:name=".both.LoginActivity"
             android:exported="true" />
         <activity
@@ -51,10 +49,13 @@
             android:name=".registration.CaregiverInformationActivity"
             android:exported="true" />
         <activity
-            android:name=".DashboardActivity"
+            android:name=".patient.PatientDashboardActivity"
             android:exported="true" />
         <activity
-            android:name=".MenuActivity"
+            android:name=".caregiver.CaregiverDashboardActivity"
+            android:exported="true" />
+        <activity
+            android:name=".both.MenuActivity"
             android:exported="true" />
         <activity android:name=".MedicalTestActivity"
             android:windowSoftInputMode="adjustResize"

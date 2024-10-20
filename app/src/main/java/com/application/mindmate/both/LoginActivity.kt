@@ -12,6 +12,8 @@ import com.application.customization.BaseActivity
 import com.application.enums.UserRole
 import com.application.mindmate.DashboardActivity
 import com.application.mindmate.R
+import com.application.mindmate.caregiver.CaregiverDashboardActivity
+import com.application.mindmate.patient.PatientDashboardActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
@@ -29,7 +31,7 @@ class LoginActivity : BaseActivity() {
         // if an user hasn't had an account, go to the sign up activity
         signUp = findViewById(R.id.sign_up)
         signUp.setOnClickListener {
-            val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+            val intent = Intent(this@LoginActivity, TitleActivity::class.java)
             startActivity(intent)
         }
         email = findViewById(R.id.login_email)
@@ -64,26 +66,19 @@ class LoginActivity : BaseActivity() {
         if (user != null) {
             val userId = user.uid
             Log.d("LoginActivity", "User ID: $userId")
-            val userRef = FirebaseFirestore.getInstance().collection("users").document(userId)
+            val patientRef = FirebaseFirestore.getInstance().collection("patients").document(userId)
+            val caregiverRef = FirebaseFirestore.getInstance().collection("caregivers").document(userId)
             try {
-                val document = userRef.get().await()
-                Log.d("LoginActivity", "Document: $document")
-                if (document != null && document.exists()) {
-                    val role = document.getString("role")
-                    when (role) {
-                        UserRole.ADMIN.toString() -> {
-                            val intent = Intent(this@LoginActivity, DashboardActivity::class.java)
-                            startActivity(intent)
-                        }
-                        UserRole.USER.toString() -> {
-                            val intent = Intent(this@LoginActivity, DashboardActivity::class.java)
-                            startActivity(intent)
-                        }
-                        else -> {
-                            showErrorSnackBar("Role not found!", true)
-                        }
-                    }
-                } else {
+                val patientDocument = patientRef.get().await()
+                val caregiverDocument = caregiverRef.get().await()
+                if (patientDocument != null && patientDocument.exists()) {
+                    val intent = Intent(this@LoginActivity, PatientDashboardActivity::class.java)
+                    startActivity(intent)
+                } else if (caregiverDocument != null && caregiverDocument.exists()) {
+                    val intent = Intent(this@LoginActivity, CaregiverDashboardActivity::class.java)
+                    startActivity(intent)
+                }
+                else {
                     showErrorSnackBar("Document not found!", true)
                 }
             } catch (e: Exception) {

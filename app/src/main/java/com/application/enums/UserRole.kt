@@ -1,5 +1,5 @@
 package com.application.enums
 
 enum class UserRole {
-    ADMIN, USER
+    ADMIN, CAREGIVER, PATIENT
 }

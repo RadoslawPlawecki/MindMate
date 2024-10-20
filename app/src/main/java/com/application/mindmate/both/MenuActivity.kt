@@ -1,4 +1,4 @@
-package com.application.mindmate
+package com.application.mindmate.both
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -8,7 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import com.application.mindmate.both.LoginActivity
+import com.application.mindmate.AlarmActivity
+import com.application.mindmate.DashboardActivity
+import com.application.mindmate.R
 
 class MenuActivity : AppCompatActivity() {
     private lateinit var alarmImageView: ImageView
@@ -52,7 +54,7 @@ class MenuActivity : AppCompatActivity() {
     }
 
     private fun signOut(): View.OnClickListener {
-        val intent = Intent(this@MenuActivity, LoginActivity::class.java)
+        val intent = Intent(this@MenuActivity, TitleActivity::class.java)
         val clickListener = View.OnClickListener {
             startActivity(intent)
         }

@@ -13,16 +13,15 @@ import java.util.Locale
 
 class CaregiversService {
     suspend fun addCaregiver(firebaseUser: FirebaseUser, name: String, dateOfBirth: String,
-                           caregiverEmail: String, gender: String, phoneNumber: Number) {
+                           caregiverEmail: String, gender: String) {
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
             val db = FirebaseFirestore.getInstance()
             try {
-                val role = UserRole.USER
+                val role = UserRole.CAREGIVER
                 val patientData = hashMapOf(
                     "uid" to firebaseUser.uid,
                     "email" to caregiverEmail,
-                    "phoneNumber" to phoneNumber,
                     "name" to name,
                     "dateOfBirth" to dateOfBirth,
                     "gender" to gender,
@@ -31,10 +30,10 @@ class CaregiversService {
                     "streak" to 1,
                 )
                 db.collection("caregivers").document(firebaseUser.uid).set(patientData).await()
-                Log.d("RegisterActivity", "Document added: ${firebaseUser.uid}")
+                Log.d("SignUpInformationActivity", "Document added: ${firebaseUser.uid}")
                 FirebaseAuth.getInstance().signOut()
             } catch (e: Exception) {
-                Log.e("RegisterActivity", "Error adding document: ${e.message}")
+                Log.e("SignUpInformationActivity", "Error adding document: ${e.message}")
             }
         }
     }
