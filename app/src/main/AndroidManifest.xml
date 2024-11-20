@@ -51,6 +51,8 @@
         <activity
             android:name=".patient.PatientDashboardActivity"
             android:exported="true" />
+        <activity android:name=".patient.CaregiverInfoActivity"
+            android:exported="true" />
         <activity
             android:name=".caregiver.CaregiverDashboardActivity"
             android:exported="true" />
@@ -66,11 +68,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CognitiveGamesActivity"
+            android:name=".games.CognitiveGamesActivity"
             android:exported="true" />
-        <activity android:name=".GuessWordActivity"
+        <activity android:name=".games.GuessWordChooseCategoryActivity"
             android:exported="true" />
-        <activity android:name=".CraftRhymeActivity"
+        <activity android:name=".games.GuessWordActivity"
+            android:exported="true" />
+        <activity android:name=".games.CraftRhymeActivity"
             android:exported="true" />
         <activity android:name=".DailyChecklistActivity"
             android:exported="true" />

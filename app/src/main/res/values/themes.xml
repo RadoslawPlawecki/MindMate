@@ -34,5 +34,18 @@
         <item name="android:textSize">22sp</item>
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
+    <style name="LabelStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/jaldi_bold</item>
+    </style>
+    <style name="ValueStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/jaldi_regular</item>
+        <item name="android:layout_marginStart">30dp</item>
+    </style>
     <style name="Theme.MindMate" parent="android:Theme.Material.Dialog.NoActionBar" />
 </resources>

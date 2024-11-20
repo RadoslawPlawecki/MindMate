@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical"
-    tools:context=".CognitiveGamesActivity">
+    tools:context=".games.CognitiveGamesActivity">
 
     <ImageView
         android:id="@+id/blue_rect"

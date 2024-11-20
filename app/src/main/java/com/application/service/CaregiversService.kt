@@ -7,13 +7,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class CaregiversService {
     suspend fun addCaregiver(firebaseUser: FirebaseUser, name: String, dateOfBirth: String,
-                           caregiverEmail: String, gender: String) {
+                           caregiverEmail: String, gender: String, caregiverPhone: String) {
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
             val db = FirebaseFirestore.getInstance()
@@ -28,6 +25,7 @@ class CaregiversService {
                     "role" to role,
                     "lastLoginDate" to CommonUsage.getCurrentDate(),
                     "streak" to 1,
+                    "phoneNumber" to caregiverPhone
                 )
                 db.collection("caregivers").document(firebaseUser.uid).set(patientData).await()
                 Log.d("SignUpInformationActivity", "Document added: ${firebaseUser.uid}")
@@ -35,6 +33,23 @@ class CaregiversService {
             } catch (e: Exception) {
                 Log.e("SignUpInformationActivity", "Error adding document: ${e.message}")
             }
+        }
+    }
+
+    suspend fun fetchCaregiverField(caregiverId: String, field: String): String {
+        val db = FirebaseFirestore.getInstance()
+        return try {
+            val document = db.collection("caregivers")
+                .document(caregiverId)
+                .get()
+                .await()
+            if (document.exists()) {
+                document.getString(field) ?: "Caregiver $field not available!"
+            } else {
+                "Caregiver not found!"
+            }
+        } catch (e: Exception) {
+            "Error fetching caregiver name: ${e.localizedMessage}"
         }
     }
 }

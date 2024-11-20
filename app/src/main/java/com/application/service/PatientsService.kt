@@ -11,8 +11,7 @@ import kotlinx.coroutines.tasks.await
 class PatientsService {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     suspend fun addPatient(firebaseUser: FirebaseUser, name: String, dateOfBirth: String,
-                           caregiverEmail: String, gender: String, patientEmail: String,
-                           caregiverPhoneNumber: String?) {
+                           caregiverEmail: String, gender: String, patientEmail: String) {
         try {
             val caregiverId = getCaregiverByEmail(caregiverEmail)
             if (caregiverId == null) {
@@ -32,9 +31,6 @@ class PatientsService {
             )
             db.collection("patients").document(firebaseUser.uid).set(patientData).await()
             Log.d("PatientsService", "Patient document added: ${firebaseUser.uid}")
-            if (!caregiverPhoneNumber.isNullOrEmpty()) {
-                updateCaregiverPhoneNumber(caregiverId, caregiverPhoneNumber)
-            }
             FirebaseAuth.getInstance().signOut()
         } catch (e: Exception) {
             Log.e("PatientsService", "Error adding patient: ${e.message}", e)
@@ -53,27 +49,16 @@ class PatientsService {
             null
         }
     }
-
-    private suspend fun updateCaregiverPhoneNumber(caregiverId: String, phoneNumber: String) {
-        try {
-            db.collection("caregivers").document(caregiverId)
-                .update("phoneNumber", phoneNumber)
-                .await()
-            Log.d("PatientsService", "Caregiver phone number updated: $caregiverId")
-        } catch (e: Exception) {
-            Log.e("PatientsService", "Error updating caregiver phone number: ${e.message}", e)
-        }
-    }
-    fun notifyCaregiverToSetAccount(context: Context, phoneNumber: String, name: String) {
+    fun notifyCaregiverToSetAccount(context: Context, caregiverEmail: String, name: String) {
         try {
             val notificationService = NotificationService(context)
             notificationService.sendSMS(
-                phoneNumber = phoneNumber,
+                phoneNumber = "606670149",
                 message = "Hello! You have been invited by $name to become their caregiver. To " +
                         "set up your caregiver account, please install the app: LINK HERE. Best " +
                         "regards, MM Team"
             )
-            Log.d("PatientsService", "Caregiver notification sent to: $phoneNumber")
+            Log.d("PatientsService", "Caregiver notification sent to: $caregiverEmail")
         } catch (e: Exception) {
             Log.e("PatientsService", "Error sending notification: ${e.message}", e)
         }

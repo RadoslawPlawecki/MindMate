@@ -33,7 +33,7 @@ class PersonalInformationActivity : BaseActivity() {
     private var dobProgressAdded = false
     private var genderProgressAdded = false
     private var progress = 0
-    private var role = "caregivers"
+    private var role = "patients"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +43,8 @@ class PersonalInformationActivity : BaseActivity() {
         val caregiverEmail = intent.getStringExtra("CAREGIVER_EMAIL")
         val caregiverPhone = intent.getStringExtra("CAREGIVER_PHONE")
         progressBarRegister = findViewById(R.id.pb_registration)
-        if (table == "patients") {
-            role = "patients"
+        if (table == "caregivers") {
+            role = "caregivers"
             progress = 24
             progressBarRegister.progress = progress
         }
@@ -55,7 +55,7 @@ class PersonalInformationActivity : BaseActivity() {
         editTextDob = findViewById(R.id.edit_text_dob)
         textProceed = findViewById(R.id.text_proceed)
         setupListeners()
-        val expectedValue = if (role == "patients") 60 else 48
+        val expectedValue = if (role == "caregivers") 60 else 48
         btnGoToSignUpInformation.setOnClickListener {
             if (progress >= expectedValue) {
                 if (validateInput()) {
@@ -63,8 +63,8 @@ class PersonalInformationActivity : BaseActivity() {
                     intent.putExtra("NAME", userName)
                     intent.putExtra("DOB", dateOfBirth)
                     intent.putExtra("GENDER", userGender)
-                    if (table == "patients") {
-                        intent.putExtra("CAREGIVER_EMAIL", caregiverEmail)
+                    intent.putExtra("CAREGIVER_EMAIL", caregiverEmail)
+                    if (table == "caregivers") {
                         intent.putExtra("CAREGIVER_PHONE", caregiverPhone)
                     }
                     intent.putExtra("TABLE", table)
@@ -104,11 +104,11 @@ class PersonalInformationActivity : BaseActivity() {
 
     private fun updateProgressBarName(isName: Boolean = false) {
         if (isName && !nameProgressAdded) {
-            progress += if (role == "patients") 12
+            progress += if (role == "caregivers") 12
             else 16
             nameProgressAdded = true
         } else if (!isName && nameProgressAdded) {
-            progress -= if (role == "patients") 12
+            progress -= if (role == "caregivers") 12
             else 16
             nameProgressAdded = false
         }
@@ -117,7 +117,7 @@ class PersonalInformationActivity : BaseActivity() {
 
     private fun updateProgressBarDob() {
         if (!dobProgressAdded) {
-            progress += if (role == "patients") 12
+            progress += if (role == "caregivers") 12
             else 16
             dobProgressAdded = true
         }
@@ -126,7 +126,7 @@ class PersonalInformationActivity : BaseActivity() {
 
     private fun updateProgressBarGender() {
         if (!genderProgressAdded) {
-            progress += if (role == "patients") 12
+            progress += if (role == "caregivers") 12
             else 16
             genderProgressAdded = true
         }
@@ -151,7 +151,7 @@ class PersonalInformationActivity : BaseActivity() {
     }
 
     private fun updateProgressBarVisuals() {
-        val expectedValue = if (role == "patients") 60 else 48
+        val expectedValue = if (role == "caregivers") 60 else 48
         AnimationUtils.animateProgressBar(progressBarRegister, progress)
         if (progress >= expectedValue) textProceed.setTextColor(resources.getColor(R.color.colorPrimary))
         else textProceed.setTextColor(resources.getColor(R.color.background))

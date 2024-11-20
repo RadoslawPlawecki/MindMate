@@ -1,7 +1,11 @@
 package com.application.games.guessWordGame
 
+import android.util.Log
+import android.widget.Toast
 import com.application.constants.GameConstantsDescriptions
 import com.application.constants.GameConstantsWords
+import com.application.constants.GuessWordDescriptions
+import com.application.constants.GuessWordWords
 import java.lang.StringBuilder
 import kotlin.random.Random
 
@@ -12,12 +16,10 @@ class GuessWordGameManager {
     private lateinit var descriptionOfWordToGuess: String
     private val maxTries = 7
     private var currentTries = 0
-    fun startNewGame(): GuessWordGameState {
+    fun startNewGame(wordCategory: String): GuessWordGameState {
         lettersUsed = ""
         currentTries = 0
-        val randomIndex = Random.nextInt(0, GameConstantsWords.words.size)
-        wordToGuess = GameConstantsWords.words[randomIndex]
-        descriptionOfWordToGuess = GameConstantsDescriptions.descriptions[randomIndex]
+        selectRandomWordByCategory(wordCategory)
         generateUnderscores(wordToGuess)
         return getGameState()
     }
@@ -61,5 +63,61 @@ class GuessWordGameManager {
             return GuessWordGameState.Lost(wordToGuess, descriptionOfWordToGuess)
         }
         return GuessWordGameState.Running(lettersUsed, underscoreWord, currentTries, maxTries)
+    }
+
+    private fun selectRandomWordByCategory(wordCategory: String) {
+        when (wordCategory) {
+            "fruit" -> {
+                val randomIndex = Random.nextInt(GuessWordWords.fruits.size)
+                wordToGuess = GuessWordWords.fruits[randomIndex]
+                descriptionOfWordToGuess = GuessWordDescriptions.fruits[randomIndex]
+            }
+
+            "vegetable" -> {
+                val randomIndex = Random.nextInt(GuessWordWords.vegetables.size)
+                wordToGuess = GuessWordWords.vegetables[randomIndex]
+                descriptionOfWordToGuess = GuessWordDescriptions.vegetables[randomIndex]
+            }
+
+            "country" -> {
+                val randomIndex = Random.nextInt(GuessWordWords.countries.size)
+                wordToGuess = GuessWordWords.countries[randomIndex]
+                descriptionOfWordToGuess = GuessWordDescriptions.countries[randomIndex]
+            }
+
+            "furniture" -> {
+                val randomIndex = Random.nextInt(GuessWordWords.furniture.size)
+                wordToGuess = GuessWordWords.furniture[randomIndex]
+                descriptionOfWordToGuess = GuessWordDescriptions.furniture[randomIndex]
+            }
+
+            "animal" -> {
+                val randomIndex = Random.nextInt(GuessWordWords.animals.size)
+                wordToGuess = GuessWordWords.animals[randomIndex]
+                descriptionOfWordToGuess = GuessWordDescriptions.animals[randomIndex]
+            }
+
+            "color" -> {
+                val randomIndex = Random.nextInt(GuessWordWords.colors.size)
+                wordToGuess = GuessWordWords.colors[randomIndex]
+                descriptionOfWordToGuess = GuessWordDescriptions.colors[randomIndex]
+            }
+
+            "instrument" -> {
+                val randomIndex = Random.nextInt(GuessWordWords.instruments.size)
+                wordToGuess = GuessWordWords.instruments[randomIndex]
+                descriptionOfWordToGuess = GuessWordDescriptions.instruments[randomIndex]
+            }
+
+            "sport" -> {
+                val randomIndex = Random.nextInt(GuessWordWords.sports.size)
+                wordToGuess = GuessWordWords.sports[randomIndex]
+                descriptionOfWordToGuess = GuessWordDescriptions.sports[randomIndex]
+            }
+
+            else -> {
+                Log.e("GuessWordActivity", "Category not found!")
+            }
+        }
     }
 }

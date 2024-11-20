@@ -1,0 +1,44 @@
+<!-- res/layout/common_loading.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linear_layout_loading"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_marginTop="20dp"
+    android:layout_gravity="center">
+
+    <!-- External ProgressBar -->
+    <ProgressBar
+        android:id="@+id/external_progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorPrimaryDark"
+        android:rotation="180" />
+
+    <!-- Internal ProgressBar -->
+    <ProgressBar
+        android:id="@+id/internal_progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="-125dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/loading_data_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/jaldi_bold"
+        android:gravity="center"
+        android:text="Loading data..."
+        android:textColor="@color/textViewColor"
+        android:textSize="32sp" />
+</LinearLayout>

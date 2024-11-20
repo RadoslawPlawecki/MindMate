@@ -11,7 +11,7 @@ class AlarmActivity(private val activity: Activity) {
     private lateinit var callButton: LinearLayout
     private lateinit var phoneNumber: String
     fun useAlarm() {
-        val v = DialogActivity(activity, R.layout.alarm_dialog).getDialog()
+        val v = DialogActivity(activity, R.layout.dg_alarm).getDialog()
         phoneNumber = "606670149"
         callButton = v.findViewById(R.id.btn_call_caregiver)
         callButton.setOnClickListener {

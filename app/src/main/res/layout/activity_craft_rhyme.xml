@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical"
-    tools:context=".CraftRhymeActivity">
+    tools:context=".games.CraftRhymeActivity">
 
     <ImageView
         android:id="@+id/blue_rect"

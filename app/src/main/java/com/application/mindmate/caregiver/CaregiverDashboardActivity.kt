@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.application.common.ActivityUtils
 import com.application.common.CommonUsage
-import com.application.mindmate.CognitiveGamesActivity
+import com.application.mindmate.games.CognitiveGamesActivity
 import com.application.mindmate.DailyChecklistActivity
 import com.application.mindmate.MedicalTestActivity
 import com.application.mindmate.R
@@ -30,7 +30,7 @@ class CaregiverDashboardActivity : AppCompatActivity() {
     private lateinit var daysOfUseTextView: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dashboard)
+        setContentView(R.layout.deprecated_activity_dashboard)
         helloTextView = findViewById(R.id.hello)
         daysOfUseTextView = findViewById(R.id.days_of_use)
         ActivityUtils.actionBarSetup(this)

@@ -1,11 +1,9 @@
-package com.application.mindmate
+package com.application.mindmate.games
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -13,6 +11,7 @@ import androidx.core.view.children
 import com.application.common.ActivityUtils
 import com.application.games.guessWordGame.GuessWordGameManager
 import com.application.games.guessWordGame.GuessWordGameState
+import com.application.mindmate.R
 
 class GuessWordActivity : AppCompatActivity() {
     private val gameManager = GuessWordGameManager()
@@ -41,7 +40,7 @@ class GuessWordActivity : AppCompatActivity() {
         newGameButton.setOnClickListener {
             startNewGame()
         }
-        val gameState = gameManager.startNewGame()
+        val gameState = gameManager.startNewGame(intent.getStringExtra("WORD_CATEGORY").toString())
         updateUI(gameState)
         lettersLayout.children.forEach { letterView ->
             if (letterView is TextView) {
@@ -95,7 +94,7 @@ class GuessWordActivity : AppCompatActivity() {
     }
 
     private fun startNewGame() {
-        val gameState = gameManager.startNewGame()
+        val gameState = gameManager.startNewGame(intent.getStringExtra("WORD_CATEGORY").toString())
         lettersLayout.visibility = View.VISIBLE
         neutralTextView.visibility = View.VISIBLE
         correctTextView.visibility = View.GONE

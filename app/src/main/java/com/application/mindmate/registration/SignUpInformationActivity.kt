@@ -48,7 +48,7 @@ class SignUpInformationActivity : BaseActivity() {
     private var repeatPasswordProgressAdded = false
     private var checkBoxProgressAdded = false
     private var progress = 48
-    private var role = "caregivers"
+    private var role = "patients"
     private var table = ""
     private var name = ""
     private var dateOfBirth = ""
@@ -72,8 +72,8 @@ class SignUpInformationActivity : BaseActivity() {
         gender = intent.getStringExtra("GENDER").toString()
         caregiverEmail = intent.getStringExtra("CAREGIVER_EMAIL").toString()
         caregiverPhone = intent.getStringExtra("CAREGIVER_PHONE").toString()
-        if (table == "patients") {
-            role = "patients"
+        if (table == "caregivers") {
+            role = "caregivers"
             progress = 60
         }
         progressBarRegister.progress = progress
@@ -104,7 +104,7 @@ class SignUpInformationActivity : BaseActivity() {
                     Log.e("SignUpInformationActivity",
                         "Caregiver account not found. Registration aborted.")
                     patientsService.notifyCaregiverToSetAccount(this,
-                        phoneNumber = caregiverPhone, name = name)
+                        caregiverEmail = caregiverEmail, name = name)
                     return
                 }
             }
@@ -116,12 +116,12 @@ class SignUpInformationActivity : BaseActivity() {
             Log.d("SignUpInformationActivity", "User registered: ${firebaseUser.uid}")
             if (table == "patients") {
                 patientsService.addPatient(firebaseUser, name, dateOfBirth, caregiverEmail, gender,
-                    userEmail, caregiverPhone)
+                    userEmail)
                 val intent = Intent(this@SignUpInformationActivity, LoginActivity::class.java)
                 startActivity(intent)
                 showErrorSnackBar("You were signed up successfully!", false)
             } else {
-                caregiversService.addCaregiver(firebaseUser, name, dateOfBirth, userEmail, gender)
+                caregiversService.addCaregiver(firebaseUser, name, dateOfBirth, userEmail, gender, caregiverPhone)
                 val intent = Intent(this@SignUpInformationActivity, LoginActivity::class.java)
                 startActivity(intent)
                 showErrorSnackBar("You were signed up successfully!", false)
@@ -146,11 +146,11 @@ class SignUpInformationActivity : BaseActivity() {
 
     private fun updateProgressBarEmail(isEmail: Boolean = false) {
         if (isEmail && !emailProgressAdded) {
-            progress += if (role == "caregivers") 16
+            progress += if (role == "patients") 16
             else 12
             emailProgressAdded = true
         } else if (!isEmail && emailProgressAdded) {
-            progress -= if (role == "caregivers") 16
+            progress -= if (role == "patients") 16
             else 12
             emailProgressAdded = false
         }
@@ -159,11 +159,11 @@ class SignUpInformationActivity : BaseActivity() {
 
     private fun updateProgressBarPassword(isPassword: Boolean = false) {
         if (isPassword && !passwordProgressAdded) {
-            progress += if (role == "caregivers") 16
+            progress += if (role == "patients") 16
             else 12
             passwordProgressAdded = true
         } else if (!isPassword && passwordProgressAdded) {
-            progress -= if (role == "caregivers") 16
+            progress -= if (role == "patients") 16
             else 12
             passwordProgressAdded = false
         }
@@ -172,11 +172,11 @@ class SignUpInformationActivity : BaseActivity() {
 
     private fun updateProgressBarRepeatPassword(isRepeatPassword: Boolean = false) {
         if (isRepeatPassword && !repeatPasswordProgressAdded) {
-            progress += if (role == "caregivers") 16
+            progress += if (role == "patients") 16
             else 12
             repeatPasswordProgressAdded = true
         } else if (!isRepeatPassword && repeatPasswordProgressAdded) {
-            progress -= if (role == "caregivers") 16
+            progress -= if (role == "patients") 16
             else 12
             repeatPasswordProgressAdded = false
         }

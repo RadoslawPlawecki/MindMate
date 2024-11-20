@@ -1,7 +1,6 @@
-package com.application.mindmate
+package com.application.mindmate.games
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -13,6 +12,7 @@ import com.application.common.ActivityUtils
 import com.application.other.ParseStringList
 import com.application.games.craftRhymeGame.CraftRhymeGameManager
 import com.application.games.craftRhymeGame.CraftRhymeGameState
+import com.application.mindmate.R
 
 class CraftRhymeActivity : AppCompatActivity() {
     private val gameManager = CraftRhymeGameManager()

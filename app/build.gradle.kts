@@ -48,6 +48,8 @@ android {
         exclude("META-INF/LICENSE.txt")
         exclude("META-INF/NOTICE")
         exclude("META-INF/NOTICE.txt")
+        exclude("META-INF/NOTICE.md")
+        exclude("META-INF/LICENSE.md")
     }
 }
 

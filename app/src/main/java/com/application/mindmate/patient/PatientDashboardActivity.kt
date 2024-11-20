@@ -3,16 +3,18 @@ package com.application.mindmate.patient
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.application.common.ActivityUtils
 import com.application.common.CommonUsage
-import com.application.mindmate.CognitiveGamesActivity
+import com.application.mindmate.games.CognitiveGamesActivity
 import com.application.mindmate.DailyChecklistActivity
 import com.application.mindmate.MedicalTestActivity
 import com.application.mindmate.R
 import com.application.mindmate.YourPharmacyActivity
+import com.application.service.CaregiversService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
@@ -22,41 +24,35 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
 class PatientDashboardActivity : AppCompatActivity() {
-    private lateinit var cognitiveGamesButton: Button
-    private lateinit var medicalTestButton: Button
-    private lateinit var yourPharmacyButton: Button
-    private lateinit var dailyChecklistButton: Button
     private lateinit var helloTextView: TextView
     private lateinit var daysOfUseTextView: TextView
+    private lateinit var caregiverNameTextView: TextView
+    private lateinit var caregiverInfoImg: ImageView
+    private lateinit var caregiversService: CaregiversService
+    private lateinit var caregiverId: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dashboard)
+        setContentView(R.layout.activity_patient_dashboard)
+        caregiversService = CaregiversService()
         helloTextView = findViewById(R.id.hello)
         daysOfUseTextView = findViewById(R.id.days_of_use)
+        caregiverNameTextView = findViewById(R.id.text_caregiver_name)
+        caregiverInfoImg = findViewById(R.id.ic_caregiver_info)
         ActivityUtils.actionBarSetup(this)
-        cognitiveGamesButton = findViewById(R.id.button_cognitive_games)
-        cognitiveGamesButton.setOnClickListener {
-            val intent = Intent(this@PatientDashboardActivity, CognitiveGamesActivity::class.java)
-            startActivity(intent)
-        }
-        medicalTestButton = findViewById(R.id.button_medical_survey)
-        medicalTestButton.setOnClickListener {
-            val intent = Intent(this@PatientDashboardActivity, MedicalTestActivity::class.java)
-            startActivity(intent)
-        }
-        yourPharmacyButton = findViewById(R.id.button_your_pharmacy)
-        yourPharmacyButton.setOnClickListener {
-            val intent = Intent(this@PatientDashboardActivity, YourPharmacyActivity::class.java)
-            startActivity(intent)
-        }
-        dailyChecklistButton = findViewById(R.id.button_daily_checklist)
-        dailyChecklistButton.setOnClickListener {
-            val intent = Intent(this@PatientDashboardActivity, DailyChecklistActivity::class.java)
-            startActivity(intent)
-        }
+        ActivityUtils.changeActivity<LinearLayout>(R.id.button_cognitive_games, this, CognitiveGamesActivity())
+        ActivityUtils.changeActivity<LinearLayout>(R.id.button_medical_survey, this, MedicalTestActivity())
+        ActivityUtils.changeActivity<LinearLayout>(R.id.button_your_pharmacy, this, YourPharmacyActivity())
+        ActivityUtils.changeActivity<LinearLayout>(R.id.button_daily_checklist, this, DailyChecklistActivity())
         CoroutineScope(Dispatchers.Main).launch {
             helloUser()
             displayUserStreak()
+            caregiverId = getCaregiverId().toString()
+            caregiverNameTextView.text = caregiversService.fetchCaregiverField(caregiverId, "name")
+        }
+        caregiverInfoImg.setOnClickListener {
+            val intent = Intent(this, CaregiverInfoActivity::class.java)
+            intent.putExtra("CAREGIVER_ID", caregiverId)
+            startActivity(intent)
         }
     }
 
@@ -131,5 +127,28 @@ class PatientDashboardActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
+    }
+
+    private suspend fun getCaregiverId(): String? {
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            val uid = user.uid
+            val db = FirebaseFirestore.getInstance()
+            val userRef = db.collection("patients").document(uid)
+            return try {
+                val documentSnapshot = withContext(Dispatchers.IO) {
+                    userRef.get().await()
+                }
+                if (documentSnapshot.exists()) {
+                    documentSnapshot.getString("caregiverId")
+                } else {
+                    null
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+        }
+        return null
     }
 }

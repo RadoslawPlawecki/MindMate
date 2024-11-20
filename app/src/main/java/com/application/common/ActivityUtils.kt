@@ -43,4 +43,13 @@ object ActivityUtils {
             activity.startActivity(intent)
         }
     }
+
+    fun <T : View> changeActivityWithIntent(layoutResourceId: Int, activity: Activity, targetActivity: Activity, name: String, value: String) {
+        val element = activity.findViewById<T>(layoutResourceId)
+        element.setOnClickListener {
+            val intent = Intent(activity, targetActivity::class.java)
+            intent.putExtra(name, value)
+            activity.startActivity(intent)
+        }
+    }
 }
