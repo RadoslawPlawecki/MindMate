@@ -9,8 +9,6 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import com.application.customization.BaseActivity
-import com.application.enums.UserRole
-import com.application.mindmate.DashboardActivity
 import com.application.mindmate.R
 import com.application.mindmate.caregiver.CaregiverDashboardActivity
 import com.application.mindmate.patient.PatientDashboardActivity

@@ -8,7 +8,9 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.application.common.ActivityUtils
 import com.application.common.CommonUsage
+import com.application.enums.UserRole
 import com.application.mindmate.R
 import com.application.service.CaregiversService
 import kotlinx.coroutines.CoroutineScope
@@ -31,6 +33,7 @@ class CaregiverInfoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_caregiver_info)
+        ActivityUtils.actionBarSetup(this, UserRole.PATIENT)
         caregiversService = CaregiversService()
         caregiverId = intent.getStringExtra("CAREGIVER_ID").toString()
         caregiverInfoLinearLayout = findViewById(R.id.linear_layout_caregiver_info)

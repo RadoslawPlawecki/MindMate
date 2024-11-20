@@ -20,7 +20,7 @@ class MedicinesAdapter(private val medicines: MutableList<Medicine>) :
     RecyclerView.Adapter<MedicinesAdapter.MedicineViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MedicineViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_medicine, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.itm_medicine, parent, false)
         return MedicineViewHolder(itemView)
     }
 

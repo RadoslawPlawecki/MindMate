@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.application.common.ActivityUtils
 import com.application.entries.MedicalTestEntry
+import com.application.enums.UserRole
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.*
@@ -22,7 +23,7 @@ class MedicalTestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_medical_test)
-        ActivityUtils.actionBarSetup(this)
+        ActivityUtils.actionBarSetup(this, UserRole.PATIENT)
         val nameEditText = findViewById<EditText>(R.id.name)
         val dateOfBirthEditText = findViewById<EditText>(R.id.dateOfBirth)
         val schoolEditText = findViewById<EditText>(R.id.school)

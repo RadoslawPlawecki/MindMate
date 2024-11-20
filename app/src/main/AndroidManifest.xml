@@ -49,6 +49,9 @@
             android:name=".registration.CaregiverInformationActivity"
             android:exported="true" />
         <activity
+            android:name=".caregiver.PatientInfoActivity"
+            android:exported="true" />
+        <activity
             android:name=".patient.PatientDashboardActivity"
             android:exported="true" />
         <activity android:name=".patient.CaregiverInfoActivity"

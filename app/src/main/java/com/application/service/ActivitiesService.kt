@@ -12,7 +12,7 @@ class ActivitiesService {
         if (user != null) {
             val uid = user.uid
             val db = FirebaseFirestore.getInstance()
-            val activitiesRef = db.collection("users").document(uid).collection("activities")
+            val activitiesRef = db.collection("patients").document(uid).collection("activities")
             try {
                 val querySnapshot = activitiesRef.whereEqualTo("activity", activityName).get().await()
                 if (!querySnapshot.isEmpty) {
@@ -34,7 +34,7 @@ class ActivitiesService {
         if (user != null) {
             val uid = user.uid
             val db = FirebaseFirestore.getInstance()
-            val activitiesRef = db.collection("users").document(uid).collection("activities")
+            val activitiesRef = db.collection("patients").document(uid).collection("activities")
             activitiesRef.orderBy("id").get()
                 .addOnSuccessListener { querySnapshot ->
                     val nextId = if (querySnapshot.isEmpty) {
@@ -45,6 +45,7 @@ class ActivitiesService {
                     val newActivity = hashMapOf(
                         "id" to nextId,
                         "activity" to activity,
+                        "status" to false
                     )
                     activitiesRef.document().set(newActivity)
                         .addOnSuccessListener {
@@ -66,7 +67,7 @@ class ActivitiesService {
         if (user != null) {
             val uid = user.uid
             val db = FirebaseFirestore.getInstance()
-            val activitiesRef = db.collection("users").document(uid).collection("activities").orderBy("id")
+            val activitiesRef = db.collection("patients").document(uid).collection("activities").orderBy("id")
             try {
                 val documentSnapshot = activitiesRef.get().await()
                 if (!documentSnapshot.isEmpty) {
@@ -84,5 +85,60 @@ class ActivitiesService {
             }
         }
         return activities
+    }
+
+    fun fetchActivityStatus(activityName: String, callback: (Boolean?) -> Unit) {
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            val uid = user.uid
+            val db = FirebaseFirestore.getInstance()
+            val activitiesRef = db.collection("patients").document(uid).collection("activities")
+            activitiesRef.whereEqualTo("activity", activityName).get()
+                .addOnSuccessListener { querySnapshot ->
+                    if (!querySnapshot.isEmpty) {
+                        val document = querySnapshot.documents[0] // assuming there's only one document
+                        val status = document.getBoolean("status") // fetching the "status" field
+                        callback(status) // notify the caller with the result
+                    } else {
+                        callback(null) // if no document is found, return null
+                    }
+                }
+                .addOnFailureListener { _ ->
+                    callback(null) // handle failure scenario
+                }
+        } else {
+            callback(null) // no user is logged in
+        }
+    }
+
+    fun updateActivityStatus(activityName: String, status: Boolean) {
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            val uid = user.uid
+            val db = FirebaseFirestore.getInstance()
+            val activitiesRef = db.collection("patients").document(uid).collection("activities")
+            activitiesRef.whereEqualTo("activity", activityName).get()
+                .addOnSuccessListener { querySnapshot ->
+                    if (!querySnapshot.isEmpty) {
+                        val activityDocument = querySnapshot.documents[0]
+                        val updatedActivity = hashMapOf(
+                            "status" to status
+                        )
+                        activitiesRef.document(activityDocument.id)
+                            .update(updatedActivity as Map<String, Any>)
+                            .addOnSuccessListener {
+                                Log.d("ActivitiesService", "Activity status updated successfully!")
+                            }
+                            .addOnFailureListener { e ->
+                                Log.e("ActivitiesService", "Error updating activity status", e)
+                            }
+                    } else {
+                        Log.d("ActivitiesService", "No activity found with name: $activityName")
+                    }
+                }
+                .addOnFailureListener { e ->
+                    Log.e("ActivitiesService", "Error fetching activity to update status", e)
+                }
+        }
     }
 }

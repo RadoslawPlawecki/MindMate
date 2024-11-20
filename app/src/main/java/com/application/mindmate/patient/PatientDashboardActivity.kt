@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.application.common.ActivityUtils
 import com.application.common.CommonUsage
+import com.application.enums.UserRole
 import com.application.mindmate.games.CognitiveGamesActivity
 import com.application.mindmate.DailyChecklistActivity
 import com.application.mindmate.MedicalTestActivity
@@ -27,7 +28,7 @@ class PatientDashboardActivity : AppCompatActivity() {
     private lateinit var helloTextView: TextView
     private lateinit var daysOfUseTextView: TextView
     private lateinit var caregiverNameTextView: TextView
-    private lateinit var caregiverInfoImg: ImageView
+    private lateinit var caregiverInfoImageView: ImageView
     private lateinit var caregiversService: CaregiversService
     private lateinit var caregiverId: String
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,8 +38,8 @@ class PatientDashboardActivity : AppCompatActivity() {
         helloTextView = findViewById(R.id.hello)
         daysOfUseTextView = findViewById(R.id.days_of_use)
         caregiverNameTextView = findViewById(R.id.text_caregiver_name)
-        caregiverInfoImg = findViewById(R.id.ic_caregiver_info)
-        ActivityUtils.actionBarSetup(this)
+        caregiverInfoImageView = findViewById(R.id.ic_caregiver_info)
+        ActivityUtils.actionBarSetup(this, UserRole.PATIENT)
         ActivityUtils.changeActivity<LinearLayout>(R.id.button_cognitive_games, this, CognitiveGamesActivity())
         ActivityUtils.changeActivity<LinearLayout>(R.id.button_medical_survey, this, MedicalTestActivity())
         ActivityUtils.changeActivity<LinearLayout>(R.id.button_your_pharmacy, this, YourPharmacyActivity())
@@ -49,7 +50,7 @@ class PatientDashboardActivity : AppCompatActivity() {
             caregiverId = getCaregiverId().toString()
             caregiverNameTextView.text = caregiversService.fetchCaregiverField(caregiverId, "name")
         }
-        caregiverInfoImg.setOnClickListener {
+        caregiverInfoImageView.setOnClickListener {
             val intent = Intent(this, CaregiverInfoActivity::class.java)
             intent.putExtra("CAREGIVER_ID", caregiverId)
             startActivity(intent)

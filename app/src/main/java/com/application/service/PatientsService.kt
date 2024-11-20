@@ -2,6 +2,7 @@ import android.content.Context
 import android.util.Log
 import com.application.common.CommonUsage
 import com.application.enums.UserRole
+import com.application.models.PatientModel
 import com.application.service.NotificationService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -34,6 +35,47 @@ class PatientsService {
             FirebaseAuth.getInstance().signOut()
         } catch (e: Exception) {
             Log.e("PatientsService", "Error adding patient: ${e.message}", e)
+        }
+    }
+
+    suspend fun fetchPatients(): ArrayList<PatientModel> {
+        val patients = ArrayList<PatientModel>()
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            val uid = user.uid
+            val db = FirebaseFirestore.getInstance()
+            val patientsRef = db.collection("patients")
+            try {
+                val querySnapshot = patientsRef.whereEqualTo("caregiverId", uid).get().await()
+                if (!querySnapshot.isEmpty) {
+                    for (document in querySnapshot.documents) {
+                        val patientId = document.id
+                        val patientName = document.getString("name")
+                        if (patientName != null) {
+                            patients.add(PatientModel(id = patientId, name = patientName))
+                        }
+                    }
+                } else {
+                    Log.e("FetchPatients", "No patients found for caregiverId: $uid")
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        return patients
+    }
+
+    suspend fun fetchPatientById(patientId: String): Map<String, String?>? {
+        return try {
+            val document = db.collection("patients").document(patientId).get().await()
+            if (document.exists()) {
+                document.data?.mapValues { it.value?.toString() }
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("PatientsService", "Error fetching patient by ID: ${e.message}", e)
+            null
         }
     }
 

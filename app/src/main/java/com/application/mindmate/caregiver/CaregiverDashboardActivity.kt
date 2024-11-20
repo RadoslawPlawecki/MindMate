@@ -1,18 +1,18 @@
 package com.application.mindmate.caregiver
 
+import PatientsService
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.application.adapters.PatientsRecyclerViewAdapter
 import com.application.common.ActivityUtils
 import com.application.common.CommonUsage
-import com.application.mindmate.games.CognitiveGamesActivity
-import com.application.mindmate.DailyChecklistActivity
-import com.application.mindmate.MedicalTestActivity
+import com.application.enums.UserRole
 import com.application.mindmate.R
-import com.application.mindmate.YourPharmacyActivity
+import com.application.models.PatientModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
@@ -22,41 +22,43 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
 class CaregiverDashboardActivity : AppCompatActivity() {
-    private lateinit var cognitiveGamesButton: Button
-    private lateinit var medicalTestButton: Button
-    private lateinit var yourPharmacyButton: Button
-    private lateinit var dailyChecklistButton: Button
     private lateinit var helloTextView: TextView
     private lateinit var daysOfUseTextView: TextView
+    private lateinit var patientsService: PatientsService
+    private var patientsModels: ArrayList<PatientModel> = ArrayList()
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: PatientsRecyclerViewAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.deprecated_activity_dashboard)
+        setContentView(R.layout.activity_caregiver_dashboard)
+        ActivityUtils.actionBarSetup(this, UserRole.CAREGIVER)
+        patientsService = PatientsService()
         helloTextView = findViewById(R.id.hello)
         daysOfUseTextView = findViewById(R.id.days_of_use)
-        ActivityUtils.actionBarSetup(this)
-        cognitiveGamesButton = findViewById(R.id.button_cognitive_games)
-        cognitiveGamesButton.setOnClickListener {
-            val intent = Intent(this@CaregiverDashboardActivity, CognitiveGamesActivity::class.java)
-            startActivity(intent)
-        }
-        medicalTestButton = findViewById(R.id.button_medical_survey)
-        medicalTestButton.setOnClickListener {
-            val intent = Intent(this@CaregiverDashboardActivity, MedicalTestActivity::class.java)
-            startActivity(intent)
-        }
-        yourPharmacyButton = findViewById(R.id.button_your_pharmacy)
-        yourPharmacyButton.setOnClickListener {
-            val intent = Intent(this@CaregiverDashboardActivity, YourPharmacyActivity::class.java)
-            startActivity(intent)
-        }
-        dailyChecklistButton = findViewById(R.id.button_daily_checklist)
-        dailyChecklistButton.setOnClickListener {
-            val intent = Intent(this@CaregiverDashboardActivity, DailyChecklistActivity::class.java)
-            startActivity(intent)
-        }
+        recyclerView = findViewById(R.id.recycler_view)
+        getPatients()
+        adapter = PatientsRecyclerViewAdapter(this, patientsModels)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
         CoroutineScope(Dispatchers.Main).launch {
             helloUser()
             displayUserStreak()
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun getPatients() {
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val patients = withContext(Dispatchers.IO) {
+                    patientsService.fetchPatients()
+                }
+                patientsModels.clear()
+                patientsModels.addAll(patients)
+                adapter.notifyDataSetChanged()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 

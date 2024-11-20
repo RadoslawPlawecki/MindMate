@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.application.common.ActivityUtils
+import com.application.enums.UserRole
 import com.application.other.ParseStringList
 import com.application.games.craftRhymeGame.CraftRhymeGameManager
 import com.application.games.craftRhymeGame.CraftRhymeGameState
@@ -25,11 +26,10 @@ class CraftRhymeActivity : AppCompatActivity() {
     private lateinit var submitImageView: ImageView
     private lateinit var refreshGameImageView: ImageView
     private lateinit var bottomTextView: TextView
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_craft_rhyme)
-        ActivityUtils.actionBarSetup(this)
+        ActivityUtils.actionBarSetup(this, UserRole.PATIENT)
         titleTextView = findViewById(R.id.title_craft_rhyme)
         triesCounterTextView = findViewById(R.id.number_of_tries)
         givenWordTextView = findViewById(R.id.given_word)

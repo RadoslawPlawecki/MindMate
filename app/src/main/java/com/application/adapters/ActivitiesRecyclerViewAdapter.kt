@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.application.mindmate.R
+import com.application.service.ActivitiesService
 
 class ActivitiesRecyclerViewAdapter(private val context: Context, private val activitiesModels: ArrayList<String>, private val onDeleteClick: (String) -> Unit) : RecyclerView.Adapter<ActivitiesRecyclerViewAdapter.MyViewHolder>() {
 
@@ -15,7 +16,7 @@ class ActivitiesRecyclerViewAdapter(private val context: Context, private val ac
         parent: ViewGroup,
         viewType: Int
     ): MyViewHolder {
-        val itemView = LayoutInflater.from(context).inflate(R.layout.daily_checklist_row_standard, parent, false)
+        val itemView = LayoutInflater.from(context).inflate(R.layout.itm_daily_checklist, parent, false)
         return MyViewHolder(itemView)
     }
 
@@ -45,16 +46,25 @@ class ActivitiesRecyclerViewAdapter(private val context: Context, private val ac
         }
 
         private fun toggleCheckVisibility() {
-            if (checkImageView.visibility == View.GONE) {
-                checkImageView.visibility = View.VISIBLE
-            } else {
-                checkImageView.visibility = View.GONE
+            val activitiesService = ActivitiesService()
+            val activityName = activityNameTextView.text.toString()
+            activitiesService.fetchActivityStatus(activityName) { status ->
+                if (status == true) {
+                    activitiesService.updateActivityStatus(activityName, false)
+                    checkImageView.visibility = View.GONE
+                } else {
+                    activitiesService.updateActivityStatus(activityName, true)
+                    checkImageView.visibility = View.VISIBLE
+                }
             }
         }
 
         fun bind(activityName: String) {
             activityNameTextView.text = activityName
-            checkImageView.visibility = View.GONE
+            val activitiesService = ActivitiesService()
+            activitiesService.fetchActivityStatus(activityName) { status ->
+                checkImageView.visibility = if (status == true) View.VISIBLE else View.GONE
+            }
             deleteImageView.setOnClickListener {
                 onDeleteClick(activityName)
             }

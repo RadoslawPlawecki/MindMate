@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.view.View
 import android.widget.ImageView
+import com.application.enums.UserRole
 import com.application.mindmate.AlarmActivity
 import com.application.mindmate.both.MenuActivity
 import com.application.mindmate.R
@@ -16,10 +17,11 @@ object ActivityUtils {
      * The method to set up an action bar.
      * @param activity activity where the action bar is located.
      */
-    fun actionBarSetup(activity: Activity) {
+    fun actionBarSetup(activity: Activity, intentValue: UserRole) {
         val openMenu = activity.findViewById<ImageView>(R.id.image_bars)
         openMenu.setOnClickListener {
             val intent = Intent(activity, MenuActivity::class.java)
+            intent.putExtra("ROLE", intentValue.toString())
             activity.startActivity(intent)
         }
 

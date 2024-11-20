@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
 import com.application.common.ActivityUtils
+import com.application.enums.UserRole
 import com.application.games.guessWordGame.GuessWordGameManager
 import com.application.games.guessWordGame.GuessWordGameState
 import com.application.mindmate.R
@@ -27,7 +28,7 @@ class GuessWordActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guess_word)
-        ActivityUtils.actionBarSetup(this)
+        ActivityUtils.actionBarSetup(this, UserRole.PATIENT)
         wordTextView = findViewById(R.id.unknown_word)
         lettersUsedTextView = findViewById(R.id.letters_used)
         neutralTextView = findViewById(R.id.title_guess_word)

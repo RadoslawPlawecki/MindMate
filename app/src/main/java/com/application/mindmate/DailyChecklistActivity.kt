@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.application.adapters.ActivitiesRecyclerViewAdapter
 import com.application.common.ActivityUtils
 import com.application.customization.DialogActivity
+import com.application.enums.UserRole
 import com.application.service.ActivitiesService
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
@@ -29,11 +30,10 @@ class DailyChecklistActivity : AppCompatActivity() {
     private var activitiesModels: ArrayList<String> = ArrayList()
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ActivitiesRecyclerViewAdapter
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_daily_checklist)
-        ActivityUtils.actionBarSetup(this)
+        ActivityUtils.actionBarSetup(this, UserRole.PATIENT)
         activitiesService = ActivitiesService()  // initialize activitiesService
         titleTextView = findViewById(R.id.daily_checklist_text_view)
         addActivityFloatingActionButton = findViewById(R.id.add_activity_floating)
@@ -52,7 +52,6 @@ class DailyChecklistActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("MissingInflatedId")
     private fun addActivityDialog() {
         val v = DialogActivity(this, R.layout.add_item_checklist).getDialog()
         val addActivityButton = v.findViewById<Button>(R.id.add_activity_buttton)
