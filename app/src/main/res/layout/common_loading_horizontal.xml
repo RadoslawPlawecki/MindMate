@@ -1,0 +1,36 @@
+<!-- res/layout/common_loading.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linear_layout_loading"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_marginTop="20dp"
+    android:background="@color/background"
+    android:layout_gravity="center">
+
+    <!-- External ProgressBar -->
+    <TextView
+        android:id="@+id/loading_data_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/jaldi_bold"
+        android:layout_gravity="center_horizontal"
+        android:text="Loading data..."
+        android:textColor="@color/textViewColor"
+        android:textSize="28sp" />
+
+    <ProgressBar
+        android:id="@+id/pb_dashboard"
+        android:layout_width="280dp"
+        android:layout_height="40dp"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_gravity="center_horizontal"
+        android:indeterminateTint="@color/colorPrimary"
+        android:indeterminate="true"
+        android:progressBackgroundTint="#8E8E8E"
+        android:layout_marginTop="10dp"/>
+</LinearLayout>

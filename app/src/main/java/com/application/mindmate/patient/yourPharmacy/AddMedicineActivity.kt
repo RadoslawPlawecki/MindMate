@@ -1,13 +1,15 @@
-package com.application.mindmate
+package com.application.mindmate.patient.yourPharmacy
 
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import com.application.common.ActivityUtils
+import com.application.enums.UserRole
+import com.application.mindmate.NotificationWorker
 import com.application.mindmate.databinding.ActivityAddMedicineBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -29,7 +31,7 @@ class AddMedicineActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddMedicineBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        ActivityUtils.actionBarSetup(this, UserRole.PATIENT)
         binding.etTime.setOnClickListener {
             showTimePickerDialog { time ->
                 binding.etTime.setText(time)

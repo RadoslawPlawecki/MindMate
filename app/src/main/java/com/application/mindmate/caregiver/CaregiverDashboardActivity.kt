@@ -3,6 +3,11 @@ package com.application.mindmate.caregiver
 import PatientsService
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +29,10 @@ import kotlinx.coroutines.withContext
 class CaregiverDashboardActivity : AppCompatActivity() {
     private lateinit var helloTextView: TextView
     private lateinit var daysOfUseTextView: TextView
+    private lateinit var loadingProgressBar: ProgressBar
+    private lateinit var loadingTextView: TextView
+    private lateinit var helloUserLinearLayout: LinearLayout
+    private lateinit var patientsLinearLayout: LinearLayout
     private lateinit var patientsService: PatientsService
     private var patientsModels: ArrayList<PatientModel> = ArrayList()
     private lateinit var recyclerView: RecyclerView
@@ -34,6 +43,10 @@ class CaregiverDashboardActivity : AppCompatActivity() {
         ActivityUtils.actionBarSetup(this, UserRole.CAREGIVER)
         patientsService = PatientsService()
         helloTextView = findViewById(R.id.hello)
+        loadingProgressBar = findViewById(R.id.pb_dashboard)
+        loadingTextView = findViewById(R.id.loading_data_text)
+        helloUserLinearLayout = findViewById(R.id.hello_ll)
+        patientsLinearLayout = findViewById(R.id.patients_ll)
         daysOfUseTextView = findViewById(R.id.days_of_use)
         recyclerView = findViewById(R.id.recycler_view)
         getPatients()
@@ -43,6 +56,7 @@ class CaregiverDashboardActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             helloUser()
             displayUserStreak()
+            closeLoading()
         }
     }
 
@@ -133,5 +147,24 @@ class CaregiverDashboardActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
+    }
+
+    private fun closeLoading() {
+        val fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in)
+        val fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out)
+        fadeOut.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation) {}
+            override fun onAnimationEnd(animation: Animation) {
+                loadingProgressBar.visibility = View.GONE
+                loadingTextView.visibility = View.GONE
+                helloUserLinearLayout.visibility = View.VISIBLE
+                patientsLinearLayout.visibility = View.VISIBLE
+                helloUserLinearLayout.startAnimation(fadeIn)
+                patientsLinearLayout.startAnimation(fadeIn)
+            }
+            override fun onAnimationRepeat(animation: Animation) {}
+        })
+        loadingProgressBar.startAnimation(fadeOut)
+        loadingTextView.startAnimation(fadeOut)
     }
 }

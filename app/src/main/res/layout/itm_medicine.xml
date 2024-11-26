@@ -1,36 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_name"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Medicine Name"
-        android:textStyle="bold"
-        android:textSize="18sp"/>
+        android:layout_height="80dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:cardBackgroundColor="@color/background"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="8dp">
 
-    <TextView
-        android:id="@+id/tv_dose"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Dose"
-        android:layout_marginTop="4dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/tv_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Time"
-        android:layout_marginTop="4dp"/>
+            <!-- Time Block -->
+            <LinearLayout
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:background="@drawable/bg_blue_rounded_corner_10"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp">
 
-    <Button
-        android:id="@+id/btn_remove"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Remove"
-        android:layout_marginTop="8dp"/>
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/jaldi_regular"
+                    android:gravity="center"
+                    android:text="21:37"
+                    android:layout_marginBottom="10dp"
+                    android:textColor="@color/white"
+                    android:textSize="22sp" />
+            </LinearLayout>
+
+            <!-- Medicine Info Block -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="65dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="15dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Medicine Name"
+                    android:layout_marginTop="-5dp"
+                    android:fontFamily="@font/jaldi_bold"
+                    android:textSize="24sp"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tv_dose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dose"
+                    android:layout_marginTop="-5dp"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/jaldi_regular"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_remove"
+                android:layout_width="50dp"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_blue_rounded_corner_10"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp">
+
+                <ImageView
+                    android:id="@+id/ic_trash"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginBottom="10dp"
+                    android:src="@drawable/ic_trash_solid" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

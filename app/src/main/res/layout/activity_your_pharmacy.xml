@@ -2,28 +2,55 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background"
     android:orientation="vertical">
 
-    <!-- The rest of the layout -->
-    <LinearLayout
+    <include
+        layout="@layout/common_top_bar_patient"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/txt_your_medicines"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:fontFamily="@font/jaldi_bold"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="Your medicines"
+        android:textSize="32sp" />
 
-        <Button
-            android:id="@+id/btn_add_medicine"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="480dp"
+        android:fillViewport="true" >
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add Medicine"
-            android:textColor="#607D8B" />
+            android:orientation="vertical"
+            android:gravity="center">
 
-        <Button
-            android:id="@+id/btn_view_medicines"
+            <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_medicines"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="View Medicines"
-            android:textColor="#607D8B" />
-    </LinearLayout>
+            android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_add_medicine"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="end|bottom"
+        android:contentDescription="Add medicine"
+        android:backgroundTint="@color/colorPrimary"
+        android:foreground="@drawable/ic_plus"
+        app:borderWidth="0dp" />
 </LinearLayout>

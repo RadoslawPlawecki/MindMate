@@ -81,11 +81,11 @@
             android:exported="true" />
         <activity android:name=".DailyChecklistActivity"
             android:exported="true" />
-        <activity android:name=".YourPharmacyActivity"
+        <activity android:name=".patient.yourPharmacy.YourPharmacyActivity"
             android:exported="true" />
-        <activity android:name=".AddMedicineActivity"
+        <activity android:name=".patient.yourPharmacy.AddMedicineActivity"
             android:exported="true" />
-        <activity android:name=".ViewMedicinesActivity"
+        <activity android:name=".patient.yourPharmacy.ViewMedicinesActivity"
             android:exported="true" />
 
     </application>

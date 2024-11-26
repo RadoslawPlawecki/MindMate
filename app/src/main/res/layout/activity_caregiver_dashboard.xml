@@ -11,16 +11,22 @@
     tools:context=".caregiver.CaregiverDashboardActivity">
 
     <include
-        layout="@layout/common_top_bar"
+        layout="@layout/common_top_bar_caregiver"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <include
+        layout="@layout/common_loading_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
-        android:id="@+id/grey_rect"
+        android:id="@+id/hello_ll"
         android:layout_width="match_parent"
         android:layout_height="125dp"
         android:orientation="vertical"
         android:gravity="center_vertical"
+        android:visibility="gone"
         android:background="@drawable/bg_white_rectangle" >
 
         <TextView
@@ -43,11 +49,12 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/white_rect"
+        android:id="@+id/patients_ll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
+        android:visibility="gone"
         android:background="@drawable/bg_white_rectangle_with_stroke" >
 
         <TextView

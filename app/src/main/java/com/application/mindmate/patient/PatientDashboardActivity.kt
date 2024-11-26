@@ -3,8 +3,12 @@ package com.application.mindmate.patient
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.application.common.ActivityUtils
@@ -14,7 +18,7 @@ import com.application.mindmate.games.CognitiveGamesActivity
 import com.application.mindmate.DailyChecklistActivity
 import com.application.mindmate.MedicalTestActivity
 import com.application.mindmate.R
-import com.application.mindmate.YourPharmacyActivity
+import com.application.mindmate.patient.yourPharmacy.YourPharmacyActivity
 import com.application.service.CaregiversService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -29,6 +33,10 @@ class PatientDashboardActivity : AppCompatActivity() {
     private lateinit var daysOfUseTextView: TextView
     private lateinit var caregiverNameTextView: TextView
     private lateinit var caregiverInfoImageView: ImageView
+    private lateinit var loadingProgressBar: ProgressBar
+    private lateinit var loadingTextView: TextView
+    private lateinit var helloUserLinearLayout: LinearLayout
+    private lateinit var caregiverLinearLayout: LinearLayout
     private lateinit var caregiversService: CaregiversService
     private lateinit var caregiverId: String
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +47,10 @@ class PatientDashboardActivity : AppCompatActivity() {
         daysOfUseTextView = findViewById(R.id.days_of_use)
         caregiverNameTextView = findViewById(R.id.text_caregiver_name)
         caregiverInfoImageView = findViewById(R.id.ic_caregiver_info)
+        loadingProgressBar = findViewById(R.id.pb_dashboard)
+        loadingTextView = findViewById(R.id.loading_data_text)
+        helloUserLinearLayout = findViewById(R.id.hello_ll)
+        caregiverLinearLayout = findViewById(R.id.caregiver_ll)
         ActivityUtils.actionBarSetup(this, UserRole.PATIENT)
         ActivityUtils.changeActivity<LinearLayout>(R.id.button_cognitive_games, this, CognitiveGamesActivity())
         ActivityUtils.changeActivity<LinearLayout>(R.id.button_medical_survey, this, MedicalTestActivity())
@@ -47,6 +59,7 @@ class PatientDashboardActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             helloUser()
             displayUserStreak()
+            closeLoading()
             caregiverId = getCaregiverId().toString()
             caregiverNameTextView.text = caregiversService.fetchCaregiverField(caregiverId, "name")
         }
@@ -151,5 +164,24 @@ class PatientDashboardActivity : AppCompatActivity() {
             }
         }
         return null
+    }
+
+    private fun closeLoading() {
+        val fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in)
+        val fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out)
+        fadeOut.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation) {}
+            override fun onAnimationEnd(animation: Animation) {
+                loadingProgressBar.visibility = View.GONE
+                loadingTextView.visibility = View.GONE
+                helloUserLinearLayout.visibility = View.VISIBLE
+                caregiverLinearLayout.visibility = View.VISIBLE
+                helloUserLinearLayout.startAnimation(fadeIn)
+                caregiverLinearLayout.startAnimation(fadeIn)
+            }
+            override fun onAnimationRepeat(animation: Animation) {}
+        })
+        loadingProgressBar.startAnimation(fadeOut)
+        loadingTextView.startAnimation(fadeOut)
     }
 }

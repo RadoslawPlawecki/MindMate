@@ -1,12 +1,10 @@
 package com.application.mindmate
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -53,7 +51,7 @@ class DailyChecklistActivity : AppCompatActivity() {
     }
 
     private fun addActivityDialog() {
-        val v = DialogActivity(this, R.layout.add_item_checklist).getDialog()
+        val v = DialogActivity(this, R.layout.dg_add_item_checklist).getDialog()
         val addActivityButton = v.findViewById<Button>(R.id.add_activity_buttton)
         addActivityButton.setOnClickListener {
             val userActivityEditText = v.findViewById<EditText>(R.id.your_activity_edit_text)

@@ -31,7 +31,11 @@ class MenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
         val intent = intent
+        alarmImageView = findViewById(R.id.alarm)
         intentValue = intent.getStringExtra("ROLE").toString()
+        if (intentValue == UserRole.CAREGIVER.toString()) {
+            alarmImageView.visibility = View.GONE
+        }
         goToHomeImageView = findViewById(R.id.image_home)
         goToHomeTextView = findViewById(R.id.text_home)
         goToHomeImageView.setOnClickListener(goToHome())
@@ -45,7 +49,6 @@ class MenuActivity : AppCompatActivity() {
         signOutImageView.setOnClickListener(signOut())
         signOutTextView.setOnClickListener(signOut())
         returnBack = findViewById(R.id.image_return)
-        alarmImageView = findViewById(R.id.alarm)
         alarmImageView.setOnClickListener {
             AlarmActivity(this).useAlarm()
         }

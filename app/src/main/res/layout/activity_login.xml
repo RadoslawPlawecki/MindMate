@@ -51,7 +51,7 @@
         android:ems="10"
         android:fontFamily="@font/jaldi_bold"
         android:hint="@string/enter_your_email"
-        android:text="janusz.marchewka@gmail.com"
+        android:text="anna.rzodkiewka@gmail.com"
         android:inputType="textEmailAddress"
         android:textAlignment="center"
         android:textColor="@color/textViewColor"
