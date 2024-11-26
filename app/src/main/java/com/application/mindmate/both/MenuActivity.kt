@@ -1,6 +1,5 @@
 package com.application.mindmate.both
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.provider.CalendarContract
@@ -14,8 +13,9 @@ import com.application.enums.UserRole
 import com.application.mindmate.AlarmActivity
 import com.application.mindmate.R
 import com.application.mindmate.caregiver.CaregiverDashboardActivity
-import com.application.mindmate.games.CognitiveGamesActivity
+import com.application.mindmate.caregiver.CaregiverSettingsActivity
 import com.application.mindmate.patient.PatientDashboardActivity
+import com.application.mindmate.patient.PatientSettingsActivity
 
 class MenuActivity : AppCompatActivity() {
     private lateinit var alarmImageView: ImageView
@@ -23,6 +23,8 @@ class MenuActivity : AppCompatActivity() {
     private lateinit var goToHomeTextView: TextView
     private lateinit var goToCalendarImageView: ImageView
     private lateinit var goToCalendarTextView: TextView
+    private lateinit var goToSettingsImageView: ImageView
+    private lateinit var goToSettingsTextView: TextView
     private lateinit var signOutTextView: TextView
     private lateinit var signOutImageView: ImageView
     private lateinit var returnBack: ImageView
@@ -44,6 +46,10 @@ class MenuActivity : AppCompatActivity() {
         goToCalendarTextView = findViewById(R.id.text_calendar)
         goToCalendarImageView.setOnClickListener(goToCalendar())
         goToCalendarTextView.setOnClickListener(goToCalendar())
+        goToSettingsImageView = findViewById(R.id.image_settings)
+        goToSettingsTextView = findViewById(R.id.text_settings)
+        goToSettingsImageView.setOnClickListener(goToSettings())
+        goToSettingsTextView.setOnClickListener(goToSettings())
         signOutImageView = findViewById(R.id.image_sign_out)
         signOutTextView = findViewById(R.id.text_sign_out)
         signOutImageView.setOnClickListener(signOut())
@@ -60,17 +66,6 @@ class MenuActivity : AppCompatActivity() {
                 finish()
             }
         })
-    }
-
-    private fun goToHome(): View.OnClickListener {
-        intent = if (intentValue == UserRole.PATIENT.toString()) {
-            Intent(this@MenuActivity, PatientDashboardActivity::class.java)
-        } else {
-            Intent(this@MenuActivity, CaregiverDashboardActivity::class.java)
-        }
-        val clickListener = View.OnClickListener {
-            startActivity(intent) }
-        return clickListener
     }
 
     private fun goToCalendar(): View.OnClickListener {
@@ -91,6 +86,28 @@ class MenuActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "No calendar app found!", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun goToHome(): View.OnClickListener {
+        val homeIntent = if (intentValue == UserRole.PATIENT.toString()) {
+            Intent(this@MenuActivity, PatientDashboardActivity::class.java)
+        } else {
+            Intent(this@MenuActivity, CaregiverDashboardActivity::class.java)
+        }
+        return View.OnClickListener {
+            startActivity(homeIntent)
+        }
+    }
+
+    private fun goToSettings(): View.OnClickListener {
+        val settingsIntent = if (intentValue == UserRole.PATIENT.toString()) {
+            Intent(this@MenuActivity, PatientSettingsActivity::class.java)
+        } else {
+            Intent(this@MenuActivity, CaregiverSettingsActivity::class.java)
+        }
+        return View.OnClickListener {
+            startActivity(settingsIntent)
         }
     }
 

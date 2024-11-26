@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
+@Suppress("DEPRECATION")
 class PatientsService {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     suspend fun addPatient(firebaseUser: FirebaseUser, name: String, dateOfBirth: String,

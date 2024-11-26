@@ -62,6 +62,12 @@
         <activity
             android:name=".both.MenuActivity"
             android:exported="true" />
+        <activity
+            android:name=".patient.PatientSettingsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".caregiver.CaregiverSettingsActivity"
+            android:exported="true" />
         <activity android:name=".MedicalTestActivity"
             android:windowSoftInputMode="adjustResize"
             android:exported="true">
@@ -85,9 +91,6 @@
             android:exported="true" />
         <activity android:name=".patient.yourPharmacy.AddMedicineActivity"
             android:exported="true" />
-        <activity android:name=".patient.yourPharmacy.ViewMedicinesActivity"
-            android:exported="true" />
-
     </application>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
