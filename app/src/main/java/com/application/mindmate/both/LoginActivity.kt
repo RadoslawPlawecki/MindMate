@@ -48,10 +48,15 @@ class LoginActivity : BaseActivity() {
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
+                        // Launch coroutine to check user role
                         lifecycleScope.launch {
-                            checkUserRole()
+                            try {
+                                checkUserRole()
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                showErrorSnackBar("Error occurred: ${e.message}", true)
+                            }
                         }
-                        showErrorSnackBar(resources.getString(R.string.login_success), false)
                     } else {
                         showErrorSnackBar(task.exception!!.message.toString(), true)
                     }
@@ -63,25 +68,28 @@ class LoginActivity : BaseActivity() {
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
             val userId = user.uid
-            Log.d("LoginActivity", "User ID: $userId")
             val patientRef = FirebaseFirestore.getInstance().collection("patients").document(userId)
             val caregiverRef = FirebaseFirestore.getInstance().collection("caregivers").document(userId)
             try {
                 val patientDocument = patientRef.get().await()
                 val caregiverDocument = caregiverRef.get().await()
-                if (patientDocument != null && patientDocument.exists()) {
+                if (patientDocument.exists()) {
                     val intent = Intent(this@LoginActivity, PatientDashboardActivity::class.java)
                     startActivity(intent)
-                } else if (caregiverDocument != null && caregiverDocument.exists()) {
+                    finish() // Finish LoginActivity
+                } else if (caregiverDocument.exists()) {
                     val intent = Intent(this@LoginActivity, CaregiverDashboardActivity::class.java)
                     startActivity(intent)
-                }
-                else {
-                    showErrorSnackBar("Document not found!", true)
+                    finish() // Finish LoginActivity
+                } else {
+                    showErrorSnackBar("User role could not be determined.", true)
                 }
             } catch (e: Exception) {
-                showErrorSnackBar(e.message.toString(), true)
+                e.printStackTrace()
+                showErrorSnackBar("Error: ${e.message}", true)
             }
+        } else {
+            showErrorSnackBar("User not logged in.", true)
         }
     }
 

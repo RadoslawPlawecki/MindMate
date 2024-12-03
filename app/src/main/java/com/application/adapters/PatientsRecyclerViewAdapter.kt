@@ -10,9 +10,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.application.mindmate.R
 import com.application.mindmate.caregiver.PatientInfoActivity
+import com.application.mindmate.caregiver.PatientLocationActivity
 import com.application.models.PatientModel
 
-class PatientsRecyclerViewAdapter(private val context: Context, private val patientsModels: ArrayList<PatientModel>) : RecyclerView.Adapter<PatientsRecyclerViewAdapter.MyViewHolder>() {
+class PatientsRecyclerViewAdapter(
+    private val context: Context,
+    private val patientsModels: ArrayList<PatientModel>
+) : RecyclerView.Adapter<PatientsRecyclerViewAdapter.MyViewHolder>() {
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -33,14 +38,23 @@ class PatientsRecyclerViewAdapter(private val context: Context, private val pati
     }
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private var patientNameTextView: TextView =
-            itemView.findViewById(R.id.text_patient_name)
+        private var patientNameTextView: TextView = itemView.findViewById(R.id.text_patient_name)
         private var patientInfoImageView: ImageView = itemView.findViewById(R.id.ic_patient_info)
+        private var patientLocationImageView: ImageView = itemView.findViewById(R.id.ic_patient_location)
 
         fun bind(patient: PatientModel) {
             patientNameTextView.text = patient.name
+
+            // Handle Patient Info click
             patientInfoImageView.setOnClickListener {
                 val intent = Intent(itemView.context, PatientInfoActivity::class.java)
+                intent.putExtra("PATIENT_ID", patient.id)
+                itemView.context.startActivity(intent)
+            }
+
+            // Handle Patient Location click
+            patientLocationImageView.setOnClickListener {
+                val intent = Intent(itemView.context, PatientLocationActivity::class.java)
                 intent.putExtra("PATIENT_ID", patient.id)
                 itemView.context.startActivity(intent)
             }

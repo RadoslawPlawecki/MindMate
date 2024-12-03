@@ -69,6 +69,9 @@
             android:name=".caregiver.CaregiverDashboardActivity"
             android:exported="true" />
         <activity
+            android:name=".caregiver.PatientLocationActivity"
+            android:exported="true" />
+        <activity
             android:name=".both.MenuActivity"
             android:exported="true" />
         <activity
