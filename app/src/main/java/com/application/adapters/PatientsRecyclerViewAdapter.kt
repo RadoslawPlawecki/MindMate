@@ -11,11 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.application.mindmate.R
 import com.application.mindmate.caregiver.PatientInfoActivity
 import com.application.mindmate.caregiver.PatientLocationActivity
+import com.application.mindmate.caregiver.ChatActivity
 import com.application.models.PatientModel
 
 class PatientsRecyclerViewAdapter(
     private val context: Context,
-    private val patientsModels: ArrayList<PatientModel>
+    private val patientsModels: ArrayList<PatientModel>,
+    private val caregiverId: String // Add caregiverId to pass it to ChatActivity
 ) : RecyclerView.Adapter<PatientsRecyclerViewAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -41,6 +43,8 @@ class PatientsRecyclerViewAdapter(
         private var patientNameTextView: TextView = itemView.findViewById(R.id.text_patient_name)
         private var patientInfoImageView: ImageView = itemView.findViewById(R.id.ic_patient_info)
         private var patientLocationImageView: ImageView = itemView.findViewById(R.id.ic_patient_location)
+        private var messageImageView: ImageView = itemView.findViewById(R.id.ic_message)
+        private var unreadIndicator: ImageView = itemView.findViewById(R.id.unread_message)
 
         fun bind(patient: PatientModel) {
             patientNameTextView.text = patient.name
@@ -58,6 +62,18 @@ class PatientsRecyclerViewAdapter(
                 intent.putExtra("PATIENT_ID", patient.id)
                 itemView.context.startActivity(intent)
             }
+
+            // Handle Message click
+            messageImageView.setOnClickListener {
+                val intent = Intent(itemView.context, ChatActivity::class.java)
+                intent.putExtra("PATIENT_ID", patient.id)
+                intent.putExtra("PATIENT_NAME", patient.name)
+                intent.putExtra("CAREGIVER_ID", caregiverId)
+                itemView.context.startActivity(intent)
+            }
+
+            // TODO: Update unreadIndicator visibility based on unread messages
+            unreadIndicator.visibility = View.GONE // Set to VISIBLE when there are unread messages
         }
     }
 }

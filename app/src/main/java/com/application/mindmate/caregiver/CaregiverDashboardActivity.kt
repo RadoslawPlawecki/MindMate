@@ -37,6 +37,7 @@ class CaregiverDashboardActivity : AppCompatActivity() {
     private var patientsModels: ArrayList<PatientModel> = ArrayList()
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PatientsRecyclerViewAdapter
+    private lateinit var caregiverId: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_caregiver_dashboard)
@@ -50,7 +51,16 @@ class CaregiverDashboardActivity : AppCompatActivity() {
         daysOfUseTextView = findViewById(R.id.days_of_use)
         recyclerView = findViewById(R.id.recycler_view)
         getPatients()
-        adapter = PatientsRecyclerViewAdapter(this, patientsModels)
+
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser != null) {
+            caregiverId = currentUser.uid
+        } else {
+            finish()
+            return
+        }
+
+        adapter = PatientsRecyclerViewAdapter(this, patientsModels, caregiverId)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
         CoroutineScope(Dispatchers.Main).launch {

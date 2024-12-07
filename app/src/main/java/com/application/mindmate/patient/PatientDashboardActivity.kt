@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.application.common.ActivityUtils
 import com.application.common.CommonUsage
@@ -18,6 +19,7 @@ import com.application.mindmate.games.CognitiveGamesActivity
 import com.application.mindmate.DailyChecklistActivity
 import com.application.mindmate.MedicalTestActivity
 import com.application.mindmate.R
+import com.application.mindmate.caregiver.ChatActivity
 import com.application.mindmate.patient.yourPharmacy.YourPharmacyActivity
 import com.application.service.CaregiversService
 import com.google.firebase.auth.FirebaseAuth
@@ -38,7 +40,10 @@ class PatientDashboardActivity : AppCompatActivity() {
     private lateinit var helloUserLinearLayout: LinearLayout
     private lateinit var caregiverLinearLayout: LinearLayout
     private lateinit var caregiversService: CaregiversService
-    private lateinit var caregiverId: String
+    private var patientId: String = ""
+    private var patientName: String = ""
+    private var caregiverId: String = ""
+    private var caregiverName: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_dashboard)
@@ -60,13 +65,26 @@ class PatientDashboardActivity : AppCompatActivity() {
             helloUser()
             displayUserStreak()
             closeLoading()
-            caregiverId = getCaregiverId().toString()
-            caregiverNameTextView.text = caregiversService.fetchCaregiverField(caregiverId, "name")
+            caregiverId = getCaregiverId() ?: ""
+            caregiverName = caregiversService.fetchCaregiverField(caregiverId, "name")
+            caregiverNameTextView.text = caregiverName
         }
         caregiverInfoImageView.setOnClickListener {
             val intent = Intent(this, CaregiverInfoActivity::class.java)
             intent.putExtra("CAREGIVER_ID", caregiverId)
             startActivity(intent)
+        }
+        val icMessage = findViewById<ImageView>(R.id.ic_message)
+        icMessage.setOnClickListener {
+            if (caregiverId.isNotEmpty() && patientId.isNotEmpty()) {
+                val intent = Intent(this, ChatActivity::class.java)
+                intent.putExtra("PATIENT_ID", patientId)
+                intent.putExtra("PATIENT_NAME", patientName)
+                intent.putExtra("CAREGIVER_ID", caregiverId)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Unable to initiate chat. Missing caregiver or patient ID.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -75,14 +93,14 @@ class PatientDashboardActivity : AppCompatActivity() {
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
             val uid = user.uid
+            patientId = uid
             val db = FirebaseFirestore.getInstance()
             val userRef = db.collection("patients").document(uid)
             try {
-                val documentSnapshot = withContext(Dispatchers.IO) {
-                    userRef.get().await()
-                }
+                val documentSnapshot = withContext(Dispatchers.IO) { userRef.get().await() }
                 if (documentSnapshot.exists()) {
                     val name = documentSnapshot.getString("name") ?: "User"
+                    patientName = name
                     helloTextView.text = "Hello $name!"
                 } else {
                     helloTextView.text = "Hello User!"
