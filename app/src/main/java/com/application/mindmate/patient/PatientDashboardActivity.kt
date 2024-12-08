@@ -81,6 +81,7 @@ class PatientDashboardActivity : AppCompatActivity() {
                 intent.putExtra("PATIENT_ID", patientId)
                 intent.putExtra("PATIENT_NAME", patientName)
                 intent.putExtra("CAREGIVER_ID", caregiverId)
+                intent.putExtra("ROLE", UserRole.PATIENT.toString())
                 startActivity(intent)
             } else {
                 Toast.makeText(this, "Unable to initiate chat. Missing caregiver or patient ID.", Toast.LENGTH_SHORT).show()

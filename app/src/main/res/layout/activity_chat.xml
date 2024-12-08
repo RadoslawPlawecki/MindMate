@@ -6,6 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        layout="@layout/common_top_bar_patient"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messages_recycler_view"
         android:layout_width="match_parent"
@@ -28,15 +33,18 @@
 
         <EditText
             android:id="@+id/message_edit_text"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:autofillHints=""
             android:background="@drawable/bg_message_input"
-            android:hint="Type a message"
+            android:ems="10"
+            android:fontFamily="@font/jaldi_regular"
+            android:hint="Enter your message"
+            android:inputType="text"
             android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp"
-            android:maxLines="4"
-            android:overScrollMode="always" />
+            android:layout_marginStart="10dp"
+            android:textColor="@color/textViewColor"
+            android:textColorHint="@color/editTextColor" />
 
         <ImageButton
             android:id="@+id/send_button"
@@ -45,6 +53,7 @@
             android:src="@drawable/ic_send"
             android:contentDescription="Send"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginStart="20dp"
             android:padding="8dp"
             app:tint="@color/colorPrimary" />
     </LinearLayout>

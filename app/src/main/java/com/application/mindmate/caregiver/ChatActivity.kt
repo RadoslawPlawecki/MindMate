@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.adapters.MessagesAdapter
+import com.application.common.ActivityUtils
+import com.application.enums.UserRole
 import com.application.mindmate.R
 import com.application.models.MessageModel
 import com.google.firebase.auth.FirebaseAuth
@@ -27,22 +29,31 @@ class ChatActivity : AppCompatActivity() {
     private var messageList = ArrayList<MessageModel>()
 
     private lateinit var db: FirebaseFirestore
+    private var userRole: String = ""
     private var chatId: String = ""
     private var patientId: String = ""
     private var patientName: String = ""
     private var caregiverId: String = ""
     private var currentUserId: String = ""
+    private lateinit var alarmImageView: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Adjust the theme if necessary
         setContentView(R.layout.activity_chat)
-
         // Get intent extras
         patientId = intent.getStringExtra("PATIENT_ID") ?: ""
         patientName = intent.getStringExtra("PATIENT_NAME") ?: "Patient"
         caregiverId = intent.getStringExtra("CAREGIVER_ID") ?: ""
-
+        userRole = intent.getStringExtra("ROLE") ?: ""
+        if (userRole.isEmpty()) {
+            userRole = "CAREGIVER"
+        }
+        alarmImageView = findViewById(R.id.alarm)
+        if (userRole == UserRole.CAREGIVER.toString()) {
+            alarmImageView.visibility = View.GONE
+        }
+        ActivityUtils.actionBarSetup(this, UserRole.valueOf(userRole))
         if (patientId.isEmpty() || caregiverId.isEmpty()) {
             Toast.makeText(this, "Invalid chat participants", Toast.LENGTH_SHORT).show()
             finish()

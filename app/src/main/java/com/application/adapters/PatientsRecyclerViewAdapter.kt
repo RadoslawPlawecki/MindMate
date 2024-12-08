@@ -71,9 +71,6 @@ class PatientsRecyclerViewAdapter(
                 intent.putExtra("CAREGIVER_ID", caregiverId)
                 itemView.context.startActivity(intent)
             }
-
-            // TODO: Update unreadIndicator visibility based on unread messages
-            unreadIndicator.visibility = View.GONE // Set to VISIBLE when there are unread messages
         }
     }
 }
